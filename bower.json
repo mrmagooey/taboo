@@ -1,0 +1,19 @@
+{
+  "name": "taboo",
+  "main": "taboo.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/mrmagooey/taboo",
+  "description": "tabular data",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jasmine": "~2.1.3"
+  }
+}
