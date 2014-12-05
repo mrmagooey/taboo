@@ -32,8 +32,18 @@ function Table(tableName){
         });
     };
     
+    this.addColumnHeaders = function(colNamesArray) {
+        var _this = this;
+        colNamesArray.forEach(function(name){
+            _this.addColumnHeader(name);
+        });
+    };
+    
     this.addColumnHeader = function(colName){
-        // Adds a column object to the table
+        /* 
+         Adds an column object to the table iff the column object
+         with the colName does not already exist
+         */
         var column = _.find(this._data, function(column){
             return column.header === colName;
         });
@@ -54,7 +64,25 @@ function Table(tableName){
         });
     };
     
-    this.addRow = function(row){
+    this.addRows = function(rows){
+        var headers = this.getColumnHeaders();
+        var _this = this;
+        rows.forEach(function(row, index){
+            if (_.isObject(row)){
+                _.pairs(row).forEach(function(pair, index){
+                    _this.addCell(pair[0], pair[1]);
+                });
+                _this._clean();
+            } else if (_.isArray(row)){
+                row.forEach(function(cell){
+                    _this.addCell(headers[index], cell);
+                });
+                _this._clean();
+            }
+        });
+    };
+    
+    this.addRowCellObjects = function(row){
         /* 
          Add a row to this table.
          Row is an array of cell objects.
@@ -248,7 +276,7 @@ function Table(tableName){
                         return _.isEqual(v, leftKeyValue);
                     });
                     // add the concatenated result to the new table
-                    joinResult.addRow(leftRow.concat(modifiedRightRow));
+                    joinResult.addRowCellObjects(leftRow.concat(modifiedRightRow));
                     keyMatchFound = true;
                 } 
                 // Since this is a left join, we stil want the left table row to be included
