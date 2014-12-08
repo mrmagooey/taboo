@@ -121,11 +121,11 @@ function Table(tableName){
         });
     };
     
-    /* ## getRows()
+    /* ## getRowsAsCellObjects()
        @returns {Array} All rows in the table as an array of arrays of cell objects
        
      */
-    this.getRows = function(){
+    this.getRowsAsCellObjects = function(){
         // Return an array (rows) of arrays (cell objects)
         // rows = [row, row, row]
         // row = [{header:'name', data:'abc'}, {...}, {...}]
@@ -138,20 +138,41 @@ function Table(tableName){
         return _.zip.apply(_, cellColumns);
     };
     
-    /* ## getRowsWhere()
+    this.getRows = function(){
+        // Return an array (rows) of arrays (cell objects)
+        // rows = [row, row, row]
+        // row = [{header:'name', data:'abc'}, {...}, {...}]
+        var cellColumns = [];
+        _.each(this._data, function(column){
+            cellColumns.push(_.map(column.data, function(cell) {
+                return cell;
+            }));
+        });
+        return _.zip.apply(_, cellColumns);        
+    };
+    
+    /* ## getRowsAsCellObjectsWhere()
        @params {String} header
        @params {String} key 
        @returns {Array} All rows in the table satisfying the header and key constraints
        
      */
     this.getRowsWhere = function(header, key){
-        // Returns the same as getRows except that each row is checked for 
+        // Returns the same as getRowsAsCellObjects except that each row is checked for 
         // a cell that has the `header` and `key` arguments
-        var b =  _.filter(this.getRows(), function(row){
-            var a =  _.where(row, {header:header, data:key});
-            return !(_.isEmpty(a));
-        });
-        return b;
+        var rows =  _.chain(this.getRowsAsCellObjects())
+                .filter(function(row){
+                    console.log(row);
+                    var a =  _.where(row, {header:header, data:key});
+                    return !(_.isEmpty(a));
+                })
+                .map(function(row, index){
+                    return _.map(row, function(cell){
+                        return cell.data;
+                    });
+                })
+                .value();
+        return rows;
     };
     
     /* ## columnToObjects()
@@ -171,7 +192,7 @@ function Table(tableName){
             colObjects = _.map(col, function(cell, index){
                 return {name:cell, related:{}, _index:index};
             }),
-            rows = this.getRows();
+            rows = this.getRowsAsCellObjects();
         colObjects.forEach(function(columnObj, index){
             rows.forEach(function(row, index){
                 var joinCell = _.find(row, function(cell){
@@ -233,7 +254,7 @@ function Table(tableName){
                 + ' | ';
         });
         printString += '\n';
-        this.getRows().forEach(function(row, rowIndex, array){
+        this.getRowsAsCellObjects().forEach(function(row, rowIndex, array){
             _.each(row, function(cell, cellIndex){
                 var cellStr = String(cell.data),
                     cellRepr;
@@ -271,10 +292,10 @@ function Table(tableName){
             keyMatchFound,
             incrementRegex = /(.*-)(\d)/gm;
         
-        left.getRows().forEach(function(leftRow, index){
+        left.getRowsAsCellObjects().forEach(function(leftRow, index){
             keyMatchFound = false;
             var leftKeyValue = _.find(leftRow, function(cell){return cell.header === leftKey;});
-            right.getRows().forEach(function(rightRow, index, array){
+            right.getRowsAsCellObjects().forEach(function(rightRow, index, array){
                 var rightKeyValue = _.find(rightRow, function(cell){return cell.header === rightKey;});
                 // matching left and right keys
                 if (_.isEqual(rightKeyValue, leftKeyValue)) {
