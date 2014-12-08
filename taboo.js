@@ -81,17 +81,17 @@ function Table(tableName){
         var headers = this.getColumnHeaders();
         var _this = this;
         rows.forEach(function(row, index){
-            if (_.isObject(row)){
+            if (_.isArray(row)){
+                row.forEach(function(cell, i){
+                    _this._addCell(headers[i], cell);
+                });
+                _this._clean();
+            } else if (_.isObject(row)){
                 _.pairs(row).forEach(function(pair, index){
                     _this._addCell(pair[0], pair[1]);
                 });
                 _this._clean();
-            } else if (_.isArray(row)){
-                row.forEach(function(cell){
-                    _this._addCell(headers[index], cell);
-                });
-                _this._clean();
-            }
+            } 
         });
     };
     
