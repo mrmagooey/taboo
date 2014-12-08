@@ -1,49 +1,43 @@
+//@author mrmagooey
+
+/*
+  ## Table Constructor
+ Creates a new Table object
+
+ @param {String} tableName The name of this table
+ 
+ */
 
 function Table(tableName){
-    /* 
-     Meant to be used for tabular data.
-     Table is a nested data object held in _data
-     
-     table = [column, column]
-     column = {header:'name', data:[cell, cell]}
-     */
-    
-    this.tableName = tableName;
     this._data = [];
-    this.metadata = {};
+    this.metadata = {tableName:tableName};
     
-    this._clean = function() {
-        /*
-         1. Make the table 'square', i.e. all the columns are the same length,
-         padding with undefineds when adding cells to columns.
-         */
-        var maxColumnLength = _.reduce(this._data, function(memo, value, index){
-            var colLength = value['data'].length;
-            if (colLength > memo) {
-                return colLength;
-            } else {
-                return memo;
-            }
-        }, 0);
-        this._data.forEach(function(column, index){
-            for (var i = column.data.length; i < maxColumnLength; i++) {
-                column.data.push(undefined);
-            };
-        });
-    };
+    /* ## addColumns()
+     
+     Add an array of empty columns.
     
-    this.addColumnHeaders = function(colNamesArray) {
+     Pre-existing column names will be ignored.
+    
+     @param {Array} colNamesArray Array of column names.
+    */
+    this.addColumns = function(colNamesArray) {
         var _this = this;
         colNamesArray.forEach(function(name){
-            _this.addColumnHeader(name);
+            _this.addColumns(name);
         });
     };
     
-    this.addColumnHeader = function(colName){
-        /* 
-         Adds an column object to the table iff the column object
-         with the colName does not already exist
-         */
+    /* ## addColumn()
+     
+     Add a single empty column with name colName
+    
+     Pre-existing column names will be ignored.
+     
+     @Params {string} colName Column name
+    */
+    this.addColumn = function(colName){
+        // Adds an column object to the table iff the column object
+        // with the colName does not already exist
         var column = _.find(this._data, function(column){
             return column.header === colName;
         });
@@ -58,70 +52,55 @@ function Table(tableName){
         }
     };
     
+    /* ## getColumnHeaders()
+     
+       @returns {Array} All column names
+    */    
     this.getColumnHeaders = function(){
         return _.map(this._data, function(column){
             return column.header;
         });
     };
     
+    /* ## addRows()
+
+     If passed an array of objects, the keys will be treated as the column
+     headings and the values treated as the cell values.
+     
+     `[{"col1":"foo", "col2":"bar", "col3":"baz"}, 
+         {"col1":"asdf", "col2":"asdf1", "col3":"asdf2"}]`
+          
+     If passed an array of arrays, the arrays will be added by index position,
+     with items beyond the current number of columns being discarded.
+     
+         `[["foo", "bar", "baz"], ["asdf", "asdf1", "asdf2"]]`
+         
+     @params {Array} rows Takes an array of either objects or arrays.          
+    */    
     this.addRows = function(rows){
         var headers = this.getColumnHeaders();
         var _this = this;
         rows.forEach(function(row, index){
             if (_.isObject(row)){
                 _.pairs(row).forEach(function(pair, index){
-                    _this.addCell(pair[0], pair[1]);
+                    _this._addCell(pair[0], pair[1]);
                 });
                 _this._clean();
             } else if (_.isArray(row)){
                 row.forEach(function(cell){
-                    _this.addCell(headers[index], cell);
+                    _this._addCell(headers[index], cell);
                 });
                 _this._clean();
             }
         });
     };
     
-    this.addRowCellObjects = function(row){
-        /* 
-         Add a row to this table.
-         Row is an array of cell objects.
-         row = [{header:'blah', data:}, ]
-         Any cell object with a new header will add that header to the table
-         */
-        var _this = this;
-        var headers = _.pluck(row, 'header');
-        var uniqueHeaders = _.unique(headers);
-        if (uniqueHeaders.length !== headers.length){
-            throw "Can\'t add a row with duplicate headers";
-        }
-        this._clean();
-        row.forEach(function(cell){
-            _this.addCell(cell['header'], cell['data']);
-        });
-        this._clean();
-    };
-    
-    this.addCell = function(colName, cellValue) {
-        var column = _.find(this._data, function(column){
-            return column.header === colName;
-        });
-        // check if this is a new column
-        if (typeof column === 'undefined'){
-            // add if column doesn't exist
-            column = {
-                header: colName,
-                data: [],                           
-            };
-            this._data.push(column);
-            // this._clean();
-        }
-        // finally add data to column
-        column["data"].push(cellValue);
-    };
-    
+    /* ## getColumn()
+     @param {String} colName The name of the column to be returned
+     @Return {column} 
+     */
     this.getColumn = function(colName){
-        // Return column as an array of cell data
+        // 
         var col;
         this._data.forEach(function(columnObject, index){
             if (columnObject.header == colName){
@@ -131,7 +110,10 @@ function Table(tableName){
         return col;
     };
     
-    
+    /* ## getRow()
+     @param {Integer} index The row index to be returned
+     @returns {Array} 
+     */
     this.getRow = function(index){
         // return an array of cell objects at row[index]
         return _.map(this._data, function(column, i){
@@ -139,15 +121,14 @@ function Table(tableName){
         });
     };
     
+    /* ## getRows()
+       @returns {Array} All rows in the table as an array of arrays of cell objects
+       
+     */
     this.getRows = function(){
-        /* 
-         Return an array (rows) of arrays (cell objects)
-         
-         rows = [row, row, row]
-         row = [{header:'name', data:'abc'}, {...}, {...}]
-         
-         */
-        
+        // Return an array (rows) of arrays (cell objects)
+        // rows = [row, row, row]
+        // row = [{header:'name', data:'abc'}, {...}, {...}]
         var cellColumns = [];
         _.each(this._data, function(column){
             cellColumns.push(_.map(column.data, function(cell) {
@@ -156,12 +137,16 @@ function Table(tableName){
         });
         return _.zip.apply(_, cellColumns);
     };
-
+    
+    /* ## getRowsWhere()
+       @params {String} header
+       @params {String} key 
+       @returns {Array} All rows in the table satisfying the header and key constraints
+       
+     */
     this.getRowsWhere = function(header, key){
-        /*
-         Returns the same as getRows except that each row is checked for 
-         a cell that has the `header` and `key` arguments
-         */
+        // Returns the same as getRows except that each row is checked for 
+        // a cell that has the `header` and `key` arguments
         var b =  _.filter(this.getRows(), function(row){
             var a =  _.where(row, {header:header, data:key});
             return !(_.isEmpty(a));
@@ -169,15 +154,19 @@ function Table(tableName){
         return b;
     };
     
+    /* ## columnToObjects()
+     Object transformation method, generally for moving a denormalized table
+     into a set of nested objects.
+     
+     Returns an array of objects like: 
+     
+     `[{name:'original column item', related:
+       {'related column name': ['first related', 'second related']}]`
+     
+     @returns {Array}
+     
+     */
     this.columnToObjects = function(colName){
-        /* 
-         Object transformation method, generally for moving a denormalized table
-         into a set of nested objects.
-         
-         Returns an array of objects like:
-         [{name:'original column item'}, related:
-         {'related column name': ['first related', 'second related']}]
-         */
         var col = _.unique(this.getColumn(colName)),
             colObjects = _.map(col, function(cell, index){
                 return {name:cell, related:{}, _index:index};
@@ -209,9 +198,11 @@ function Table(tableName){
         return colObjects;   
     };
     
+    /* ## relatedColumn()
+     Return a set of related column objects
+     */
     this.relatedColumn = function(primaryColumn, secondaryColumn){
         // 
-        
         var columnObjects = this.columnToObjects(primaryColumn);
         return _.map(columnObjects, function(item, index){
             var related = _.find(item.related, function(v, i){
@@ -223,10 +214,11 @@ function Table(tableName){
 
     };
     
+    /* ## print()
+     @return {String} pretty printed version of the table
+       
+     */
     this.print = function(){
-        /* 
-         Return string representation of table 
-         */
         var printColumnSize = 15;
         var printString = '\n';
         var columnLengths = [];
@@ -257,12 +249,24 @@ function Table(tableName){
         printString += '\n';
         return printString;
     };
-    
+
+    /* ## joinLeft()
+       
+       
+       @param {String} leftKey The key in this table to be joined on
+       @param {Table} rightTable 
+       @param {String} rightKey The key in the right table to be joined on
+       @return {Table} The new table
+       
+     */
     this.joinLeft = function(leftKey, rightTable, rightKey){
         var left = this,
+            leftHeaders = left.getColumnHeaders(),
             right = rightTable,
             joinResult = new Table(),
-            keyMatchFound;
+            keyMatchFound,
+            incrementRegex = /(.*-)(\d)/gm;
+        
         left.getRows().forEach(function(leftRow, index){
             keyMatchFound = false;
             var leftKeyValue = _.find(leftRow, function(cell){return cell.header === leftKey;});
@@ -297,21 +301,89 @@ function Table(tableName){
                 // Since this is a left join, we stil want the left table row to be included
                 // in the final join table if no key matches are found
                 if (index === array.length - 1 && keyMatchFound == false){
-                    joinResult.addRow(leftRow);
+                    joinResult._addRowCellObjects(leftRow);
                 }
             });
         });
         return joinResult;
     };
     
+    /* ## clone()
+       @return a clone of this table
+       
+     */
     this.clone = function(){
-        /*
-         return a clone of this table
-         */
         var data = JSON.parse(JSON.stringify(this._data)),
             t = new Table();
         t._data = data;
         return t;
+    };
+    
+    /* ## _clean()
+     Ensures the integrity of the underlying table data structure, by: 
+    
+     1. Make the table 'square', i.e. all the columns are the same length, 
+     padding with undefineds when adding cells to columns.
+    */
+    this._clean = function() {
+        var maxColumnLength = _.reduce(this._data, function(memo, value, index){
+            var colLength = value['data'].length;
+            if (colLength > memo) {
+                return colLength;
+            } else {
+                return memo;
+            }
+        }, 0);
+        this._data.forEach(function(column, index){
+            for (var i = column.data.length; i < maxColumnLength; i++) {
+                column.data.push(undefined);
+            };
+        });
+    };
+    
+    /* ## _addRowCellObjects()
+     
+     Add a row to this table. 
+     Row is an array of cell objects.
+     `row = [{header:'blah', data:}, {header:'blah', data:}]`
+     Any cell object with a new header will add that header to the table
+     @params {Array} row Array of internal cell objects
+     
+    */    
+    this._addRowCellObjects = function(row){
+        var _this = this;
+        var headers = _.pluck(row, 'header');
+        var uniqueHeaders = _.unique(headers);
+        if (uniqueHeaders.length !== headers.length){
+            console.log(headers);
+            throw "Can\'t add a row with duplicate headers";
+        }
+        this._clean();
+        row.forEach(function(cell){
+            _this._addCell(cell['header'], cell['data']);
+        });
+        this._clean();
+    };
+    
+    /* ## _addCell()
+       
+       
+     */
+    this._addCell = function(colName, cellValue) {
+        var column = _.find(this._data, function(column){
+            return column.header === colName;
+        });
+        // check if this is a new column
+        if (typeof column === 'undefined'){
+            // add if column doesn't exist
+            column = {
+                header: colName,
+                data: [],                           
+            };
+            this._data.push(column);
+        }
+        // finally add data to column
+        column["data"].push(cellValue);
     };
     
 } // end of Table
