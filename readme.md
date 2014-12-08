@@ -1,6 +1,6 @@
 # Taboo
 
-Tabular data manipulation.
+Simple tabular data manipulation in Javascript.
 
 ## Installation
 
