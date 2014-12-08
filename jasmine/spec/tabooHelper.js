@@ -7,6 +7,11 @@ var cats = [{name:'harvey', color:'red'},
             {name:'mittens', color: 'black'}, 
             {name:'mr meowgi', color: 'tan'}];
 
+var people = [{name:'jeff', hair_color:'red', interests:'bowling, cycling'},
+              {name:'frank', hair_color:'black', interests:'cycling, rowing'},
+              {name:'steve', hair_color:'tan', interests:'running, sleeping'},
+             ];
+
 describe("Table", function() {
     var table;
 
@@ -15,7 +20,7 @@ describe("Table", function() {
     });
     
     it("should be able to set columns", function(){
-        table.addColumnHeaders(['column 1', 'column 2', 'column 3']);
+        table.addColumns(['column 1', 'column 2', 'column 3']);
         expect(table._data.length).toEqual(3);
     });
     
@@ -25,13 +30,15 @@ describe("Table", function() {
     });
     
     it("should be able to add row objects", function(){
-        table.addColumnHeaders(['name'], ['color']);
+        table.addColumns(['name'], ['color']);
         table.addRows(dogs);
+        expect(table.getRows().length).toEqual(3);
     });
     
     it("should be able to add rows arrays ", function(){
-        table.addColumnHeaders(['name'], ['color']);
+        table.addColumns(['name'], ['color']);
         table.addRows(_.values(dogs));
+        expect(table.getRows().length).toEqual(3);
     });
     
 });
@@ -41,18 +48,16 @@ describe("Tables", function(){
     
     beforeEach(function(){
         dogsTable = new Table();
-        dogsTable.addColumnHeaders(['name'], ['color']);
+        dogsTable.addColumns(['name'], ['color']);
         dogsTable.addRows(dogs);
         catsTable = new Table();
-        catsTable.addColumnHeaders(['name'], ['color']);
+        catsTable.addColumns(['name'], ['color']);
         catsTable.addRows(cats);
     });
     
     it("should be able to left join", function(){
         var newTable = dogsTable.joinLeft('color', catsTable, 'color');
-        console.log(newTable.print());
-        
+        expect(newTable.getColumnHeaders().length).toEqual(3);
     });
-    
 
 });
