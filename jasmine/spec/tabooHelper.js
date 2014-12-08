@@ -24,11 +24,6 @@ describe("Table", function() {
         expect(table._data.length).toEqual(3);
     });
     
-    it("should be able to add rows using cell objects ", function(){
-        table.addRowCellObjects([{header:'a', data:1}, {header:'b', data:'1'}]);
-        expect(table._data.length).toEqual(2);
-    });
-    
     it("should be able to add row objects", function(){
         table.addColumns(['name'], ['color']);
         table.addRows(dogs);
