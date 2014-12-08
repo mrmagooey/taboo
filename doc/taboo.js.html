@@ -40,10 +40,10 @@
         <a href="#getrow()">getRow()</a>
       </div>
       <div class="heading h2">
-        <a href="#getrows()">getRows()</a>
+        <a href="#getrowsascellobjects()">getRowsAsCellObjects()</a>
       </div>
       <div class="heading h2">
-        <a href="#getrowswhere()">getRowsWhere()</a>
+        <a href="#getrowsascellobjectswhere()">getRowsAsCellObjectsWhere()</a>
       </div>
       <div class="heading h2">
         <a href="#columntoobjects()">columnToObjects()</a>
@@ -155,7 +155,7 @@
     <span class="k">this</span><span class="p">.</span><span class="nx">addColumns</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">colNamesArray</span><span class="p">)</span> <span class="p">{</span>
         <span class="kd">var</span> <span class="nx">_this</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
         <span class="nx">colNamesArray</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">){</span>
-            <span class="nx">_this</span><span class="p">.</span><span class="nx">addColumns</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
+            <span class="nx">_this</span><span class="p">.</span><span class="nx">addColumn</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
         <span class="p">});</span>
     <span class="p">};</span>
     
@@ -312,17 +312,17 @@ with items beyond the current number of columns being discarded.</p>
         <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">();</span>
         <span class="kd">var</span> <span class="nx">_this</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
         <span class="nx">rows</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">row</span><span class="p">)){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">row</span><span class="p">)){</span>
+                <span class="nx">row</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">,</span> <span class="nx">i</span><span class="p">){</span>
+                    <span class="nx">_this</span><span class="p">.</span><span class="nx">_addCell</span><span class="p">(</span><span class="nx">headers</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">cell</span><span class="p">);</span>
+                <span class="p">});</span>
+                <span class="nx">_this</span><span class="p">.</span><span class="nx">_clean</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">row</span><span class="p">)){</span>
                 <span class="nx">_</span><span class="p">.</span><span class="nx">pairs</span><span class="p">(</span><span class="nx">row</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">pair</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
                     <span class="nx">_this</span><span class="p">.</span><span class="nx">_addCell</span><span class="p">(</span><span class="nx">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
                 <span class="p">});</span>
                 <span class="nx">_this</span><span class="p">.</span><span class="nx">_clean</span><span class="p">();</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">row</span><span class="p">)){</span>
-                <span class="nx">row</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span>
-                    <span class="nx">_this</span><span class="p">.</span><span class="nx">_addCell</span><span class="p">(</span><span class="nx">headers</span><span class="p">[</span><span class="nx">index</span><span class="p">],</span> <span class="nx">cell</span><span class="p">);</span>
-                <span class="p">});</span>
-                <span class="nx">_this</span><span class="p">.</span><span class="nx">_clean</span><span class="p">();</span>
-            <span class="p">}</span>
+            <span class="p">}</span> 
         <span class="p">});</span>
     <span class="p">};</span>
     
@@ -440,10 +440,10 @@ with items beyond the current number of columns being discarded.</p>
       <tr>
         <td class="docs"><div class="dox">
   <div class="summary">
-<div class="pilwrap" id="getrows()">
+<div class="pilwrap" id="getrowsascellobjects()">
   <h2>
-    <a href="#getrows()" name="getrows()" class="pilcrow">&#182;</a>
-    getRows()
+    <a href="#getrowsascellobjects()" name="getrowsascellobjects()" class="pilcrow">&#182;</a>
+    getRowsAsCellObjects()
   </h2>
 </div>
 
@@ -461,7 +461,7 @@ with items beyond the current number of columns being discarded.</p>
 </div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-    <span class="k">this</span><span class="p">.</span><span class="nx">getRows</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
 
 </pre></div>
         </td>
@@ -485,6 +485,30 @@ row = [{header:'name', data:'abc'}, {...}, {...}]</p>
         <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">zip</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="nx">cellColumns</span><span class="p">);</span>
     <span class="p">};</span>
     
+    <span class="k">this</span><span class="p">.</span><span class="nx">getRows</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
+</div>
+<p>Return an array (rows) of arrays (cell objects)
+rows = [row, row, row]
+row = [{header:'name', data:'abc'}, {...}, {...}]</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="kd">var</span> <span class="nx">cellColumns</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">column</span><span class="p">){</span>
+            <span class="nx">cellColumns</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">column</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">cell</span><span class="p">;</span>
+            <span class="p">}));</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">zip</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="nx">cellColumns</span><span class="p">);</span>        
+    <span class="p">};</span>
+    
 
 </pre></div>
         </td>
@@ -492,10 +516,10 @@ row = [{header:'name', data:'abc'}, {...}, {...}]</p>
       <tr>
         <td class="docs"><div class="dox">
   <div class="summary">
-<div class="pilwrap" id="getrowswhere()">
+<div class="pilwrap" id="getrowsascellobjectswhere()">
   <h2>
-    <a href="#getrowswhere()" name="getrowswhere()" class="pilcrow">&#182;</a>
-    getRowsWhere()
+    <a href="#getrowsascellobjectswhere()" name="getrowsascellobjectswhere()" class="pilcrow">&#182;</a>
+    getRowsAsCellObjectsWhere()
   </h2>
 </div>
 
@@ -531,17 +555,25 @@ row = [{header:'name', data:'abc'}, {...}, {...}]</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
+  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
 </div>
-<p>Returns the same as getRows except that each row is checked for 
+<p>Returns the same as getRowsAsCellObjects except that each row is checked for 
 a cell that has the <code>header</code> and <code>key</code> arguments</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-        <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span>  <span class="nx">_</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getRows</span><span class="p">(),</span> <span class="kd">function</span><span class="p">(</span><span class="nx">row</span><span class="p">){</span>
-            <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span>  <span class="nx">_</span><span class="p">.</span><span class="nx">where</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="p">{</span><span class="nx">header</span><span class="o">:</span><span class="nx">header</span><span class="p">,</span> <span class="nx">data</span><span class="o">:</span><span class="nx">key</span><span class="p">});</span>
-            <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">(</span><span class="nx">a</span><span class="p">));</span>
-        <span class="p">});</span>
-        <span class="k">return</span> <span class="nx">b</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">rows</span> <span class="o">=</span>  <span class="nx">_</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span><span class="p">())</span>
+                <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">row</span><span class="p">){</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">row</span><span class="p">);</span>
+                    <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span>  <span class="nx">_</span><span class="p">.</span><span class="nx">where</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="p">{</span><span class="nx">header</span><span class="o">:</span><span class="nx">header</span><span class="p">,</span> <span class="nx">data</span><span class="o">:</span><span class="nx">key</span><span class="p">});</span>
+                    <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">(</span><span class="nx">a</span><span class="p">));</span>
+                <span class="p">})</span>
+                <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
+                    <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span>
+                        <span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+                    <span class="p">});</span>
+                <span class="p">})</span>
+                <span class="p">.</span><span class="nx">value</span><span class="p">();</span>
+        <span class="k">return</span> <span class="nx">rows</span><span class="p">;</span>
     <span class="p">};</span>
     
 
@@ -586,7 +618,7 @@ into a set of nested objects.</p>
             <span class="nx">colObjects</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">col</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
                 <span class="k">return</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span><span class="nx">cell</span><span class="p">,</span> <span class="nx">related</span><span class="o">:</span><span class="p">{},</span> <span class="nx">_index</span><span class="o">:</span><span class="nx">index</span><span class="p">};</span>
             <span class="p">}),</span>
-            <span class="nx">rows</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getRows</span><span class="p">();</span>
+            <span class="nx">rows</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span><span class="p">();</span>
         <span class="nx">colObjects</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">columnObj</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
             <span class="nx">rows</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
                 <span class="kd">var</span> <span class="nx">joinCell</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span>
@@ -600,7 +632,7 @@ into a set of nested objects.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
+  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
 </div>
 <p>get the other cells in the row</p>
         </td>
@@ -615,7 +647,7 @@ into a set of nested objects.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
+  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
 </div>
 <p>start putting the related cells into the columnObj object</p>
         </td>
@@ -628,7 +660,7 @@ into a set of nested objects.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
+  <a class="pilcrow" href="#section-22" id="section-22">&#182;</a>
 </div>
 <p>get the columnObj related entry</p>
         </td>
@@ -646,7 +678,7 @@ into a set of nested objects.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-22" id="section-22">&#182;</a>
+  <a class="pilcrow" href="#section-23" id="section-23">&#182;</a>
 </div>
 <p>continue</p>
         </td>
@@ -687,7 +719,7 @@ into a set of nested objects.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-24" id="section-24">&#182;</a>
+  <a class="pilcrow" href="#section-25" id="section-25">&#182;</a>
 </div>
 
         </td>
@@ -735,6 +767,21 @@ into a set of nested objects.</p>
         <span class="kd">var</span> <span class="nx">printColumnSize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
         <span class="kd">var</span> <span class="nx">printString</span> <span class="o">=</span> <span class="s1">&#39;\n&#39;</span><span class="p">;</span>
         <span class="kd">var</span> <span class="nx">columnLengths</span> <span class="o">=</span> <span class="p">[];</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-27" id="section-27">&#182;</a>
+</div>
+<p>early exit conditions</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">){</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">column</span><span class="p">){</span>
             <span class="nx">columnLengths</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">column</span><span class="p">.</span><span class="nx">header</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="nx">printColumnSize</span><span class="p">));</span>
             <span class="nx">printString</span> <span class="o">+=</span> <span class="nx">column</span><span class="p">.</span><span class="nx">header</span> 
@@ -742,7 +789,7 @@ into a set of nested objects.</p>
                 <span class="o">+</span> <span class="s1">&#39; | &#39;</span><span class="p">;</span>
         <span class="p">});</span>
         <span class="nx">printString</span> <span class="o">+=</span> <span class="s1">&#39;\n&#39;</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">getRows</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="nx">rowIndex</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="nx">rowIndex</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
             <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">,</span> <span class="nx">cellIndex</span><span class="p">){</span>
                 <span class="kd">var</span> <span class="nx">cellStr</span> <span class="o">=</span> <span class="nb">String</span><span class="p">(</span><span class="nx">cell</span><span class="p">.</span><span class="nx">data</span><span class="p">),</span>
                     <span class="nx">cellRepr</span><span class="p">;</span>
@@ -753,7 +800,7 @@ into a set of nested objects.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-26" id="section-26">&#182;</a>
+  <a class="pilcrow" href="#section-28" id="section-28">&#182;</a>
 </div>
 <p>truncate cell.data if longer than cell.header</p>
         </td>
@@ -768,7 +815,7 @@ into a set of nested objects.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-27" id="section-27">&#182;</a>
+  <a class="pilcrow" href="#section-29" id="section-29">&#182;</a>
 </div>
 <p>otherwise pad it with spaces</p>
         </td>
@@ -837,10 +884,10 @@ into a set of nested objects.</p>
             <span class="nx">keyMatchFound</span><span class="p">,</span>
             <span class="nx">incrementRegex</span> <span class="o">=</span> <span class="sr">/(.*-)(\d)/gm</span><span class="p">;</span>
         
-        <span class="nx">left</span><span class="p">.</span><span class="nx">getRows</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
+        <span class="nx">left</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
             <span class="nx">keyMatchFound</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
             <span class="kd">var</span> <span class="nx">leftKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">leftKey</span><span class="p">;});</span>
-            <span class="nx">right</span><span class="p">.</span><span class="nx">getRows</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
+            <span class="nx">right</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
                 <span class="kd">var</span> <span class="nx">rightKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">rightKey</span><span class="p">;});</span>
 
 </pre></div>
@@ -849,7 +896,7 @@ into a set of nested objects.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-29" id="section-29">&#182;</a>
+  <a class="pilcrow" href="#section-31" id="section-31">&#182;</a>
 </div>
 <p>matching left and right keys</p>
         </td>
@@ -862,7 +909,7 @@ into a set of nested objects.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-30" id="section-30">&#182;</a>
+  <a class="pilcrow" href="#section-32" id="section-32">&#182;</a>
 </div>
 <p>drop one of the matching key cells, otherwise we will add two cells
 with the same header, which the table structure doesn't really support</p>
@@ -878,7 +925,7 @@ with the same header, which the table structure doesn't really support</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-31" id="section-31">&#182;</a>
+  <a class="pilcrow" href="#section-33" id="section-33">&#182;</a>
 </div>
 <p>check for similarly named columns and rename if there are collisions</p>
         </td>
@@ -893,7 +940,7 @@ with the same header, which the table structure doesn't really support</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-32" id="section-32">&#182;</a>
+  <a class="pilcrow" href="#section-34" id="section-34">&#182;</a>
 </div>
 <p>increment the name by one</p>
         </td>
@@ -915,7 +962,7 @@ with the same header, which the table structure doesn't really support</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-33" id="section-33">&#182;</a>
+  <a class="pilcrow" href="#section-35" id="section-35">&#182;</a>
 </div>
 <p>add the concatenated result to the new table</p>
         </td>
@@ -930,7 +977,7 @@ with the same header, which the table structure doesn't really support</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-34" id="section-34">&#182;</a>
+  <a class="pilcrow" href="#section-36" id="section-36">&#182;</a>
 </div>
 <p>Since this is a left join, we stil want the left table row to be included
 in the final join table if no key matches are found</p>
@@ -1054,7 +1101,6 @@ Any cell object with a new header will add that header to the table</p>
         <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">pluck</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="s1">&#39;header&#39;</span><span class="p">);</span>
         <span class="kd">var</span> <span class="nx">uniqueHeaders</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">headers</span><span class="p">);</span>
         <span class="k">if</span> <span class="p">(</span><span class="nx">uniqueHeaders</span><span class="p">.</span><span class="nx">length</span> <span class="o">!==</span> <span class="nx">headers</span><span class="p">.</span><span class="nx">length</span><span class="p">){</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">headers</span><span class="p">);</span>
             <span class="k">throw</span> <span class="s2">&quot;Can\&#39;t add a row with duplicate headers&quot;</span><span class="p">;</span>
         <span class="p">}</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">_clean</span><span class="p">();</span>
@@ -1095,7 +1141,7 @@ Any cell object with a new header will add that header to the table</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-39" id="section-39">&#182;</a>
+  <a class="pilcrow" href="#section-41" id="section-41">&#182;</a>
 </div>
 <p>check if this is a new column</p>
         </td>
@@ -1108,7 +1154,7 @@ Any cell object with a new header will add that header to the table</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-40" id="section-40">&#182;</a>
+  <a class="pilcrow" href="#section-42" id="section-42">&#182;</a>
 </div>
 <p>add if column doesn't exist</p>
         </td>
@@ -1126,7 +1172,7 @@ Any cell object with a new header will add that header to the table</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-41" id="section-41">&#182;</a>
+  <a class="pilcrow" href="#section-43" id="section-43">&#182;</a>
 </div>
 <p>finally add data to column</p>
         </td>
