@@ -275,8 +275,23 @@ function Table(tableName){
                     var modifiedRightRow = _.reject(rightRow, function(v){
                         return _.isEqual(v, leftKeyValue);
                     });
+                    // check for similarly named columns and rename if there are collisions
+                    modifiedRightRow = _.map(modifiedRightRow, function(v){
+                        if (leftHeaders.indexOf(v.header) >= 0){
+                            var matches = incrementRegex.exec(v.header);
+                            // increment the name by one
+                            if (matches && matches.length === 3){
+                                v.header = matches[1] + matches[2] + 1;
+                            } else {
+                                v.header = v.header + '-1';
+                            }
+                            return v;
+                        } else {
+                            return v;
+                        }
+                    });
                     // add the concatenated result to the new table
-                    joinResult.addRowCellObjects(leftRow.concat(modifiedRightRow));
+                    joinResult._addRowCellObjects(leftRow.concat(modifiedRightRow));
                     keyMatchFound = true;
                 } 
                 // Since this is a left join, we stil want the left table row to be included
