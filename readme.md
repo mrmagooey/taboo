@@ -67,10 +67,10 @@ Inspect your handiwork
 
     > joinTable.print()
     
-    animal          | sound           | in animal farm? | 
-    cow             | moo             | true            | 
-    pig             | oink            | true            | 
-    duck            | quack           | undefined       | 
-    horse           | neigh           | undefined       | 
-    dog             | woof            | false           | 
+    animal          | sound           | color           | in animal farm? | 
+    cow             | moo             | white           | true            | 
+    pig             | oink            | pink            | true            | 
+    duck            | quack           | brown           | undefined       | 
+    horse           | neigh           | brown           | undefined       | 
+    dog             | woof            | brown           | false           |
     
