@@ -23,7 +23,7 @@ function Table(tableName){
     this.addColumns = function(colNamesArray) {
         var _this = this;
         colNamesArray.forEach(function(name){
-            _this.addColumns(name);
+            _this.addColumn(name);
         });
     };
     
