@@ -222,6 +222,10 @@ function Table(tableName){
         var printColumnSize = 15;
         var printString = '\n';
         var columnLengths = [];
+        // early exit conditions
+        if (this._data.length === 0){
+            return "";
+        }
         this._data.forEach(function(column){
             columnLengths.push(Math.max(column.header.length, printColumnSize));
             printString += column.header 
@@ -355,7 +359,6 @@ function Table(tableName){
         var headers = _.pluck(row, 'header');
         var uniqueHeaders = _.unique(headers);
         if (uniqueHeaders.length !== headers.length){
-            console.log(headers);
             throw "Can\'t add a row with duplicate headers";
         }
         this._clean();
