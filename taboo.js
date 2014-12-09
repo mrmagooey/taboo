@@ -1,11 +1,11 @@
-//@author mrmagooey
+/*
+ @author mrmagooey
+ */
 
 /*
   ## Table Constructor
  Creates a new Table object
-
  @param {String} tableName The name of this table
- 
  */
 
 function Table(tableName){
@@ -13,11 +13,8 @@ function Table(tableName){
     this.metadata = {tableName:tableName};
     
     /* ## addColumns()
-     
      Add an array of empty columns.
-    
      Pre-existing column names will be ignored.
-    
      @param {Array} colNamesArray Array of column names.
     */
     this.addColumns = function(colNamesArray) {
@@ -28,11 +25,8 @@ function Table(tableName){
     };
     
     /* ## addColumn()
-     
      Add a single empty column with name colName
-    
      Pre-existing column names will be ignored.
-     
      @Params {string} colName Column name
     */
     this.addColumn = function(colName){
@@ -53,7 +47,6 @@ function Table(tableName){
     };
     
     /* ## getColumnHeaders()
-     
        @returns {Array} All column names
     */    
     this.getColumnHeaders = function(){
@@ -63,7 +56,6 @@ function Table(tableName){
     };
     
     /* ## addRows()
-
      If passed an array of objects, the keys will be treated as the column
      headings and the values treated as the cell values.
      
@@ -123,7 +115,6 @@ function Table(tableName){
     
     /* ## getRowsAsCellObjects()
        @returns {Array} All rows in the table as an array of arrays of cell objects
-       
      */
     this.getRowsAsCellObjects = function(){
         // Return an array (rows) of arrays (cell objects)
@@ -155,7 +146,6 @@ function Table(tableName){
        @params {String} header
        @params {String} key 
        @returns {Array} All rows in the table satisfying the header and key constraints
-       
      */
     this.getRowsWhere = function(header, key){
         // Returns the same as getRowsAsCellObjects except that each row is checked for 
@@ -178,14 +168,10 @@ function Table(tableName){
     /* ## columnToObjects()
      Object transformation method, generally for moving a denormalized table
      into a set of nested objects.
-     
      Returns an array of objects like: 
-     
      `[{name:'original column item', related:
        {'related column name': ['first related', 'second related']}]`
-     
      @returns {Array}
-     
      */
     this.columnToObjects = function(colName){
         var col = _.unique(this.getColumn(colName)),
@@ -237,7 +223,6 @@ function Table(tableName){
     
     /* ## print()
      @return {String} pretty printed version of the table
-       
      */
     this.print = function(){
         var printColumnSize = 15;
@@ -276,13 +261,10 @@ function Table(tableName){
     };
 
     /* ## joinLeft()
-       
-       
        @param {String} leftKey The key in this table to be joined on
        @param {Table} rightTable 
        @param {String} rightKey The key in the right table to be joined on
        @return {Table} The new table
-       
      */
     this.joinLeft = function(leftKey, rightTable, rightKey){
         var left = this,
@@ -291,7 +273,6 @@ function Table(tableName){
             joinResult = new Table(),
             keyMatchFound,
             incrementRegex = /(.*-)(\d)/gm;
-        
         left.getRowsAsCellObjects().forEach(function(leftRow, index){
             keyMatchFound = false;
             var leftKeyValue = _.find(leftRow, function(cell){return cell.header === leftKey;});
@@ -332,10 +313,59 @@ function Table(tableName){
         });
         return joinResult;
     };
+
+    /* ## innerJoin()
+       @param {String} leftKey The key in this table to be joined on
+       @param {Table} rightTable 
+       @param {String} rightKey The key in the right table to be joined on
+       @return {Table} The new table
+     */
+    this.innerJoin = function(leftKey, rightTable, rightKey){
+        var left = this,
+            leftHeaders = left.getColumnHeaders(),
+            right = rightTable,
+            joinResult = new Table(),
+            keyMatchFound,
+            incrementRegex = /(.*-)(\d)/gm;
+        
+        left.getRowsAsCellObjects().forEach(function(leftRow, index){
+            keyMatchFound = false;
+            var leftKeyValue = _.find(leftRow, function(cell){return cell.header === leftKey;});
+            right.getRowsAsCellObjects().forEach(function(rightRow, index, array){
+                var rightKeyValue = _.find(rightRow, function(cell){return cell.header === rightKey;});
+                // matching left and right keys
+                if (_.isEqual(rightKeyValue, leftKeyValue)) {
+                    // drop one of the matching key cells, otherwise we will add two cells
+                    // with the same header, which the table structure doesn't really support
+                    var modifiedRightRow = _.reject(rightRow, function(v){
+                        return _.isEqual(v, leftKeyValue);
+                    });
+                    // check for similarly named columns and rename if there are collisions
+                    modifiedRightRow = _.map(modifiedRightRow, function(v){
+                        if (leftHeaders.indexOf(v.header) >= 0){
+                            var matches = incrementRegex.exec(v.header);
+                            // increment the name by one
+                            if (matches && matches.length === 3){
+                                v.header = matches[1] + matches[2] + 1;
+                            } else {
+                                v.header = v.header + '-1';
+                            }
+                            return v;
+                        } else {
+                            return v;
+                        }
+                    });
+                    // add the concatenated result to the new table
+                    joinResult._addRowCellObjects(leftRow.concat(modifiedRightRow));
+                    keyMatchFound = true;
+                }
+            });
+        });
+        return joinResult;
+    };
     
     /* ## clone()
        @return a clone of this table
-       
      */
     this.clone = function(){
         var data = JSON.parse(JSON.stringify(this._data)),
@@ -346,7 +376,6 @@ function Table(tableName){
     
     /* ## _clean()
      Ensures the integrity of the underlying table data structure, by: 
-    
      1. Make the table 'square', i.e. all the columns are the same length, 
      padding with undefineds when adding cells to columns.
     */
@@ -367,13 +396,11 @@ function Table(tableName){
     };
     
     /* ## _addRowCellObjects()
-     
      Add a row to this table. 
      Row is an array of cell objects.
      `row = [{header:'blah', data:}, {header:'blah', data:}]`
      Any cell object with a new header will add that header to the table
      @params {Array} row Array of internal cell objects
-     
     */    
     this._addRowCellObjects = function(row){
         var _this = this;
@@ -390,8 +417,8 @@ function Table(tableName){
     };
     
     /* ## _addCell()
-       
-       
+     Internal method of adding cell data to columns. Shouldn't be directly used
+     as by itself it leaves the table in an inconsistent state.
      */
     this._addCell = function(colName, cellValue) {
         var column = _.find(this._data, function(column){
