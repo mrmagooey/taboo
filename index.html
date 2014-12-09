@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Taboo : Tabular data library">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Taboo</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/mrmagooey/taboo">View on GitHub</a>
+
+          <h1 id="project_title">Taboo</h1>
+          <h2 id="project_tagline">Tabular data library</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/mrmagooey/taboo/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/mrmagooey/taboo/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="taboo" class="anchor" href="#taboo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Taboo</h1>
+
+<p>Tabular data manipulation.</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Requires underscore.js to be available.</p>
+
+<h2>
+<a id="get-started" class="anchor" href="#get-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get Started</h2>
+
+<p>Make a table</p>
+
+<pre><code>&gt; var table1 = new Table();
+</code></pre>
+
+<p>Put some stuff in said table</p>
+
+<pre><code>&gt; table1.addRows([
+    {animal:"cow", sound:"moo", color:"white"},
+    {animal:"pig", sound:"oink", color:"pink"},
+    {animal:"duck", sound:"quack", color:"brown"},
+    {animal:"horse", sound:"neigh", color:"brown"},
+    {animal:"dog", sound:"woof", color:"brown"},
+]);
+</code></pre>
+
+<p>Get a list of all animals</p>
+
+<pre><code>&gt; table1.getColumn('animal')
+['cow', 'pig', 'duck', 'horse', 'dog']
+</code></pre>
+
+<p>Get the rows containing brown animals</p>
+
+<pre><code>&gt; table1.getRowsWhere('color', 'brown')
+[
+    [
+        "duck",
+        "quack",
+        "brown"
+    ],
+    [
+        "horse",
+        "neigh",
+        "brown"
+    ],
+    [
+        "dog",
+        "woof",
+        "brown"
+    ]
+]
+</code></pre>
+
+<p>Make a second table, using arrays rather than objects</p>
+
+<pre><code>&gt; var table2 = new Table();
+&gt; table2.addColumns(['animal', 'in animal farm?']);
+&gt; table2.addRows([
+    ['cow', true], 
+    ['pig', true], 
+    ['dog', false],
+    ['porcupine', false]
+]);
+</code></pre>
+
+<p>Join the two tables</p>
+
+<pre><code>&gt; var joinTable = table1.joinLeft('animal', table2, 'animal');
+</code></pre>
+
+<p>Inspect your handiwork</p>
+
+<pre><code>&gt; joinTable.print()
+
+animal          | sound           | in animal farm? | 
+cow             | moo             | true            | 
+pig             | oink            | true            | 
+duck            | quack           | undefined       | 
+horse           | neigh           | undefined       | 
+dog             | woof            | false           | 
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Taboo maintained by <a href="https://github.com/mrmagooey">mrmagooey</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
