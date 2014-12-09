@@ -53,6 +53,13 @@ describe("Tables", function(){
     it("should be able to left join", function(){
         var newTable = dogsTable.joinLeft('color', catsTable, 'color');
         expect(newTable.getColumnHeaders().length).toEqual(3);
+        expect(newTable.getRows().length).toEqual(3);
+    });
+    
+    it("should be able to inner join", function(){
+        var newTable = dogsTable.innerJoin('color', catsTable, 'color');
+        expect(newTable.getRows().length).toEqual(2);
+        window.temp = newTable;
     });
 
 });
