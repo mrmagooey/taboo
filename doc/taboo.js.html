@@ -58,6 +58,9 @@
         <a href="#joinleft()">joinLeft()</a>
       </div>
       <div class="heading h2">
+        <a href="#innerjoin()">innerJoin()</a>
+      </div>
+      <div class="heading h2">
         <a href="#clone()">clone()</a>
       </div>
       <div class="heading h2">
@@ -86,7 +89,18 @@
 <div class="pilwrap">
   <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
 </div>
-<p>@author mrmagooey</p>
+<div class="dox">
+  <div class="summary">
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">author</div>
+    <div class="dox_tag_detail">
+      <span>mrmagooey</span>
+    </div>
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre></pre></div>
         </td>
@@ -136,10 +150,11 @@
   </h2>
 </div>
 
-  </div>
-  <div class="body"><p>Add an array of empty columns.</p>
 
-<p>Pre-existing column names will be ignored.</p>
+<p>Add an array of empty columns.
+Pre-existing column names will be ignored.</p>
+  </div>
+  <div class="body">
   </div>
   <div class="details">
     <div class="dox_tag_title">Params</div>
@@ -173,10 +188,11 @@
   </h2>
 </div>
 
-  </div>
-  <div class="body"><p>Add a single empty column with name colName</p>
 
-<p>Pre-existing column names will be ignored.</p>
+<p>Add a single empty column with name colName
+Pre-existing column names will be ignored.</p>
+  </div>
+  <div class="body">
   </div>
   <div class="details">
     <div class="dox_tag_title">Params</div>
@@ -189,47 +205,14 @@
         </td>
         <td class="code highlight"><div class="highlight"><pre>
     <span class="k">this</span><span class="p">.</span><span class="nx">addColumn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">colName</span><span class="p">){</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
-</div>
-<p>Adds an column object to the table iff the column object
-with the colName does not already exist</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+        <span class="c1">// Adds an column object to the table iff the column object</span>
+        <span class="c1">// with the colName does not already exist</span>
         <span class="kd">var</span> <span class="nx">column</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">column</span><span class="p">){</span>
             <span class="k">return</span> <span class="nx">column</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">colName</span><span class="p">;</span>
         <span class="p">});</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
-</div>
-<p>check if this is a new column</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+        <span class="c1">// check if this is a new column</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">column</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">){</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
-</div>
-<p>add if column doesn't exist</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+            <span class="c1">// add if column doesn&#39;t exist</span>
             <span class="nx">column</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="nx">header</span><span class="o">:</span> <span class="nx">colName</span><span class="p">,</span>
                 <span class="nx">data</span><span class="o">:</span> <span class="p">[],</span>                           
@@ -286,11 +269,11 @@ with the colName does not already exist</p>
   </h2>
 </div>
 
-  </div>
-  <div class="body"><p>If passed an array of objects, the keys will be treated as the column
-headings and the values treated as the cell values.</p>
 
-<p><code>[{"col1":"foo", "col2":"bar", "col3":"baz"}, 
+<p>If passed an array of objects, the keys will be treated as the column
+headings and the values treated as the cell values.</p>
+  </div>
+  <div class="body"><p><code>[{"col1":"foo", "col2":"bar", "col3":"baz"}, 
 {"col1":"asdf", "col2":"asdf1", "col3":"asdf2"}]</code></p>
 
 <p>If passed an array of arrays, the arrays will be added by index position,
@@ -360,18 +343,7 @@ with items beyond the current number of columns being discarded.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
     <span class="k">this</span><span class="p">.</span><span class="nx">getColumn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">colName</span><span class="p">){</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
-</div>
-
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+        <span class="c1">// </span>
         <span class="kd">var</span> <span class="nx">col</span><span class="p">;</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">columnObject</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">columnObject</span><span class="p">.</span><span class="nx">header</span> <span class="o">==</span> <span class="nx">colName</span><span class="p">){</span>
@@ -416,18 +388,7 @@ with items beyond the current number of columns being discarded.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
     <span class="k">this</span><span class="p">.</span><span class="nx">getRow</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">){</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
-</div>
-<p>return an array of cell objects at row[index]</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+        <span class="c1">// return an array of cell objects at row[index]</span>
         <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">column</span><span class="p">,</span> <span class="nx">i</span><span class="p">){</span>
             <span class="k">return</span> <span class="p">{</span><span class="nx">header</span><span class="o">:</span><span class="nx">column</span><span class="p">[</span><span class="s1">&#39;header&#39;</span><span class="p">],</span> <span class="nx">data</span><span class="o">:</span><span class="nx">column</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="nx">index</span><span class="p">]}</span> <span class="p">;</span>
         <span class="p">});</span>
@@ -462,20 +423,9 @@ with items beyond the current number of columns being discarded.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
     <span class="k">this</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
-</div>
-<p>Return an array (rows) of arrays (cell objects)
-rows = [row, row, row]
-row = [{header:'name', data:'abc'}, {...}, {...}]</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+        <span class="c1">// Return an array (rows) of arrays (cell objects)</span>
+        <span class="c1">// rows = [row, row, row]</span>
+        <span class="c1">// row = [{header:&#39;name&#39;, data:&#39;abc&#39;}, {...}, {...}]</span>
         <span class="kd">var</span> <span class="nx">cellColumns</span> <span class="o">=</span> <span class="p">[];</span>
         <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">column</span><span class="p">){</span>
             <span class="nx">cellColumns</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">column</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">)</span> <span class="p">{</span>
@@ -486,20 +436,9 @@ row = [{header:'name', data:'abc'}, {...}, {...}]</p>
     <span class="p">};</span>
     
     <span class="k">this</span><span class="p">.</span><span class="nx">getRows</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
-</div>
-<p>Return an array (rows) of arrays (cell objects)
-rows = [row, row, row]
-row = [{header:'name', data:'abc'}, {...}, {...}]</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+        <span class="c1">// Return an array (rows) of arrays (cell objects)</span>
+        <span class="c1">// rows = [row, row, row]</span>
+        <span class="c1">// row = [{header:&#39;name&#39;, data:&#39;abc&#39;}, {...}, {...}]</span>
         <span class="kd">var</span> <span class="nx">cellColumns</span> <span class="o">=</span> <span class="p">[];</span>
         <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">column</span><span class="p">){</span>
             <span class="nx">cellColumns</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">column</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">)</span> <span class="p">{</span>
@@ -548,19 +487,8 @@ row = [{header:'name', data:'abc'}, {...}, {...}]</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
     <span class="k">this</span><span class="p">.</span><span class="nx">getRowsWhere</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="nx">key</span><span class="p">){</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
-</div>
-<p>Returns the same as getRowsAsCellObjects except that each row is checked for 
-a cell that has the <code>header</code> and <code>key</code> arguments</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+        <span class="c1">// Returns the same as getRowsAsCellObjects except that each row is checked for </span>
+        <span class="c1">// a cell that has the `header` and `key` arguments</span>
         <span class="kd">var</span> <span class="nx">rows</span> <span class="o">=</span>  <span class="nx">_</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span><span class="p">())</span>
                 <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">row</span><span class="p">){</span>
                     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">row</span><span class="p">);</span>
@@ -592,19 +520,18 @@ a cell that has the <code>header</code> and <code>key</code> arguments</p>
 
 
 <p>Object transformation method, generally for moving a denormalized table
-into a set of nested objects.</p>
-  </div>
-  <div class="body"><p>Returns an array of objects like: </p>
-
-<p><code>[{name:'original column item', related:
+into a set of nested objects.
+Returns an array of objects like: 
+<code>[{name:'original column item', related:
 {'related column name': ['first related', 'second related']}]</code></p>
+  </div>
+  <div class="body">
   </div>
   <div class="details">
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name"></span>
       <span class="dox_type">Array
-
 
 </span>
       <span>{Array}</span>
@@ -625,64 +552,20 @@ into a set of nested objects.</p>
                     <span class="k">return</span> <span class="nx">columnObj</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
                 <span class="p">});</span>
                 <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">joinCell</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">){</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-20" id="section-20">&#182;</a>
-</div>
-<p>get the other cells in the row</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+                    <span class="c1">// get the other cells in the row</span>
                     <span class="kd">var</span> <span class="nx">remainingCells</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span>
                         <span class="k">return</span> <span class="nx">cell</span> <span class="o">==</span> <span class="nx">joinCell</span><span class="p">;</span>
                     <span class="p">});</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-21" id="section-21">&#182;</a>
-</div>
-<p>start putting the related cells into the columnObj object</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+                    <span class="c1">// start putting the related cells into the columnObj object</span>
                     <span class="nx">remainingCells</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rc</span><span class="p">){</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-22" id="section-22">&#182;</a>
-</div>
-<p>get the columnObj related entry</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+                        <span class="c1">// get the columnObj related entry</span>
                         <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">columnObj</span><span class="p">.</span><span class="nx">related</span><span class="p">[</span><span class="nx">rc</span><span class="p">.</span><span class="nx">header</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">){</span>
                             <span class="nx">columnObj</span><span class="p">.</span><span class="nx">related</span><span class="p">[</span><span class="nx">rc</span><span class="p">.</span><span class="nx">header</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
                         <span class="p">}</span>
                         <span class="nx">columnObj</span><span class="p">.</span><span class="nx">related</span><span class="p">[</span><span class="nx">rc</span><span class="p">.</span><span class="nx">header</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">rc</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
                     <span class="p">});</span>
                 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-23" id="section-23">&#182;</a>
-</div>
-<p>continue</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+                    <span class="c1">// continue</span>
                 <span class="p">}</span>
             <span class="p">});</span>
         <span class="p">});</span>
@@ -712,18 +595,7 @@ into a set of nested objects.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
     <span class="k">this</span><span class="p">.</span><span class="nx">relatedColumn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">primaryColumn</span><span class="p">,</span> <span class="nx">secondaryColumn</span><span class="p">){</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-25" id="section-25">&#182;</a>
-</div>
-
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+        <span class="c1">// </span>
         <span class="kd">var</span> <span class="nx">columnObjects</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">columnToObjects</span><span class="p">(</span><span class="nx">primaryColumn</span><span class="p">);</span>
         <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">columnObjects</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
             <span class="kd">var</span> <span class="nx">related</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">related</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">i</span><span class="p">){</span>
@@ -767,18 +639,7 @@ into a set of nested objects.</p>
         <span class="kd">var</span> <span class="nx">printColumnSize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
         <span class="kd">var</span> <span class="nx">printString</span> <span class="o">=</span> <span class="s1">&#39;\n&#39;</span><span class="p">;</span>
         <span class="kd">var</span> <span class="nx">columnLengths</span> <span class="o">=</span> <span class="p">[];</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-27" id="section-27">&#182;</a>
-</div>
-<p>early exit conditions</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+        <span class="c1">// early exit conditions</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">){</span>
             <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
         <span class="p">}</span>
@@ -793,33 +654,11 @@ into a set of nested objects.</p>
             <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">,</span> <span class="nx">cellIndex</span><span class="p">){</span>
                 <span class="kd">var</span> <span class="nx">cellStr</span> <span class="o">=</span> <span class="nb">String</span><span class="p">(</span><span class="nx">cell</span><span class="p">.</span><span class="nx">data</span><span class="p">),</span>
                     <span class="nx">cellRepr</span><span class="p">;</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-28" id="section-28">&#182;</a>
-</div>
-<p>truncate cell.data if longer than cell.header</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+                <span class="c1">// truncate cell.data if longer than cell.header</span>
                 <span class="k">if</span> <span class="p">(</span><span class="nx">cellStr</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]){</span>
                     <span class="nx">cellRepr</span> <span class="o">=</span> <span class="nx">cellStr</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]</span> <span class="o">-</span><span class="mi">3</span><span class="p">);</span>
                     <span class="nx">cellRepr</span> <span class="o">=</span> <span class="nx">cellRepr</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span><span class="p">;</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-29" id="section-29">&#182;</a>
-</div>
-<p>otherwise pad it with spaces</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+                    <span class="c1">// otherwise pad it with spaces</span>
                 <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">cellStr</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]){</span>
                     <span class="kd">var</span> <span class="nx">padding</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="nx">cellStr</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
                     <span class="nx">cellRepr</span> <span class="o">=</span> <span class="nx">cellStr</span> <span class="o">+</span> <span class="nx">padding</span><span class="p">;</span>
@@ -883,68 +722,23 @@ into a set of nested objects.</p>
             <span class="nx">joinResult</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Table</span><span class="p">(),</span>
             <span class="nx">keyMatchFound</span><span class="p">,</span>
             <span class="nx">incrementRegex</span> <span class="o">=</span> <span class="sr">/(.*-)(\d)/gm</span><span class="p">;</span>
-        
         <span class="nx">left</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
             <span class="nx">keyMatchFound</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
             <span class="kd">var</span> <span class="nx">leftKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">leftKey</span><span class="p">;});</span>
             <span class="nx">right</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
                 <span class="kd">var</span> <span class="nx">rightKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">rightKey</span><span class="p">;});</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-31" id="section-31">&#182;</a>
-</div>
-<p>matching left and right keys</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+                <span class="c1">// matching left and right keys</span>
                 <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">rightKeyValue</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">))</span> <span class="p">{</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-32" id="section-32">&#182;</a>
-</div>
-<p>drop one of the matching key cells, otherwise we will add two cells
-with the same header, which the table structure doesn't really support</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+                    <span class="c1">// drop one of the matching key cells, otherwise we will add two cells</span>
+                    <span class="c1">// with the same header, which the table structure doesn&#39;t really support</span>
                     <span class="kd">var</span> <span class="nx">modifiedRightRow</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">){</span>
                         <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">);</span>
                     <span class="p">});</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-33" id="section-33">&#182;</a>
-</div>
-<p>check for similarly named columns and rename if there are collisions</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+                    <span class="c1">// check for similarly named columns and rename if there are collisions</span>
                     <span class="nx">modifiedRightRow</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">modifiedRightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">){</span>
                         <span class="k">if</span> <span class="p">(</span><span class="nx">leftHeaders</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">header</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">){</span>
                             <span class="kd">var</span> <span class="nx">matches</span> <span class="o">=</span> <span class="nx">incrementRegex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">header</span><span class="p">);</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-34" id="section-34">&#182;</a>
-</div>
-<p>increment the name by one</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+                            <span class="c1">// increment the name by one</span>
                             <span class="k">if</span> <span class="p">(</span><span class="nx">matches</span> <span class="o">&amp;&amp;</span> <span class="nx">matches</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">3</span><span class="p">){</span>
                                 <span class="nx">v</span><span class="p">.</span><span class="nx">header</span> <span class="o">=</span> <span class="nx">matches</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="nx">matches</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
                             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -955,36 +749,102 @@ with the same header, which the table structure doesn't really support</p>
                             <span class="k">return</span> <span class="nx">v</span><span class="p">;</span>
                         <span class="p">}</span>
                     <span class="p">});</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-35" id="section-35">&#182;</a>
-</div>
-<p>add the concatenated result to the new table</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+                    <span class="c1">// add the concatenated result to the new table</span>
                     <span class="nx">joinResult</span><span class="p">.</span><span class="nx">_addRowCellObjects</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">modifiedRightRow</span><span class="p">));</span>
                     <span class="nx">keyMatchFound</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
                 <span class="p">}</span> 
+                <span class="c1">// Since this is a left join, we stil want the left table row to be included</span>
+                <span class="c1">// in the final join table if no key matches are found</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">===</span> <span class="nx">array</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">keyMatchFound</span> <span class="o">==</span> <span class="kc">false</span><span class="p">){</span>
+                    <span class="nx">joinResult</span><span class="p">.</span><span class="nx">_addRowCellObjects</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+        <span class="k">return</span> <span class="nx">joinResult</span><span class="p">;</span>
+    <span class="p">};</span>
+
 
 </pre></div>
         </td>
       </tr>
       <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-36" id="section-36">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="innerjoin()">
+  <h2>
+    <a href="#innerjoin()" name="innerjoin()" class="pilcrow">&#182;</a>
+    innerJoin()
+  </h2>
 </div>
-<p>Since this is a left join, we stil want the left table row to be included
-in the final join table if no key matches are found</p>
+
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">leftKey</span>
+      <span class="dox_type">String</span>
+      <span>The key in this table to be joined on</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">rightTable</span>
+      <span class="dox_type">Table</span>
+      <span></span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">rightKey</span>
+      <span class="dox_type">String</span>
+      <span>The key in the right table to be joined on</span>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span class="dox_type">Table</span>
+      <span>The new table</span>
+    </div>
+  </div>
+</div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
-                <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">===</span> <span class="nx">array</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">keyMatchFound</span> <span class="o">==</span> <span class="kc">false</span><span class="p">){</span>
-                    <span class="nx">joinResult</span><span class="p">.</span><span class="nx">_addRowCellObjects</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">innerJoin</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">leftKey</span><span class="p">,</span> <span class="nx">rightTable</span><span class="p">,</span> <span class="nx">rightKey</span><span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">left</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
+            <span class="nx">leftHeaders</span> <span class="o">=</span> <span class="nx">left</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">(),</span>
+            <span class="nx">right</span> <span class="o">=</span> <span class="nx">rightTable</span><span class="p">,</span>
+            <span class="nx">joinResult</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Table</span><span class="p">(),</span>
+            <span class="nx">keyMatchFound</span><span class="p">,</span>
+            <span class="nx">incrementRegex</span> <span class="o">=</span> <span class="sr">/(.*-)(\d)/gm</span><span class="p">;</span>
+        
+        <span class="nx">left</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
+            <span class="nx">keyMatchFound</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">leftKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">leftKey</span><span class="p">;});</span>
+            <span class="nx">right</span><span class="p">.</span><span class="nx">getRowsAsCellObjects</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
+                <span class="kd">var</span> <span class="nx">rightKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">rightKey</span><span class="p">;});</span>
+                <span class="c1">// matching left and right keys</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">rightKeyValue</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="c1">// drop one of the matching key cells, otherwise we will add two cells</span>
+                    <span class="c1">// with the same header, which the table structure doesn&#39;t really support</span>
+                    <span class="kd">var</span> <span class="nx">modifiedRightRow</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">){</span>
+                        <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">);</span>
+                    <span class="p">});</span>
+                    <span class="c1">// check for similarly named columns and rename if there are collisions</span>
+                    <span class="nx">modifiedRightRow</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">modifiedRightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">){</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="nx">leftHeaders</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">header</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">){</span>
+                            <span class="kd">var</span> <span class="nx">matches</span> <span class="o">=</span> <span class="nx">incrementRegex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">header</span><span class="p">);</span>
+                            <span class="c1">// increment the name by one</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="nx">matches</span> <span class="o">&amp;&amp;</span> <span class="nx">matches</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">3</span><span class="p">){</span>
+                                <span class="nx">v</span><span class="p">.</span><span class="nx">header</span> <span class="o">=</span> <span class="nx">matches</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="nx">matches</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+                            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                                <span class="nx">v</span><span class="p">.</span><span class="nx">header</span> <span class="o">=</span> <span class="nx">v</span><span class="p">.</span><span class="nx">header</span> <span class="o">+</span> <span class="s1">&#39;-1&#39;</span><span class="p">;</span>
+                            <span class="p">}</span>
+                            <span class="k">return</span> <span class="nx">v</span><span class="p">;</span>
+                        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                            <span class="k">return</span> <span class="nx">v</span><span class="p">;</span>
+                        <span class="p">}</span>
+                    <span class="p">});</span>
+                    <span class="c1">// add the concatenated result to the new table</span>
+                    <span class="nx">joinResult</span><span class="p">.</span><span class="nx">_addRowCellObjects</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">modifiedRightRow</span><span class="p">));</span>
+                    <span class="nx">keyMatchFound</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
                 <span class="p">}</span>
             <span class="p">});</span>
         <span class="p">});</span>
@@ -1040,12 +900,11 @@ in the final join table if no key matches are found</p>
 </div>
 
 
-<p>Ensures the integrity of the underlying table data structure, by: </p>
+<p>Ensures the integrity of the underlying table data structure, by: 
+1. Make the table 'square', i.e. all the columns are the same length, 
+padding with undefineds when adding cells to columns.</p>
   </div>
-  <div class="body"><ol>
-<li>Make the table 'square', i.e. all the columns are the same length, 
-padding with undefineds when adding cells to columns.</li>
-</ol>
+  <div class="body">
   </div>
 </div>
         </td>
@@ -1080,11 +939,13 @@ padding with undefineds when adding cells to columns.</li>
   </h2>
 </div>
 
-  </div>
-  <div class="body"><p>Add a row to this table. 
+
+<p>Add a row to this table. 
 Row is an array of cell objects.
 <code>row = [{header:'blah', data:}, {header:'blah', data:}]</code>
 Any cell object with a new header will add that header to the table</p>
+  </div>
+  <div class="body">
   </div>
   <div class="details">
     <div class="dox_tag_title">params</div>
@@ -1124,6 +985,9 @@ Any cell object with a new header will add that header to the table</p>
   </h2>
 </div>
 
+
+<p>Internal method of adding cell data to columns. Shouldn't be directly used
+as by itself it leaves the table in an inconsistent state.</p>
   </div>
   <div class="body">
   </div>
@@ -1134,49 +998,16 @@ Any cell object with a new header will add that header to the table</p>
         <span class="kd">var</span> <span class="nx">column</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">column</span><span class="p">){</span>
             <span class="k">return</span> <span class="nx">column</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">colName</span><span class="p">;</span>
         <span class="p">});</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-41" id="section-41">&#182;</a>
-</div>
-<p>check if this is a new column</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+        <span class="c1">// check if this is a new column</span>
         <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">column</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">){</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-42" id="section-42">&#182;</a>
-</div>
-<p>add if column doesn't exist</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+            <span class="c1">// add if column doesn&#39;t exist</span>
             <span class="nx">column</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="nx">header</span><span class="o">:</span> <span class="nx">colName</span><span class="p">,</span>
                 <span class="nx">data</span><span class="o">:</span> <span class="p">[],</span>                           
             <span class="p">};</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">column</span><span class="p">);</span>
         <span class="p">}</span>
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-43" id="section-43">&#182;</a>
-</div>
-<p>finally add data to column</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
+        <span class="c1">// finally add data to column</span>
         <span class="nx">column</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">cellValue</span><span class="p">);</span>
     <span class="p">};</span>
     
