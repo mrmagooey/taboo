@@ -25,7 +25,6 @@ describe("Table", function() {
     });
     
     it("should be able to add row objects", function(){
-        table.addColumns(['name'], ['color']);
         table.addRows(dogs);
         expect(table.getRows().length).toEqual(3);
     });
@@ -34,6 +33,15 @@ describe("Table", function() {
         table.addColumns(['name'], ['color']);
         table.addRows(_.values(dogs));
         expect(table.getRows().length).toEqual(3);
+    });
+
+    it("should be able to add new columns", function(){
+        table.addRows(dogs);
+        expect(table.getRows().length).toEqual(3);
+        table.addRows([{newColumnName:'blah'}]);
+        console.log(table.print());
+        expect(table.getColumnHeaders().length).toEqual(3);
+        expect(table.getRows().length).toEqual(4);
     });
     
 });

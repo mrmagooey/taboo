@@ -70,15 +70,31 @@ function Table(tableName){
      @params {Array} rows Takes an array of either objects or arrays.          
     */    
     this.addRows = function(rows){
-        var headers = this.getColumnHeaders();
+        
         var _this = this;
+        // add data
         rows.forEach(function(row, index){
+            var currentHeaders = _this.getColumnHeaders();
             if (_.isArray(row)){
                 row.forEach(function(cell, i){
-                    _this._addCell(headers[i], cell);
+                    // ignore array elements out of table column range
+                    if (i < currentHeaders.length){
+                        _this._addCell(currentHeaders[i], cell);
+                    } else {
+                        // ignore
+                    }
                 });
                 _this._clean();
             } else if (_.isObject(row)){
+                // add any new columns
+                var rowHeaders = _.keys(row);
+                _this._addHeaders(rowHeaders);
+                //     newHeaders = _.difference(rowHeaders, currentHeaders);
+                // newHeaders.forEach(function(header, index){
+                //     _this._data.push({header: header, data: []});
+                // });
+                // _this._clean();
+                // add data
                 _.pairs(row).forEach(function(pair, index){
                     _this._addCell(pair[0], pair[1]);
                 });
@@ -405,13 +421,23 @@ function Table(tableName){
     this._addRowCellObjects = function(row){
         var _this = this;
         var headers = _.pluck(row, 'header');
-        var uniqueHeaders = _.unique(headers);
+        this._addHeaders(headers);
+        row.forEach(function(cell){
+            _this._addCell(cell['header'], cell['data']);
+        });
+        this._clean();
+    };
+
+    this._addHeaders = function(headers){
+        var _this = this,
+            currentHeaders = this.getColumnHeaders(),
+            uniqueHeaders = _.unique(headers);
         if (uniqueHeaders.length !== headers.length){
             throw "Can\'t add a row with duplicate headers";
         }
-        this._clean();
-        row.forEach(function(cell){
-            _this._addCell(cell['header'], cell['data']);
+        var newHeaders = _.difference(headers, currentHeaders);
+        newHeaders.forEach(function(header, index){
+            _this._data.push({header: header, data: []});
         });
         this._clean();
     };
@@ -424,16 +450,6 @@ function Table(tableName){
         var column = _.find(this._data, function(column){
             return column.header === colName;
         });
-        // check if this is a new column
-        if (typeof column === 'undefined'){
-            // add if column doesn't exist
-            column = {
-                header: colName,
-                data: [],                           
-            };
-            this._data.push(column);
-        }
-        // finally add data to column
         column["data"].push(cellValue);
     };
     
