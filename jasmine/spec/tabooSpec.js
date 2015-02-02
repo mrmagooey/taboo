@@ -19,7 +19,7 @@ describe("Table", function() {
         table = new Table();
     });
     
-    it("should be able to set columns", function(){
+    it("should be able to add columns", function(){
         table.addColumns(['column 1', 'column 2', 'column 3']);
         expect(table._data.length).toEqual(3);
     });
@@ -43,7 +43,18 @@ describe("Table", function() {
         expect(table.getColumnHeaders().length).toEqual(3);
         expect(table.getRows().length).toEqual(4);
     });
-    
+
+    it("should be able to get columnHeaders", function(){
+        table.addRows(dogs);
+        expect(table.getColumnHeaders()).toEqual(['name', 'color']);
+    });
+
+    it("should be able to get rows as cell objects", function(){
+        table.addRows(dogs);
+        expect(table.getRowsAsCellObjects().length).toEqual(3);
+        
+    });
+
 });
 
 describe("Tables", function(){
