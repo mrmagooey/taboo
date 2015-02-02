@@ -10,6 +10,16 @@
 
 function Table(tableName){
     this._data = [];
+
+    // extend underscores zip
+    // taken from http://stackoverflow.com/questions/22361609/using-zip-in-a-chain
+    _.mixin({zipArrays: function(arrays){
+            return _.zip.apply(_, arrays);
+            },
+    });
+
+    // ## this.metadata
+    // For putting any user metadata into
     this.metadata = {tableName:tableName};
     
     /* ## addRows()
