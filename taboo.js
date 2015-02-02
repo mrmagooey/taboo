@@ -12,6 +12,48 @@ function Table(tableName){
     this._data = [];
     this.metadata = {tableName:tableName};
     
+    /* ## addRows()
+     If passed an array of objects, the keys will be treated as the column
+     headings and the values treated as the cell values.
+     
+     `[{"col1":"foo", "col2":"bar", "col3":"baz"}, 
+     {"col1":"asdf", "col2":"asdf1", "col3":"asdf2"}]`
+     
+     If passed an array of arrays, the arrays will be added by index position,
+     with items beyond the current number of columns being discarded.
+     
+     `[["foo", "bar", "baz"], ["asdf", "asdf1", "asdf2"]]`
+     
+     @params {Array} rows Takes an array of either objects or arrays.          
+     */    
+    this.addRows = function(rows){
+        var _this = this;
+        // add data
+        rows.forEach(function(row, index){
+            var currentHeaders = _this.getColumnHeaders();
+            if (_.isArray(row)){
+                row.forEach(function(cell, i){
+                    // ignore array elements out of table column range
+                    if (i < currentHeaders.length){
+                        _this._addCell(currentHeaders[i], cell);
+                    } else {
+                        // ignore
+                    }
+                });
+                _this._clean();
+            } else if (_.isObject(row)){
+                // add any new columns
+                var rowHeaders = _.keys(row);
+                _this._addHeaders(rowHeaders);
+                // add data
+                _.pairs(row).forEach(function(pair, index){
+                    _this._addCell(pair[0], pair[1]);
+                });
+                _this._clean();
+            } 
+        });
+    };
+    
     /* ## addColumns()
      Add an array of empty columns.
      Pre-existing column names will be ignored.
@@ -61,51 +103,9 @@ function Table(tableName){
         });
     };
     
-    /* ## addRows()
-     If passed an array of objects, the keys will be treated as the column
-     headings and the values treated as the cell values.
-     
-     `[{"col1":"foo", "col2":"bar", "col3":"baz"}, 
-     {"col1":"asdf", "col2":"asdf1", "col3":"asdf2"}]`
-     
-     If passed an array of arrays, the arrays will be added by index position,
-     with items beyond the current number of columns being discarded.
-     
-     `[["foo", "bar", "baz"], ["asdf", "asdf1", "asdf2"]]`
-     
-     @params {Array} rows Takes an array of either objects or arrays.          
-     */    
-    this.addRows = function(rows){
-        var _this = this;
-        // add data
-        rows.forEach(function(row, index){
-            var currentHeaders = _this.getColumnHeaders();
-            if (_.isArray(row)){
-                row.forEach(function(cell, i){
-                    // ignore array elements out of table column range
-                    if (i < currentHeaders.length){
-                        _this._addCell(currentHeaders[i], cell);
-                    } else {
-                        // ignore
-                    }
-                });
-                _this._clean();
-            } else if (_.isObject(row)){
-                // add any new columns
-                var rowHeaders = _.keys(row);
-                _this._addHeaders(rowHeaders);
-                // add data
-                _.pairs(row).forEach(function(pair, index){
-                    _this._addCell(pair[0], pair[1]);
-                });
-                _this._clean();
-            } 
-        });
-    };
-    
     /* ## getColumn()
      @param {String} colName The name of the column to be returned
-     @Return {column} 
+     @Return {array} all cells within the column
      */
     this.getColumn = function(colName){
         // 
