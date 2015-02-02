@@ -3,7 +3,7 @@
  */
 
 /*
-  ## Table Constructor
+ ## Table Constructor
  Creates a new Table object
  @param {String} tableName The name of this table
  */
@@ -16,7 +16,7 @@ function Table(tableName){
      Add an array of empty columns.
      Pre-existing column names will be ignored.
      @param {Array} colNamesArray Array of column names.
-    */
+     */
     this.addColumns = function(colNamesArray) {
         var _this = this;
         colNamesArray.forEach(function(name){
@@ -24,11 +24,17 @@ function Table(tableName){
         });
     };
     
+    /* ## updateWhere()
+     @UpdateColumn
+     @UpdateValue
+     @Where
+     */
+
     /* ## addColumn()
      Add a single empty column with name colName
      Pre-existing column names will be ignored.
      @Params {string} colName Column name
-    */
+     */
     this.addColumn = function(colName){
         // Adds an column object to the table iff the column object
         // with the colName does not already exist
@@ -47,8 +53,8 @@ function Table(tableName){
     };
     
     /* ## getColumnHeaders()
-       @returns {Array} All column names
-    */    
+     @returns {Array} All column names
+     */    
     this.getColumnHeaders = function(){
         return _.map(this._data, function(column){
             return column.header;
@@ -60,17 +66,16 @@ function Table(tableName){
      headings and the values treated as the cell values.
      
      `[{"col1":"foo", "col2":"bar", "col3":"baz"}, 
-         {"col1":"asdf", "col2":"asdf1", "col3":"asdf2"}]`
-          
+     {"col1":"asdf", "col2":"asdf1", "col3":"asdf2"}]`
+     
      If passed an array of arrays, the arrays will be added by index position,
      with items beyond the current number of columns being discarded.
      
-         `[["foo", "bar", "baz"], ["asdf", "asdf1", "asdf2"]]`
-         
+     `[["foo", "bar", "baz"], ["asdf", "asdf1", "asdf2"]]`
+     
      @params {Array} rows Takes an array of either objects or arrays.          
-    */    
+     */    
     this.addRows = function(rows){
-        
         var _this = this;
         // add data
         rows.forEach(function(row, index){
@@ -89,11 +94,6 @@ function Table(tableName){
                 // add any new columns
                 var rowHeaders = _.keys(row);
                 _this._addHeaders(rowHeaders);
-                //     newHeaders = _.difference(rowHeaders, currentHeaders);
-                // newHeaders.forEach(function(header, index){
-                //     _this._data.push({header: header, data: []});
-                // });
-                // _this._clean();
                 // add data
                 _.pairs(row).forEach(function(pair, index){
                     _this._addCell(pair[0], pair[1]);
@@ -130,7 +130,7 @@ function Table(tableName){
     };
     
     /* ## getRowsAsCellObjects()
-       @returns {Array} All rows in the table as an array of arrays of cell objects
+     @returns {Array} All rows in the table as an array of arrays of cell objects
      */
     this.getRowsAsCellObjects = function(){
         // Return an array (rows) of arrays (cell objects)
@@ -144,11 +144,13 @@ function Table(tableName){
         });
         return _.zip.apply(_, cellColumns);
     };
-    
+
+    /* ## getRows()
+     @returns Return an array (rows) of arrays (cell objects)
+     rows = [row, row, row]
+     row = [{header:'name', data:'abc'}, {...}, {...}]
+     */
     this.getRows = function(){
-        // Return an array (rows) of arrays (cell objects)
-        // rows = [row, row, row]
-        // row = [{header:'name', data:'abc'}, {...}, {...}]
         var cellColumns = [];
         _.each(this._data, function(column){
             cellColumns.push(_.map(column.data, function(cell) {
@@ -158,20 +160,24 @@ function Table(tableName){
         return _.zip.apply(_, cellColumns);        
     };
     
-    /* ## getRowsAsCellObjectsWhere()
-       @params {String} header
-       @params {String} key 
-       @returns {Array} All rows in the table satisfying the header and key constraints
+    /* ## getRowsWhere()
+     @params {whereList} list of {header:"header name", data:"data"} objects
+     @returns {Array} All rows in the table satisfying the whereList
      */
-    this.getRowsWhere = function(header, key){
-        // Returns the same as getRowsAsCellObjects except that each row is checked for 
-        // a cell that has the `header` and `key` arguments
+    this.getRowsWhere = function(whereList){
         var rows =  _.chain(this.getRowsAsCellObjects())
+                // filter out rows that don't have all the items in the whereList
                 .filter(function(row){
-                    console.log(row);
-                    var a =  _.where(row, {header:header, data:key});
-                    return !(_.isEmpty(a));
+                    return _.every(
+                        _.map(whereList, function(){
+                            return !(
+                                _.isEmpty(
+                                    _.where(row, 
+                                            {header:whereList["header"], data:whereList["value"]})));
+                        })
+                    );
                 })
+                // only return the data, not the full cell objects
                 .map(function(row, index){
                     return _.map(row, function(cell){
                         return cell.data;
@@ -186,7 +192,7 @@ function Table(tableName){
      into a set of nested objects.
      Returns an array of objects like: 
      `[{name:'original column item', related:
-       {'related column name': ['first related', 'second related']}]`
+     {'related column name': ['first related', 'second related']}]`
      @returns {Array}
      */
     this.columnToObjects = function(colName){
@@ -277,10 +283,10 @@ function Table(tableName){
     };
 
     /* ## joinLeft()
-       @param {String} leftKey The key in this table to be joined on
-       @param {Table} rightTable 
-       @param {String} rightKey The key in the right table to be joined on
-       @return {Table} The new table
+     @param {String} leftKey The key in this table to be joined on
+     @param {Table} rightTable 
+     @param {String} rightKey The key in the right table to be joined on
+     @return {Table} The new table
      */
     this.joinLeft = function(leftKey, rightTable, rightKey){
         var left = this,
@@ -331,10 +337,10 @@ function Table(tableName){
     };
 
     /* ## innerJoin()
-       @param {String} leftKey The key in this table to be joined on
-       @param {Table} rightTable 
-       @param {String} rightKey The key in the right table to be joined on
-       @return {Table} The new table
+     @param {String} leftKey The key in this table to be joined on
+     @param {Table} rightTable 
+     @param {String} rightKey The key in the right table to be joined on
+     @return {Table} The new table
      */
     this.innerJoin = function(leftKey, rightTable, rightKey){
         var left = this,
@@ -381,7 +387,7 @@ function Table(tableName){
     };
     
     /* ## clone()
-       @return a clone of this table
+     @return a clone of this table
      */
     this.clone = function(){
         var data = JSON.parse(JSON.stringify(this._data)),
@@ -394,7 +400,7 @@ function Table(tableName){
      Ensures the integrity of the underlying table data structure, by: 
      1. Make the table 'square', i.e. all the columns are the same length, 
      padding with undefineds when adding cells to columns.
-    */
+     */
     this._clean = function() {
         var maxColumnLength = _.reduce(this._data, function(memo, value, index){
             var colLength = value['data'].length;
@@ -417,7 +423,7 @@ function Table(tableName){
      `row = [{header:'blah', data:}, {header:'blah', data:}]`
      Any cell object with a new header will add that header to the table
      @params {Array} row Array of internal cell objects
-    */    
+     */    
     this._addRowCellObjects = function(row){
         var _this = this;
         var headers = _.pluck(row, 'header');
