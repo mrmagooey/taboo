@@ -132,27 +132,11 @@ function Table(tableName){
      @param {Integer} index The row index to be returned
      @returns {Array} 
      */
-    this.getRow = function(index){
+    this.getRowAtIndex = function(index){
         // return an array of cell objects at row[index]
         return _.map(this._data, function(column, i){
             return {header:column['header'], data:column['data'][index]} ;
         });
-    };
-    
-    /* ## getRowsAsCellObjects()
-     @returns {Array} All rows in the table as an array of arrays of cell objects
-     */
-    this.getRowsAsCellObjects = function(){
-        // Return an array (rows) of arrays (cell objects)
-        // rows = [row, row, row]
-        // row = [{header:'name', data:'abc'}, {...}, {...}]
-        var cellColumns = [];
-        _.each(this._data, function(column){
-            cellColumns.push(_.map(column.data, function(cell) {
-                return {header:column['header'], data:cell};
-            }));
-        });
-        return _.zip.apply(_, cellColumns);
     };
 
     /* ## getRows()
@@ -161,13 +145,32 @@ function Table(tableName){
      row = [{header:'name', data:'abc'}, {...}, {...}]
      */
     this.getRows = function(){
-        var cellColumns = [];
-        _.each(this._data, function(column){
-            cellColumns.push(_.map(column.data, function(cell) {
-                return cell;
-            }));
-        });
-        return _.zip.apply(_, cellColumns);        
+        return _.chain(this._data)
+                .map(function(column){
+                    return column.data;
+                })
+                // custom backbone mixin defined above, transposes columns to rows
+                .zipArrays() 
+                .value(); 
+    };
+
+    /* ## getRowsAsCellObjects()
+     @returns {Array} All rows in the table as an array of arrays of cell objects
+     */
+    this.getRowsAsCellObjects = function(){
+        // Return an array (rows) of arrays (cell objects)
+        // rows = [row, row, row]
+        // row = [{header:'name', data:'abc'}, {...}, {...}]
+        return _.chain(this._data)
+                .map(function(column){
+                    return _.map(column.data, function(cell){
+                        // add column headers to cells
+                        return {header:column['header'], data:cell};
+                    });
+                })
+                // custom backbone mixin defined above, transposes columns to rows
+                .zipArrays() 
+                .value(); 
     };
     
     /* ## getRowsWhere()
@@ -175,7 +178,7 @@ function Table(tableName){
      @returns {Array} All rows in the table satisfying the whereList
      */
     this.getRowsWhere = function(whereList){
-        var rows =  _.chain(this.getRowsAsCellObjects())
+        return _.chain(this.getRowsAsCellObjects())
                 // filter out rows that don't have all the items in the whereList
                 .filter(function(row){
                     return _.every(
