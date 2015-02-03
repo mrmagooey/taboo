@@ -39,7 +39,6 @@ describe("Table", function() {
         table.addRows(dogs);
         expect(table.getRows().length).toEqual(3);
         table.addRows([{newColumnName:'blah'}]);
-        console.log(table.print());
         expect(table.getColumnHeaders().length).toEqual(3);
         expect(table.getRows().length).toEqual(4);
     });
@@ -52,7 +51,12 @@ describe("Table", function() {
     it("should be able to get rows as cell objects", function(){
         table.addRows(dogs);
         expect(table.getRowsAsCellObjects().length).toEqual(3);
-        
+    });
+
+    it("should be able to update cells", function(){
+        table.addRows(dogs);
+        table.updateWhere('name', 'woof', [{color:'red'}]);
+        expect(table.getRowsWhere([{name:'woof'}]).length).toEqual(1);
     });
 
 });

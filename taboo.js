@@ -77,12 +77,42 @@ function Table(tableName){
     };
     
     /* ## updateWhere()
-     @UpdateColumn
-     @UpdateValue
-     @Where
+     @param {updateHeader} The name of the column that you want to update in.
+     @param {updateValue} The value you want to update it to.
+     @param {whereList} A list of [{header, data}] combinations that need to match for the row in order for the update to happen
      */
-    this.updateWhere = function(whereList){
-        
+    this.updateWhere = function(updateHeader, updateValue, whereList){
+        var _this = this;
+        var column = _.find(this._data, function(column){
+            return column.header === updateHeader;
+        });
+        if (_.isUndefined(column)){
+            return;
+        }
+        _.chain(this.getRowsAsCellObjects())
+        // filter out rows that don't have all the items in the whereList
+            .map(function(row, index){
+                // every item in whereList must be satisfied for a row to be updated
+                var rowUpdate = _.every(
+                    _.map(whereList, function(where){
+                        return !(
+                            _.isEmpty(
+                                _.where(row, {header:_.keys(where)[0], data:_.values(where)[0]})));
+                    }));
+                if (rowUpdate){
+                    return index;
+                } else {
+                    return undefined;
+                }
+            })
+            .filter(function(rowIndex){
+                return !_.isUndefined(rowIndex);
+            })
+            // update the rows
+            .each(function(rowIndex){
+                column.data[rowIndex] = updateValue;
+            })
+            .value();
     };
 
     /* ## addColumn()
@@ -185,11 +215,11 @@ function Table(tableName){
                 // filter out rows that don't have all the items in the whereList
                 .filter(function(row){
                     return _.every(
-                        _.map(whereList, function(){
+                        _.map(whereList, function(whereItem){
                             return !(
                                 _.isEmpty(
                                     _.where(row, 
-                                            {header:whereList["header"], data:whereList["value"]})));
+                                            {header:_.keys(whereItem)[0], data:_.values(whereItem)[0]})));
                         })
                     );
                 })
