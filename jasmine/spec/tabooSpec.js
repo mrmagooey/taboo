@@ -55,7 +55,7 @@ describe("Table", function() {
 
     it("should be able to update cells", function(){
         table.addRows(dogs);
-        table.updateWhere('name', 'woof', [{color:'red'}]);
+        table.updateWhere({'name':'woof'}, [{color:'red'}]);
         expect(table.getRowsWhere([{name:'woof'}]).length).toEqual(1);
     });
 

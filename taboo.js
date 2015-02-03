@@ -81,11 +81,13 @@ function Table(tableName){
      @param {updateValue} The value you want to update it to.
      @param {whereList} A list of [{header, data}] combinations that need to match for the row in order for the update to happen
      */
-    this.updateWhere = function(updateHeader, updateValue, whereList){
-        var _this = this;
-        var column = _.find(this._data, function(column){
-            return column.header === updateHeader;
-        });
+    this.updateWhere = function(update, whereList){
+        var _this = this,
+            updateHeader = _.keys(update)[0],
+            updateValue = _.values(update)[0],
+            column = _.find(this._data, function(column){
+                return column.header === updateHeader;
+            });
         if (_.isUndefined(column)){
             return;
         }
@@ -207,7 +209,7 @@ function Table(tableName){
     };
     
     /* ## getRowsWhere()
-     @params {whereList} list of {header:"header name", data:"data"} objects
+     @params {whereList} list of {"header name":"data"} objects
      @returns {Array} All rows in the table satisfying the whereList
      */
     this.getRowsWhere = function(whereList){
@@ -276,8 +278,8 @@ function Table(tableName){
     /* ## print()
      @return {String} pretty printed version of the table
      */
-    this.print = function(){
-        var printColumnSize = 15;
+    this.print = function(printColumnSize){
+        var printColumnSize = printColumnSize | 15;
         var printString = '\n';
         var columnLengths = [];
         // early exit conditions
