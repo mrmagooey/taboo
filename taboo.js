@@ -91,7 +91,7 @@ function Table(tableName){
         if (_.isUndefined(column)){
             return;
         }
-        _.chain(this.getRowsAsCellObjects())
+        _.chain(this._getRowsAsCellObjects())
         // filter out rows that don't have all the items in the whereList
             .map(function(row, index){
                 // every item in whereList must be satisfied for a row to be updated
@@ -179,41 +179,39 @@ function Table(tableName){
      rows = [row, row, row]
      row = [{header:'name', data:'abc'}, {...}, {...}]
      */
-    this.getRows = function(){
-        return _.chain(this._data)
+    this.getRows = function(options){
+        options = options || {};
+        options['objects'] = true;
+        console.log("options", options);
+        if (options.array) {
+            return _.chain(this._data)
                 .map(function(column){
                     return column.data;
                 })
                 // custom backbone mixin defined above, transposes columns to rows
                 .zipArrays() 
                 .value(); 
+        } else if (options.objects) {
+            return _.chain(this._getRowsAsCellObjects())
+                    .map(function(row, index){
+                        return _.reduce(row, function(rowObject, cell){
+                            var temp = {};
+                            temp[cell.header] = cell.data;
+                            return _.extend(rowObject, temp);
+                        }, {});
+                    })
+                    .value();
+        }
     };
 
-    /* ## getRowsAsCellObjects()
-     @returns {Array} All rows in the table as an array of arrays of cell objects
-     */
-    this.getRowsAsCellObjects = function(){
-        // Return an array (rows) of arrays (cell objects)
-        // rows = [row, row, row]
-        // row = [{header:'name', data:'abc'}, {...}, {...}]
-        return _.chain(this._data)
-                .map(function(column){
-                    return _.map(column.data, function(cell){
-                        // add column headers to cells
-                        return {header:column['header'], data:cell};
-                    });
-                })
-                // custom backbone mixin defined above, transposes columns to rows
-                .zipArrays() 
-                .value(); 
-    };
-    
     /* ## getRowsWhere()
      @params {whereList} list of {"header name":"data"} objects
      @returns {Array} All rows in the table satisfying the whereList
      */
-    this.getRowsWhere = function(whereList){
-        return _.chain(this.getRowsAsCellObjects())
+    this.getRowsWhere = function(whereList, options){
+        var options = options || {};
+        options['objects'] = true;
+        return _.chain(this._getRowsAsCellObjects())
                 // filter out rows that don't have all the items in the whereList
                 .filter(function(row){
                     return _.every(
@@ -225,11 +223,18 @@ function Table(tableName){
                         })
                     );
                 })
-                // only return the data, not the full cell objects
                 .map(function(row, index){
-                    return _.map(row, function(cell){
-                        return cell.data;
-                    });
+                    if (options.array){
+                        return _.map(row, function(cell){
+                            return cell.data;
+                        });
+                    } else if (options.objects){
+                        return _.reduce(row, function(rowObject, cell){
+                            var temp = {};
+                            temp[cell.header] = cell.data;
+                            return _.extend(rowObject, temp);
+                        }, {});
+                    }
                 })
                 .value();
     };
@@ -247,7 +252,7 @@ function Table(tableName){
             colObjects = _.map(col, function(cell, index){
                 return {name:cell, related:{}, _index:index};
             }),
-            rows = this.getRowsAsCellObjects();
+            rows = this._getRowsAsCellObjects();
         colObjects.forEach(function(columnObj, index){
             rows.forEach(function(row, index){
                 var joinCell = _.find(row, function(cell){
@@ -293,7 +298,7 @@ function Table(tableName){
                 + ' | ';
         });
         printString += '\n';
-        this.getRowsAsCellObjects().forEach(function(row, rowIndex, array){
+        this._getRowsAsCellObjects().forEach(function(row, rowIndex, array){
             _.each(row, function(cell, cellIndex){
                 var cellStr = String(cell.data),
                     cellRepr;
@@ -327,10 +332,10 @@ function Table(tableName){
             joinResult = new Table(),
             keyMatchFound,
             incrementRegex = /(.*-)(\d)/gm;
-        left.getRowsAsCellObjects().forEach(function(leftRow, index){
+        left._getRowsAsCellObjects().forEach(function(leftRow, index){
             keyMatchFound = false;
             var leftKeyValue = _.find(leftRow, function(cell){return cell.header === leftKey;});
-            right.getRowsAsCellObjects().forEach(function(rightRow, index, array){
+            right._getRowsAsCellObjects().forEach(function(rightRow, index, array){
                 var rightKeyValue = _.find(rightRow, function(cell){return cell.header === rightKey;});
                 // matching left and right keys
                 if (_.isEqual(rightKeyValue, leftKeyValue)) {
@@ -382,10 +387,10 @@ function Table(tableName){
             keyMatchFound,
             incrementRegex = /(.*-)(\d)/gm;
         
-        left.getRowsAsCellObjects().forEach(function(leftRow, index){
+        left._getRowsAsCellObjects().forEach(function(leftRow, index){
             keyMatchFound = false;
             var leftKeyValue = _.find(leftRow, function(cell){return cell.header === leftKey;});
-            right.getRowsAsCellObjects().forEach(function(rightRow, index, array){
+            right._getRowsAsCellObjects().forEach(function(rightRow, index, array){
                 var rightKeyValue = _.find(rightRow, function(cell){return cell.header === rightKey;});
                 // matching left and right keys
                 if (_.isEqual(rightKeyValue, leftKeyValue)) {
@@ -464,6 +469,25 @@ function Table(tableName){
                 column.data.push(undefined);
             };
         });
+    };
+    
+    /* ## _getRowsAsCellObjects()
+     @returns {Array} All rows in the table as an array of arrays of cell objects
+     */
+    this._getRowsAsCellObjects = function(){
+        // Return an array (rows) of arrays (cell objects)
+        // rows = [row, row, row]
+        // row = [{header:'name', data:'abc'}, {...}, {...}]
+        return _.chain(this._data)
+                .map(function(column){
+                    return _.map(column.data, function(cell){
+                        // add column headers to cells
+                        return {header:column['header'], data:cell};
+                    });
+                })
+                // custom backbone mixin defined above, transposes columns to rows
+                .zipArrays() 
+                .value(); 
     };
     
     /* ## _addRowCellObjects()

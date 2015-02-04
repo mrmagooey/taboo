@@ -42,17 +42,12 @@ describe("Table", function() {
         expect(table.getColumnHeaders().length).toEqual(3);
         expect(table.getRows().length).toEqual(4);
     });
-
+    
     it("should be able to get columnHeaders", function(){
         table.addRows(dogs);
         expect(table.getColumnHeaders()).toEqual(['name', 'color']);
     });
-
-    it("should be able to get rows as cell objects", function(){
-        table.addRows(dogs);
-        expect(table.getRowsAsCellObjects().length).toEqual(3);
-    });
-
+    
     it("should be able to update cells", function(){
         table.addRows(dogs);
         table.updateWhere({'name':'woof'}, [{color:'red'}]);
