@@ -22,6 +22,9 @@ function Table(tableName){
     // For putting any user metadata into
     this.metadata = {tableName:tableName};
     
+    // stores any external callback functions
+    this._callbacks = {};
+    
     /* ## addRows()
      If passed an array of objects, the keys will be treated as the column
      headings and the values treated as the cell values.
@@ -62,6 +65,7 @@ function Table(tableName){
                 _this._clean();
             } 
         });
+        this._triggerCallbacks('update');
     };
     
     /* ## addColumns()
@@ -74,6 +78,7 @@ function Table(tableName){
         colNamesArray.forEach(function(name){
             _this.addColumn(name);
         });
+        this._triggerCallbacks('update');
     };
     
     /* ## updateWhere()
@@ -115,6 +120,7 @@ function Table(tableName){
                 column.data[rowIndex] = updateValue;
             })
             .value();
+        this._triggerCallbacks('update');
     };
 
     /* ## addColumn()
@@ -137,6 +143,7 @@ function Table(tableName){
             };
             this._data.push(column);
         }
+        this._triggerCallbacks('update');
     };
     
     /* ## getColumnHeaders()
@@ -175,6 +182,13 @@ function Table(tableName){
     };
 
     /* ## getRows()
+     
+     Options is an object containing key valued options including:
+         
+         objects: returns the rows as objects (default)
+         array: returns the rows as arrays
+     
+     @param options 
      @returns Return an array (rows) of arrays (cell objects)
      rows = [row, row, row]
      row = [{header:'name', data:'abc'}, {...}, {...}]
@@ -377,7 +391,7 @@ function Table(tableName){
      @param {String} leftKey The key in this table to be joined on
      @param {Table} rightTable 
      @param {String} rightKey The key in the right table to be joined on
-     @return {Table} The new table
+     @return {Table} New joined table
      */
     this.innerJoin = function(leftKey, rightTable, rightKey){
         var left = this,
@@ -431,6 +445,30 @@ function Table(tableName){
             t = new Table();
         t._data = data;
         return t;
+    };
+    
+    /* ## registerCallback
+     @param eventName The name of the event that will trigger the supplied callback
+     @param callback A function that will be called with the context of the taboo object
+    */
+    this.registerCallback = function(eventName, callback){
+        if (_.isArray(this._callbacks[eventName])){
+            this._callbacks[eventName].push(callback);
+        } else {
+            this._callbacks[eventName] = [callback];
+        }
+    };
+    
+    /* ## _triggerCallbacks
+     
+     */
+    this._triggerCallbacks = function(eventName, details){
+        var _this = this;
+        if (_.isArray(this._callbacks[eventName])){
+            this._callbacks[eventName].forEach(function(callback){
+                callback(_this, details);
+            });
+        }
     };
     
     /* ## relatedColumn()
