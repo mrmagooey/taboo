@@ -8,7 +8,7 @@
  @param {String} tableName The name of this table
  */
 
-function Table(tableName){
+function Taboo(tableName){
     this._data = [];
 
     // extend underscores zip
@@ -39,7 +39,16 @@ function Table(tableName){
      
      @params {Array} rows Takes an array of either objects or arrays.          
      */    
-    this.addRows = function(rows){
+    this.addRows = function(rows, options){
+        var defaultOptions = {
+            silent:false
+        };
+        if (_.isObject(options)){
+            options = _.extend(defaultOptions, options);
+        } else {
+            options = defaultOptions;
+        }
+        
         var _this = this;
         // add data
         rows.forEach(function(row, index){
@@ -65,7 +74,9 @@ function Table(tableName){
                 _this._clean();
             } 
         });
-        this._triggerCallbacks('update');
+        if (!options.silent){
+            this.triggerCallbacks('update');
+        }
     };
     
     /* ## addColumns()
@@ -73,12 +84,24 @@ function Table(tableName){
      Pre-existing column names will be ignored.
      @param {Array} colNamesArray Array of column names.
      */
-    this.addColumns = function(colNamesArray) {
+    this.addColumns = function(colNamesArray, options) {
+        var defaultOptions = {
+            silent:false
+        };
+        if (_.isObject(options)){
+            options = _.extend(defaultOptions, options);
+        } else {
+            options = defaultOptions;
+        }
+    
         var _this = this;
         colNamesArray.forEach(function(name){
-            _this.addColumn(name);
+            _this.addColumn(name, options);
         });
-        this._triggerCallbacks('update');
+        
+        if (!options.silent){
+            this.triggerCallbacks('update');
+        }
     };
     
     /* ## updateWhere()
@@ -86,7 +109,16 @@ function Table(tableName){
      @param {updateValue} The value you want to update it to.
      @param {whereList} A list of [{header, data}] combinations that need to match for the row in order for the update to happen
      */
-    this.updateWhere = function(update, whereList){
+    this.updateWhere = function(update, whereList, options){
+        var defaultOptions = {
+            silent:false
+        };
+        if (_.isObject(options)){
+            options = _.extend(defaultOptions, options);
+        } else {
+            options = defaultOptions;
+        }
+
         var _this = this,
             updateHeader = _.keys(update)[0],
             updateValue = _.values(update)[0],
@@ -120,7 +152,9 @@ function Table(tableName){
                 column.data[rowIndex] = updateValue;
             })
             .value();
-        this._triggerCallbacks('update');
+        if (!options.silent){
+            this.triggerCallbacks('update');
+        }
     };
 
     /* ## addColumn()
@@ -128,7 +162,16 @@ function Table(tableName){
      Pre-existing column names will be ignored.
      @Params {string} colName Column name
      */
-    this.addColumn = function(colName){
+    this.addColumn = function(colName, options){
+        var defaultOptions = {
+            silent:false
+        };
+        if (_.isObject(options)){
+            options = _.extend(defaultOptions, options);
+        } else {
+            options = defaultOptions;
+        }
+    
         // Adds an column object to the table iff the column object
         // with the colName does not already exist
         var column = _.find(this._data, function(column){
@@ -143,7 +186,30 @@ function Table(tableName){
             };
             this._data.push(column);
         }
-        this._triggerCallbacks('update');
+        if (!options.silent){
+            this.triggerCallbacks('update');
+        }
+        
+    };
+    
+    /* ## clear()
+     Removes all data from taboo table
+     */
+    this.clear = function(options){
+        var defaultOptions = {
+            silent:false
+        };
+        if (_.isObject(options)){
+            options = _.extend(defaultOptions, options);
+        } else {
+            options = defaultOptions;
+        }
+    
+        this._data = [];
+        
+        if (!options.silent){
+            this.triggerCallbacks('update');
+        }
     };
     
     /* ## getColumnHeaders()
@@ -196,7 +262,6 @@ function Table(tableName){
     this.getRows = function(options){
         options = options || {};
         options['objects'] = true;
-        console.log("options", options);
         if (options.array) {
             return _.chain(this._data)
                 .map(function(column){
@@ -333,13 +398,13 @@ function Table(tableName){
         return printString;
     };
 
-    /* ## joinLeft()
+    /* ## leftJoin()
      @param {String} leftKey The key in this table to be joined on
      @param {Table} rightTable 
      @param {String} rightKey The key in the right table to be joined on
      @return {Table} The new table
      */
-    this.joinLeft = function(leftKey, rightTable, rightKey){
+    this.leftJoin = function(leftKey, rightTable, rightKey){
         var left = this,
             leftHeaders = left.getColumnHeaders(),
             right = rightTable,
@@ -459,10 +524,10 @@ function Table(tableName){
         }
     };
     
-    /* ## _triggerCallbacks
+    /* ## triggerCallbacks
      
      */
-    this._triggerCallbacks = function(eventName, details){
+    this.triggerCallbacks = function(eventName, details){
         var _this = this;
         if (_.isArray(this._callbacks[eventName])){
             this._callbacks[eventName].forEach(function(callback){
