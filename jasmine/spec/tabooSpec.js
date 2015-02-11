@@ -12,11 +12,11 @@ var people = [{name:'jeff', hair_color:'red', interests:'bowling, cycling'},
               {name:'steve', hair_color:'tan', interests:'running, sleeping'},
              ];
 
-describe("Table", function() {
+describe("Taboo", function() {
     var table;
 
     beforeEach(function() {
-        table = new Table();
+        table = new Taboo();
     });
     
     it("should be able to add columns", function(){
@@ -60,16 +60,16 @@ describe("Tables", function(){
     var dogsTable, catsTable;
     
     beforeEach(function(){
-        dogsTable = new Table();
+        dogsTable = new Taboo();
         dogsTable.addColumns(['name'], ['color']);
         dogsTable.addRows(dogs);
-        catsTable = new Table();
+        catsTable = new Taboo();
         catsTable.addColumns(['name'], ['color']);
         catsTable.addRows(cats);
     });
     
     it("should be able to left join", function(){
-        var newTable = dogsTable.joinLeft('color', catsTable, 'color');
+        var newTable = dogsTable.leftJoin('color', catsTable, 'color');
         expect(newTable.getColumnHeaders().length).toEqual(3);
         expect(newTable.getRows().length).toEqual(3);
     });

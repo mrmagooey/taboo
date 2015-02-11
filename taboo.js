@@ -408,7 +408,7 @@ function Taboo(tableName){
         var left = this,
             leftHeaders = left.getColumnHeaders(),
             right = rightTable,
-            joinResult = new Table(),
+            joinResult = new Taboo(),
             keyMatchFound,
             incrementRegex = /(.*-)(\d)/gm;
         left._getRowsAsCellObjects().forEach(function(leftRow, index){
@@ -462,7 +462,7 @@ function Taboo(tableName){
         var left = this,
             leftHeaders = left.getColumnHeaders(),
             right = rightTable,
-            joinResult = new Table(),
+            joinResult = new Taboo(),
             keyMatchFound,
             incrementRegex = /(.*-)(\d)/gm;
         
@@ -507,7 +507,7 @@ function Taboo(tableName){
      */
     this.clone = function(){
         var data = JSON.parse(JSON.stringify(this._data)),
-            t = new Table();
+            t = new Taboo();
         t._data = data;
         return t;
     };
