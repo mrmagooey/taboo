@@ -318,6 +318,47 @@ function Taboo(tableName){
       .value();
   };
   
+  /* ## deleteWhere()
+   @params {whereParams} object containing header name and value pairs
+   @returns the number of rows deleted 
+   */
+  this.deleteWhere = function(whereParams){
+    var options = options || {},
+        _this = this;
+    
+    // remove these from the _data columns
+    return _.chain(this._getRowsAsCellObjects())
+    // get the array indexes where the whereList is satisfied
+          .map(function(row, index){
+            var whereTrue = _.every(
+              _.map(_.pairs(whereParams), function(whereItem){
+                return !(
+                  _.isEmpty(
+                    _.where(row, {header:whereItem[0], data:whereItem[1]})));
+              }));
+            if (whereTrue){
+              return index;
+            } else {
+              return undefined;
+            }
+          })
+          .filter(function(rowIndex){
+            return !_.isUndefined(rowIndex);
+          })
+    // need to be careful removing items 
+    // remove from the end so as to not fuck with the indexes as we go
+          .sort()
+          .reverse()
+          .each(function(deleteIndex){
+            // remove deleteIndex from each column in the table
+            _.each(_this._data, function(column, colIndex){
+              column.data.splice(deleteIndex, 1);
+            });
+          })
+          .reduce(function(acc, n){return acc + 1;}, 0)
+          .value();
+  };
+  
   /* ## columnToObjects()
    Object transformation method, generally for moving a denormalized table
    into a set of related nested objects.
