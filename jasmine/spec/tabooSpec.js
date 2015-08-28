@@ -48,6 +48,12 @@ describe("Taboo", function() {
     expect(table.getColumnHeaders()).toEqual(['name', 'color']);
   });
   
+  it("should be able to getRowsWhere()", function(){
+    table.addRows(dogs);
+    expect(table.getRowsWhere({name:"rex"})).toEqual([{name:'rex', color:'red'}]);
+    expect(table.getRowsWhere({name:"rex"}, {objects:false})).toEqual([['rex', 'red']]);
+  });
+  
   it("should be able to update cells", function(){
     table.addRows(dogs);
     // change the dogs name to woof

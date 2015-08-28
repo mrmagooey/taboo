@@ -287,11 +287,13 @@ function Taboo(tableName){
 
   /* ## getRowsWhere()
    @params {whereParams} list of {"header name":"data"} objects
+   @params {options} object of options
    @returns {Array} All rows in the table satisfying the whereList
    */
-  this.getRowsWhere = function(whereParams, options){
-    var options = options || {};
-    options['objects'] = true;
+  this.getRowsWhere = function(whereParams, opts){
+    var options = opts || {};
+    options['objects'] = _.isUndefined(options['objects']) ? true: options['objects'];
+    
     var wherePairs = _.pairs(whereParams);
     return _.chain(this._getRowsAsCellObjects())
     // filter out rows that don't have all the items in the whereList
@@ -305,11 +307,11 @@ function Taboo(tableName){
         );
       })
       .map(function(row, index){
-        if (options.array){
+        if (!options.objects){
           return _.map(row, function(cell){
             return cell.data;
           });
-        } else if (options.objects){
+        } else {
           return _.reduce(row, function(rowObject, cell){
             var temp = {};
             temp[cell.header] = cell.data;
