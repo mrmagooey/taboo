@@ -50,13 +50,18 @@ describe("Taboo", function() {
   
   it("should be able to update cells", function(){
     table.addRows(dogs);
+    // change the dogs name to woof
     table.updateWhere({'name':'woof'}, [{color:'red'}]);
-    expect(table.getRowsWhere([{name:'woof'}]).length).toEqual(1);
+    expect(table.getRowsWhere({name:'woof'}).length).toEqual(1);
   });
   
   it("should be able to delete rows", function(){
-    table.deleteWhere({'name':'woof'})
-  })
+    table.addRows(dogs);
+    table.deleteWhere({'name':'snuffles', "color": "black"});
+    expect(table.getRowsWhere({name:'snuffles'}).length).toEqual(0);
+    table.deleteWhere({'name':'rex'});
+    expect(table.getRows().length).toEqual(1);
+  });
 
 });
 

@@ -9,6 +9,8 @@
  */
 
 function Taboo(tableName){
+  // where the tables data is stored
+  // stored as an array of column objects
   this._data = [];
 
   // extend underscores zip
@@ -105,9 +107,9 @@ function Taboo(tableName){
   };
   
   /* ## updateWhere()
-   @param {updateHeader} The name of the column that you want to update in.
-   @param {updateValue} The value you want to update it to.
+   @param {update} An object containing a single pair of column name and value
    @param {whereList} A list of [{header, data}] combinations that need to match for the row in order for the update to happen
+   @param {options} 
    */
   this.updateWhere = function(update, whereList, options){
     var defaultOptions = {
@@ -284,21 +286,21 @@ function Taboo(tableName){
   };
 
   /* ## getRowsWhere()
-   @params {whereList} list of {"header name":"data"} objects
+   @params {whereParams} list of {"header name":"data"} objects
    @returns {Array} All rows in the table satisfying the whereList
    */
-  this.getRowsWhere = function(whereList, options){
+  this.getRowsWhere = function(whereParams, options){
     var options = options || {};
     options['objects'] = true;
+    var wherePairs = _.pairs(whereParams);
     return _.chain(this._getRowsAsCellObjects())
     // filter out rows that don't have all the items in the whereList
       .filter(function(row){
         return _.every(
-          _.map(whereList, function(whereItem){
+          _.map(wherePairs, function(whereItem){
             return !(
               _.isEmpty(
-                _.where(row, 
-                        {header:_.keys(whereItem)[0], data:_.values(whereItem)[0]})));
+                _.where(row, {header:whereItem[0], data:whereItem[1]})));
           })
         );
       })
@@ -363,8 +365,8 @@ function Taboo(tableName){
    Object transformation method, generally for moving a denormalized table
    into a set of related nested objects.
    Returns an array of objects like: 
-   `[{name:'original column item', related:
-   {'related column name': ['first related', 'second related']}]`
+   `[{name:'original column item', 
+      related: {'related column name': ['first related', 'second related']}]`
    @returns {Array}
    */
   this.columnToObjects = function(colName){
