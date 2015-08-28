@@ -61,8 +61,9 @@ describe("Taboo", function() {
     expect(table.getRowsWhere({name:'snuffles'}).length).toEqual(0);
     table.deleteWhere({'name':'rex'});
     expect(table.getRows().length).toEqual(1);
+    expect(table.deleteWhere({'name':'brian'})).toEqual(1);
   });
-
+  
 });
 
 describe("Tables", function(){
@@ -90,3 +91,4 @@ describe("Tables", function(){
   });
 
 });
+
