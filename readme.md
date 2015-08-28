@@ -4,7 +4,7 @@ Simple tabular data manipulation in Javascript.
 
 ## Installation
 
-Requires underscore.js to be available.
+Requires lodash.js to be available.
 
 ## Get Started
 
