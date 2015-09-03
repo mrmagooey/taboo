@@ -70,6 +70,12 @@ describe("Taboo", function() {
     expect(table.deleteWhere({'name':'brian'})).toEqual(1);
   });
   
+  it("should be able to insert undefineds", function(){
+    table.addColumns(["col1", "col2"]);
+    table.addRows([[undefined, undefined]]);
+    expect(table.getRows().length).toEqual(1);
+  });
+  
 });
 
 describe("Tables", function(){
@@ -95,6 +101,6 @@ describe("Tables", function(){
     expect(newTable.getRows().length).toEqual(2);
     window.temp = newTable;
   });
-
+  
 });
 

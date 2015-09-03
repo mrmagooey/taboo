@@ -1,2 +1,5 @@
 /bower_components/
 /temp.html
+coverage/
+node_modules
+/taboo.min.js.gz
