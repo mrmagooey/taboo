@@ -403,7 +403,6 @@ function Taboo(tableName){
     return colObjects;   
   };
   
-  
   /* ## print()
    @return {String} pretty printed version of the table
    */
@@ -510,7 +509,6 @@ function Taboo(tableName){
         joinResult = new Taboo(),
         keyMatchFound,
         incrementRegex = /(.*-)(\d)/gm;
-    
     left._getRowsAsCellObjects().forEach(function(leftRow, index){
       keyMatchFound = false;
       var leftKeyValue = _.find(leftRow, function(cell){return cell.header === leftKey;});
@@ -570,7 +568,9 @@ function Taboo(tableName){
   };
   
   /* ## triggerCallbacks
-   
+   Manually call a callback by triggering events
+   @param eventName - the name of the event to be triggered
+   @param details - object containing any details you want to be passed to the callbacks
    */
   this.triggerCallbacks = function(eventName, details){
     var _this = this;
@@ -580,23 +580,6 @@ function Taboo(tableName){
       });
     }
   };
-  
-  /* ## relatedColumn()
-   Return a set of related column objects
-   // TODO wtf is this
-   */
-  this.relatedColumn = function(primaryColumn, secondaryColumn){
-    // 
-    var columnObjects = this.columnToObjects(primaryColumn);
-    return _.map(columnObjects, function(item, index){
-      var related = _.find(item.related, function(v, i){
-        return v.columnName == secondaryColumn;
-      });
-      
-      return {name:item.name, related:related.data};
-    });
-  };
-  
   
   /* ## _clean()
    Ensures the integrity of the underlying table data structure, by: 
