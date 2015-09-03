@@ -12,6 +12,7 @@ var people = [{name:'jeff', hair_color:'red', interests:'bowling, cycling'},
               {name:'steve', hair_color:'tan', interests:'running, sleeping'},
              ];
 
+
 describe("Taboo", function() {
   var table;
   
@@ -67,7 +68,7 @@ describe("Taboo", function() {
     expect(table.getRowsWhere({name:'snuffles'}).length).toEqual(0);
     table.deleteWhere({'name':'rex'});
     expect(table.getRows().length).toEqual(1);
-    expect(table.deleteWhere({'name':'brian'})).toEqual(1);
+    expect(table.deleteRowsWhere({'name':'brian'})).toEqual(1);
   });
   
   it("should be able to insert undefineds", function(){

@@ -293,7 +293,6 @@ function Taboo(tableName){
   this.getRowsWhere = function(whereParams, opts){
     var options = opts || {};
     options['objects'] = _.isUndefined(options['objects']) ? true: options['objects'];
-    
     var wherePairs = _.pairs(whereParams);
     return _.chain(this._getRowsAsCellObjects())
     // filter out rows that don't have all the items in the whereList
@@ -321,12 +320,20 @@ function Taboo(tableName){
       })
       .value();
   };
+
+  /* ## deleteAtIndex()
+   @params {whereParams} object containing header name and value pairs
+   @returns the number of rows deleted 
+   */
+  this.deleteRowAtIndex = function(index){
+    
+  };
   
   /* ## deleteWhere()
    @params {whereParams} object containing header name and value pairs
    @returns the number of rows deleted 
    */
-  this.deleteWhere = function(whereParams){
+  this.deleteRowsWhere = function(whereParams){
     var options = options || {},
         _this = this;
     
@@ -407,7 +414,7 @@ function Taboo(tableName){
    @return {String} pretty printed version of the table
    */
   this.print = function(printColumnSize){
-    var printColumnSize = printColumnSize | 15;
+    var printColumnSize = printColumnSize || 15;
     var printString = '\n';
     var columnLengths = [];
     // early exit conditions
