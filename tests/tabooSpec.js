@@ -96,10 +96,10 @@ describe("Taboo", function() {
     expect(table.getRowsWhere({name:'hi'}).length).toEqual(1);
   });
   
-  it("should not allow duplicate headers", function(){
+  it("should allow duplicate headers", function(){
     table.addColumn('hello');
     table.addColumn('hello');
-
+    expect(table.getColumnHeaders().length).toBe(2);
   });
 
   it('should be able to clone new copies of the table', function(){
