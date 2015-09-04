@@ -40,6 +40,7 @@ function Taboo(tableName){
    `[["foo", "bar", "baz"], ["asdf", "asdf1", "asdf2"]]`
    
    @params {Array} rows Takes an array of either objects or arrays.          
+   @params options object of options
    */    
   this.addRows = function(rows, options){
     var defaultOptions = {
@@ -68,7 +69,7 @@ function Taboo(tableName){
       } else if (_.isObject(row)){
         // add any new columns
         var rowHeaders = _.keys(row);
-        _this._addHeaders(rowHeaders);
+        _this.addColumns(rowHeaders, {silent:true});
         // add data
         _.pairs(row).forEach(function(pair, index){
           _this._addCell(pair[0], pair[1]);
@@ -81,12 +82,7 @@ function Taboo(tableName){
     }
   };
   
-  /* ## addColumns()
-   Add an array of empty columns.
-   Pre-existing column names will be ignored.
-   @param {Array} colNamesArray Array of column names.
-   */
-  this.addColumns = function(colNamesArray, options) {
+  this.addColumn = function(header, options){
     var defaultOptions = {
       silent:false
     };
@@ -95,16 +91,34 @@ function Taboo(tableName){
     } else {
       options = defaultOptions;
     }
-    
-    var _this = this;
-    colNamesArray.forEach(function(name){
-      _this.addColumn(name, options);
-    });
-    
+    this.addColumns(header);
     if (!options.silent){
       this.triggerCallbacks('update');
     }
   };
+  
+  this.addColumns = function(headers, options){
+    var defaultOptions = {
+      silent:false
+    };
+    if (_.isObject(options)){
+      options = _.extend(defaultOptions, options);
+    } else {
+      options = defaultOptions;
+    }
+    var _this = this,
+        currentHeaders = this.getColumnHeaders(),
+        uniqueHeaders = _.unique(headers),
+        newHeaders = _.difference(headers, currentHeaders);
+    newHeaders.forEach(function(header, index){
+      _this._data.push({header: header, data: []});
+    });
+    this._clean();
+    if (!options.silent){
+      this.triggerCallbacks('update');
+    }
+  };
+  
   
   /* ## updateWhere()
    @param {update} An object containing a single pair of column name and value
@@ -157,41 +171,6 @@ function Taboo(tableName){
     if (!options.silent){
       this.triggerCallbacks('update');
     }
-  };
-
-  /* ## addColumn()
-   Add a single empty column with name colName
-   Pre-existing column names will be ignored.
-   @Params {string} colName Column name
-   */
-  this.addColumn = function(colName, options){
-    var defaultOptions = {
-      silent:false
-    };
-    if (_.isObject(options)){
-      options = _.extend(defaultOptions, options);
-    } else {
-      options = defaultOptions;
-    }
-    
-    // Adds an column object to the table iff the column object
-    // with the colName does not already exist
-    var column = _.find(this._data, function(column){
-      return column.header === colName;
-    });
-    // check if this is a new column
-    if (typeof column === 'undefined'){
-      // add if column doesn't exist
-      column = {
-        header: colName,
-        data: [],                           
-      };
-      this._data.push(column);
-    }
-    if (!options.silent){
-      this.triggerCallbacks('update');
-    }
-    
   };
   
   /* ## clear()
@@ -325,17 +304,39 @@ function Taboo(tableName){
    @params {whereParams} object containing header name and value pairs
    @returns the number of rows deleted 
    */
-  this.deleteRowAtIndex = function(index){
+  this.deleteRowAtIndex = function(index, options){
+    var defaultOptions = {
+      silent:false
+    };
+    if (_.isObject(options)){
+      options = _.extend(defaultOptions, options);
+    } else {
+      options = defaultOptions;
+    }
     
+    var _this = this;
+    _.each(_this._data, function(column, colIndex){
+      column.data.splice(index, 1);
+    });
+    if (!options.silent){
+      this.triggerCallbacks('update');
+    }
   };
   
   /* ## deleteWhere()
    @params {whereParams} object containing header name and value pairs
    @returns the number of rows deleted 
    */
-  this.deleteRowsWhere = function(whereParams){
-    var options = options || {},
-        _this = this;
+  this.deleteRowsWhere = function(whereParams, options){
+    var defaultOptions = {
+      silent:false
+    };
+    if (_.isObject(options)){
+      options = _.extend(defaultOptions, options);
+    } else {
+      options = defaultOptions;
+    }
+    var _this = this;
     
     // remove these from the _data columns
     return _.chain(this._getRowsAsCellObjects())
@@ -361,13 +362,15 @@ function Taboo(tableName){
           .sort()
           .reverse()
           .each(function(deleteIndex){
-            // remove deleteIndex from each column in the table
-            _.each(_this._data, function(column, colIndex){
-              column.data.splice(deleteIndex, 1);
-            });
+            _this.deleteRowAtIndex(deleteIndex);
           })
           .reduce(function(acc, n){return acc + 1;}, 0)
           .value();
+    
+    if (!options.silent){
+      this.triggerCallbacks('update');
+    }
+    
   };
   
   /* ## columnToObjects()
@@ -413,7 +416,16 @@ function Taboo(tableName){
   /* ## print()
    @return {String} pretty printed version of the table
    */
-  this.print = function(printColumnSize){
+  this.print = function(printColumnSize, options){
+    var defaultOptions = {
+      
+    };
+    if (_.isObject(options)){
+      options = _.extend(defaultOptions, options);
+    } else {
+      options = defaultOptions;
+    }
+    
     var printColumnSize = printColumnSize || 15;
     var printString = '\n';
     var columnLengths = [];
@@ -503,6 +515,47 @@ function Taboo(tableName){
     return joinResult;
   };
 
+  /* ## _fixInterTableHeaderCollisions()
+   Ensure that for two tables there are no identical column names.
+   Will rename columns on the right table by appending integers to the end of the column names.
+   Third argument is for providing exceptions that won't be renamed.
+   Assumes that there are no name collisions within each table.
+   
+   @param {taboo} leftTable 
+   @param {taboo} rightTable 
+   @param {array} columnName exceptions
+   @return {array} [leftTable, rightTable]
+   */
+  this._fixInterTableHeaderCollisions = function(leftTable, rightTable, exceptions){
+    var incrementRegex = /(.*-)(\d*)/,
+        leftColumnNames = leftTable.getColumnHeaders(),
+        rightColumnNames = rightTable.getColumnHeaders();
+    _.chain(rightColumnNames)
+      .map(function(colName) {
+        if (_.contains(exceptions, colName)) {
+          return colName;
+        }
+        while (leftColumnNames.indexOf(colName) >= 0) {
+          var matches = incrementRegex.exec(colName);
+          // we have already incremented this name by one, do so again
+          if (matches && matches.length === 3){
+            colName = matches[1] + (Number(matches[2]) + 1);
+          } else {
+            // increment the name by one
+            colName = colName + '-1';
+          }
+        }
+        return colName;
+      })
+      .each(function(colName, index){
+        rightTable._data[index].header = colName;
+      });
+    rightTable._clean();
+    leftTable._clean();
+    return [leftTable, rightTable];
+    
+  };
+  
   /* ## innerJoin()
    @param {String} leftKey The key in this table to be joined on
    @param {Table} rightTable 
@@ -512,10 +565,14 @@ function Taboo(tableName){
   this.innerJoin = function(leftKey, rightTable, rightKey){
     var left = this,
         leftHeaders = left.getColumnHeaders(),
-        right = rightTable,
+        right = rightTable.clone(),
         joinResult = new Taboo(),
-        keyMatchFound,
-        incrementRegex = /(.*-)(\d)/gm;
+        keyMatchFound;
+    
+    var tablesArray = this._fixInterTableHeaderCollisions(left, right, [rightKey]);
+    left = tablesArray[0];
+    right = tablesArray[1];
+    
     left._getRowsAsCellObjects().forEach(function(leftRow, index){
       keyMatchFound = false;
       var leftKeyValue = _.find(leftRow, function(cell){return cell.header === leftKey;});
@@ -523,31 +580,16 @@ function Taboo(tableName){
         var rightKeyValue = _.find(rightRow, function(cell){return cell.header === rightKey;});
         // matching left and right keys
         if (_.isEqual(rightKeyValue, leftKeyValue)) {
-          // drop one of the matching key cells, otherwise we will add two cells
-          // with the same header, which the table structure doesn't really support
-          var modifiedRightRow = _.reject(rightRow, function(v){
+          // drop matching cell on the right table
+          var modifiedRightRow = _.reject(rightRow, function(v) {
             return _.isEqual(v, leftKeyValue);
           });
-          // check for similarly named columns and rename if there are collisions
-          modifiedRightRow = _.map(modifiedRightRow, function(v){
-            if (leftHeaders.indexOf(v.header) >= 0){
-              var matches = incrementRegex.exec(v.header);
-              // increment the name by one
-              if (matches && matches.length === 3){
-                v.header = matches[1] + matches[2] + 1;
-              } else {
-                v.header = v.header + '-1';
-              }
-              return v;
-            } else {
-              return v;
-            }
-          });
           // add the concatenated result to the new table
-          joinResult._addRowCellObjects(leftRow.concat(modifiedRightRow));
-          keyMatchFound = true;
+          var newRow = leftRow.concat(modifiedRightRow);
+          joinResult._addRowCellObjects(newRow);
         }
       });
+
     });
     return joinResult;
   };
@@ -562,16 +604,23 @@ function Taboo(tableName){
     return t;
   };
   
+  /* ## callbackEventNames
+   Array of possible callback event names
+   */
+  this.callbackEventNames = ['update'];
+  
   /* ## registerCallback
    @param eventName The name of the event that will trigger the supplied callback
    @param callback A function that will be called with the context of the taboo object
    */
   this.registerCallback = function(eventName, callback){
-    if (_.isArray(this._callbacks[eventName])){
-      this._callbacks[eventName].push(callback);
-    } else {
-      this._callbacks[eventName] = [callback];
-    }
+    if (_.includes(this.callbackEventNames, eventName)) {
+      if (_.isArray(this._callbacks[eventName])){
+        this._callbacks[eventName].push(callback);
+      } else {
+        this._callbacks[eventName] = [callback];
+      }
+    }     
   };
   
   /* ## triggerCallbacks
@@ -594,6 +643,8 @@ function Taboo(tableName){
    padding with undefineds when adding cells to columns.
    */
   this._clean = function() {
+    var _this = this;
+    // 1. square
     var maxColumnLength = _.reduce(this._data, function(memo, value, index){
       var colLength = value['data'].length;
       if (colLength > memo) {
@@ -606,6 +657,27 @@ function Taboo(tableName){
       for (var i = column.data.length; i < maxColumnLength; i++) {
         column.data.push(undefined);
       };
+    });
+    
+    // 2. fix headers
+    // TODO this is overcomplicated
+    var incrementRegex = /(.*-)(\d*)/;
+    _.each(_this.getColumnHeaders(), function(header, headerIndex){
+      var remainingHeaders = _this.getColumnHeaders();
+      remainingHeaders.splice(headerIndex, 1);
+      while(remainingHeaders.indexOf(header) >= 0) {
+        var matches = incrementRegex.exec(header);
+        // we have already incremented this name by one, do so again
+        if (matches && matches.length === 3){
+          // update both the underlying data object
+          // and what we are watching
+          _this._data[headerIndex].header = header = matches[1] + (Number(matches[2]) + 1);
+        } else {
+          // increment the name by one
+          _this._data[headerIndex].header = header = header + '-1';
+        }
+      }
+      
     });
   };
   
@@ -638,23 +710,9 @@ function Taboo(tableName){
   this._addRowCellObjects = function(row){
     var _this = this;
     var headers = _.pluck(row, 'header');
-    this._addHeaders(headers);
+    this.addColumns(headers, {silent:true});
     row.forEach(function(cell){
       _this._addCell(cell['header'], cell['data']);
-    });
-    this._clean();
-  };
-
-  this._addHeaders = function(headers){
-    var _this = this,
-        currentHeaders = this.getColumnHeaders(),
-        uniqueHeaders = _.unique(headers);
-    if (uniqueHeaders.length !== headers.length){
-      throw "Can\'t add a row with duplicate headers";
-    }
-    var newHeaders = _.difference(headers, currentHeaders);
-    newHeaders.forEach(function(header, index){
-      _this._data.push({header: header, data: []});
     });
     this._clean();
   };
@@ -670,5 +728,5 @@ function Taboo(tableName){
     column["data"].push(cellValue);
   };
   
-} // end of Table
+}; // end of Table
 

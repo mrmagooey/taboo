@@ -64,9 +64,9 @@ describe("Taboo", function() {
   
   it("should be able to delete rows", function(){
     table.addRows(dogs);
-    table.deleteWhere({'name':'snuffles', "color": "black"});
+    table.deleteRowsWhere({'name':'snuffles', "color": "black"});
     expect(table.getRowsWhere({name:'snuffles'}).length).toEqual(0);
-    table.deleteWhere({'name':'rex'});
+    table.deleteRowsWhere({'name':'rex'});
     expect(table.getRows().length).toEqual(1);
     expect(table.deleteRowsWhere({'name':'brian'})).toEqual(1);
   });
@@ -77,6 +77,47 @@ describe("Taboo", function() {
     expect(table.getRows().length).toEqual(1);
   });
   
+  it("should be able to delete rows by index", function(){
+    table.addRows(dogs);
+    table.deleteRowAtIndex(1);
+    expect(table.getRowsWhere({'name':'snuffles'})).toEqual([]);
+  });
+  
+  it("table changes should trigger callbacks", function(){
+    // first callback
+    table.registerCallback('update', function(details){
+      table.addRows([['hi']], {silent:true});
+    });
+    //second callback
+    table.registerCallback('update', function(details){
+      table.addRows([['world']], {silent:true});
+    });
+    table.addRows(dogs);
+    expect(table.getRowsWhere({name:'hi'}).length).toEqual(1);
+  });
+  
+  it("should not allow duplicate headers", function(){
+    table.addColumn('hello');
+    table.addColumn('hello');
+
+  });
+
+  it('should be able to clone new copies of the table', function(){
+    table.addRows(dogs);
+    var newTable = table.clone();
+    expect(newTable).not.toBe(table);
+  });
+  
+  it('should be able to clean up bad column headers', function(){
+    table.addColumns(["hello", "hello", "hello"]);
+    expect(table.getColumnHeaders()).toEqual(["hello-1", "hello-2", "hello"]);
+  });
+  
+  it("should be able to print the table", function(){
+    // not a great test
+    expect(typeof table.print()).toBe('string');
+  });
+  
 });
 
 describe("Tables", function(){
@@ -84,10 +125,8 @@ describe("Tables", function(){
   
   beforeEach(function(){
     dogsTable = new Taboo();
-    dogsTable.addColumns(['name'], ['color']);
     dogsTable.addRows(dogs);
     catsTable = new Taboo();
-    catsTable.addColumns(['name'], ['color']);
     catsTable.addRows(cats);
   });
   
@@ -97,10 +136,27 @@ describe("Tables", function(){
     expect(newTable.getRows().length).toEqual(3);
   });
   
+  
   it("should be able to inner join", function(){
     var newTable = dogsTable.innerJoin('color', catsTable, 'color');
     expect(newTable.getRows().length).toEqual(2);
-    window.temp = newTable;
+  });
+  
+  
+  it("innerjoin should be able to deal with matching column names when ", function(){
+    var newTable = dogsTable.innerJoin('color', catsTable, 'color');
+    expect(newTable.getColumnHeaders().length).toBe(3);
+    expect(newTable.getColumnHeaders()).toContain('color');
+    expect(newTable.getColumnHeaders()).toContain('name');
+    expect(newTable.getColumnHeaders()).toContain('name-1');
+    // join on itself
+    newTable = newTable.innerJoin('color', newTable, 'color');
+    expect(newTable.getColumnHeaders().length).toBe(5);
+    expect(newTable.getColumnHeaders()).toContain('color');
+    expect(newTable.getColumnHeaders()).toContain('name');
+    expect(newTable.getColumnHeaders()).toContain('name-1');
+    expect(newTable.getColumnHeaders()).toContain('name-2');
+    expect(newTable.getColumnHeaders()).toContain('name-3');
   });
   
 });
