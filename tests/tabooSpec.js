@@ -35,6 +35,25 @@ describe("Taboo", function() {
     table.addRows(_.values(dogs));
     expect(table.getRows().length).toEqual(3);
   });
+  
+  it("should be able to get rows as either arrays or objects", function(){
+    table.addRows(dogs);
+    expect(_.isObject(table.getRows({objects:true})[0])).toBe(true);
+    expect(_.isArray(table.getRows({objects:false})[0])).toBe(true);
+  });
+  
+  it("should be able to get rows by index", function(){
+    table.addRows(dogs);
+    expect(table.getRowAtIndex(1, {objects:true}))
+      .toEqual([{header:'name', data:'snuffles'}, {header:'color', data:'black'}]);
+    
+    // default options
+    expect(table.getRowAtIndex(1))
+      .toEqual([{header:'name', data:'snuffles'}, {header:'color', data:'black'}]);
+    expect(table.getRowAtIndex(1, {objects:false}))
+      .toEqual(['snuffles', 'black']);
+  });
+  
 
   it("should be able to add new columns", function(){
     table.addRows(dogs);
@@ -58,29 +77,35 @@ describe("Taboo", function() {
   it("should be able to update cells", function(){
     table.addRows(dogs);
     // change the dogs name to woof
-    table.updateWhere({'name':'woof'}, [{color:'red'}]);
+    table.updateWhere({'name':'woof'}, [{color:'red'}], {});
     expect(table.getRowsWhere({name:'woof'}).length).toEqual(1);
+    
+    // nonexistant column to update on
+    table.updateWhere({'laksjdf':'woof'}, [{color:'green'}]);
+    expect(table.getRowsWhere({color:'green'}).length).toEqual(0);
   });
   
   it("should be able to delete rows", function(){
     table.addRows(dogs);
     table.deleteRowsWhere({'name':'snuffles', "color": "black"});
     expect(table.getRowsWhere({name:'snuffles'}).length).toEqual(0);
-    table.deleteRowsWhere({'name':'rex'});
+    table.deleteRowsWhere({'name':'rex'}, {});
     expect(table.getRows().length).toEqual(1);
     expect(table.deleteRowsWhere({'name':'brian'})).toEqual(1);
+    
+  });
+  
+  it("should be able to delete rows by index", function(){
+    table.addRows(dogs);
+    table.deleteRowAtIndex(1, {});
+    table.deleteRowAtIndex(1);
+    expect(table.getRowsWhere({'name':'snuffles'})).toEqual([]);
   });
   
   it("should be able to insert undefineds", function(){
     table.addColumns(["col1", "col2"]);
     table.addRows([[undefined, undefined]]);
     expect(table.getRows().length).toEqual(1);
-  });
-  
-  it("should be able to delete rows by index", function(){
-    table.addRows(dogs);
-    table.deleteRowAtIndex(1);
-    expect(table.getRowsWhere({'name':'snuffles'})).toEqual([]);
   });
   
   it("table changes should trigger callbacks", function(){
@@ -105,7 +130,6 @@ describe("Taboo", function() {
   it("should ignore duplicate headers if option passed", function(){
     table.addColumn('hello', {ignoreDuplicates:true});
     table.addColumn('hello', {ignoreDuplicates:true});
-    console.log(table.print());
     expect(table.getColumnHeaders().length).toBe(1);
   });
 
@@ -128,7 +152,26 @@ describe("Taboo", function() {
     expect(table.print()).toContain("name");
     expect(table.print()).toContain("rex");
     expect(table.print()).toContain("|");
-    
+    table.addRow(["this is a really long piece of text"]);
+    expect(table.print()).toContain("this");
+  });
+  
+  it("should be able to print small column sizes", function(){
+    table.addRows(dogs);
+    expect(table.print({printColumnSize:5})).toContain("sn...");
+  });
+  
+  it("should be able to return a non-table representation of a column", function(){
+    table.addRows(people);
+    expect(table.columnToObjects('name').length).toBe(3);
+  });
+  
+  it("should be able to clear a table of data", function(){
+    table.addRows(people);
+    expect(table.getRows().length).toBe(3);
+    table.clear();
+    expect(table.getRows().length).toBe(0);
+    table.clear({});
   });
   
 });

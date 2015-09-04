@@ -27,6 +27,11 @@ function Taboo(tableName){
   // stores any external callback functions
   this._callbacks = {};
   
+  this.addRow = function(row, options){
+    
+    this.addRows([row], options);
+  };
+  
   /* ## addRows()
    If passed an array of objects, the keys will be treated as the column
    headings and the values treated as the cell values.
@@ -42,12 +47,13 @@ function Taboo(tableName){
    @params {Array} rows Takes an array of either objects or arrays.          
    @params options object of options
    */    
-  this.addRows = function(rows, options){
+  this.addRows = function(rows, userOptions){
     var defaultOptions = {
-      silent:false
-    };
-    if (_.isObject(options)){
-      options = _.extend(defaultOptions, options);
+      printColumnSize: 15
+    }, 
+        options = {};
+    if (_.isObject(userOptions)){
+      _.extend(options, defaultOptions, userOptions);
     } else {
       options = defaultOptions;
     }
@@ -89,18 +95,7 @@ function Taboo(tableName){
    @param {object} - optional object for function behaviour
    */
   this.addColumn = function(header, options){
-    var defaultOptions = {
-      silent:false
-    };
-    if (_.isObject(options)){
-      options = _.extend(defaultOptions, options);
-    } else {
-      options = defaultOptions;
-    }
     this.addColumns([header], options);
-    if (!options.silent){
-      this.triggerCallbacks('update');
-    }
   };
   
   /* addColumns()
@@ -112,13 +107,14 @@ function Taboo(tableName){
    @param {array} headers - an array of column names
    @param {object} options - optional object containing 
    */
-  this.addColumns = function(headers, options){
+  this.addColumns = function(headers, userOptions){
     var defaultOptions = {
       silent:false,
       ignoreDuplicates: false
-    };
-    if (_.isObject(options)){
-      options = _.extend(defaultOptions, options);
+    },
+        options = {};
+    if (_.isObject(userOptions)){
+      _.extend(options, defaultOptions, userOptions);
     } else {
       options = defaultOptions;
     }
@@ -143,15 +139,17 @@ function Taboo(tableName){
    @param {update} An object containing a single pair of column name and value
    @param {whereList} A list of [{header, data}] combinations that need to match for the row in order for the update to happen
    @param {options} 
+   @return the index of the udated
    */
-  this.updateWhere = function(update, whereList, options){
+  this.updateWhere = function(update, whereList, userOptions){
     var defaultOptions = {
       silent:false
-    };
-    if (_.isObject(options)){
-      options = _.extend(defaultOptions, options);
+    },
+        options = {};
+    if (_.isObject(userOptions)){
+      _.extend(options, defaultOptions, userOptions);
     } else {
-      options = defaultOptions;
+       options = defaultOptions;
     }
 
     var _this = this,
@@ -161,7 +159,7 @@ function Taboo(tableName){
           return column.header === updateHeader;
         });
     if (_.isUndefined(column)){
-      return;
+      return undefined;
     }
     _.chain(this._getRowsAsCellObjects())
     // filter out rows that don't have all the items in the whereList
@@ -195,18 +193,17 @@ function Taboo(tableName){
   /* ## clear()
    Removes all data from taboo table
    */
-  this.clear = function(options){
+  this.clear = function(userOptions){
     var defaultOptions = {
       silent:false
-    };
-    if (_.isObject(options)){
-      options = _.extend(defaultOptions, options);
+    },
+        options = {};
+    if (_.isObject(userOptions)){
+      _.extend(options, defaultOptions, userOptions);
     } else {
       options = defaultOptions;
     }
-    
     this._data = [];
-    
     if (!options.silent){
       this.triggerCallbacks('update');
     }
@@ -240,29 +237,50 @@ function Taboo(tableName){
    @param {Integer} index The row index to be returned
    @returns {Array} 
    */
-  this.getRowAtIndex = function(index){
-    // return an array of cell objects at row[index]
-    return _.map(this._data, function(column, i){
+  this.getRowAtIndex = function(index, userOptions){
+    var defaultOptions = {
+      objects:true,
+    }, 
+        options = {};
+    if (_.isObject(userOptions)){
+      _.extend(options, defaultOptions, userOptions);
+    } else {
+      options = defaultOptions;
+    }
+    var cellObjects = _.map(this._data, function(column, i){
       return {header:column['header'], data:column['data'][index]} ;
     });
+    
+    if (options.objects){
+      return cellObjects;
+    } else {
+      return _.pluck(cellObjects, 'data');
+    }
   };
 
   /* ## getRows()
-   
    Options is an object containing key valued options including:
    
    objects: returns the rows as objects (default)
    array: returns the rows as arrays
    
-   @param options 
+   @param  userOptions
    @returns Return an array (rows) of arrays (cell objects)
    rows = [row, row, row]
    row = [{header:'name', data:'abc'}, {...}, {...}]
    */
-  this.getRows = function(options){
-    options = options || {};
-    options['objects'] = true;
-    if (options.array) {
+  this.getRows = function(userOptions){
+    var defaultOptions = {
+      objects:true,
+    }, 
+        options = {};
+    if (_.isObject(userOptions)){
+      _.extend(options, defaultOptions, userOptions);
+    } else {
+      options = defaultOptions;
+    }
+    
+    if (!options.objects) {
       return _.chain(this._data)
         .map(function(column){
           return column.data;
@@ -288,9 +306,16 @@ function Taboo(tableName){
    @params {options} object of options
    @returns {Array} All rows in the table satisfying the whereList
    */
-  this.getRowsWhere = function(whereParams, opts){
-    var options = opts || {};
-    options['objects'] = _.isUndefined(options['objects']) ? true: options['objects'];
+  this.getRowsWhere = function(whereParams, userOptions){
+    var defaultOptions = {
+      objects:true,
+    }, 
+        options = {};
+    if (_.isObject(userOptions)){
+      _.extend(options, defaultOptions, userOptions);
+    } else {
+      options = defaultOptions;
+    }
     var wherePairs = _.pairs(whereParams);
     return _.chain(this._getRowsAsCellObjects())
     // filter out rows that don't have all the items in the whereList
@@ -323,12 +348,13 @@ function Taboo(tableName){
    @params {whereParams} object containing header name and value pairs
    @returns the number of rows deleted 
    */
-  this.deleteRowAtIndex = function(index, options){
+  this.deleteRowAtIndex = function(index, userOptions){
     var defaultOptions = {
       silent:false
-    };
-    if (_.isObject(options)){
-      options = _.extend(defaultOptions, options);
+    },
+        options = {};
+    if (_.isObject(userOptions)){
+      _.extend(options, defaultOptions, userOptions);
     } else {
       options = defaultOptions;
     }
@@ -346,19 +372,20 @@ function Taboo(tableName){
    @params {whereParams} object containing header name and value pairs
    @returns the number of rows deleted 
    */
-  this.deleteRowsWhere = function(whereParams, options){
+  this.deleteRowsWhere = function(whereParams, userOptions){
     var defaultOptions = {
       silent:false
-    };
-    if (_.isObject(options)){
-      options = _.extend(defaultOptions, options);
+    }, 
+        options = {};
+    if (_.isObject(userOptions)){
+      _.extend(options, defaultOptions, userOptions);
     } else {
       options = defaultOptions;
     }
     var _this = this;
     
     // remove these from the _data columns
-    return _.chain(this._getRowsAsCellObjects())
+    var numberDeleted =  _.chain(this._getRowsAsCellObjects())
     // get the array indexes where the whereList is satisfied
           .map(function(row, index){
             var whereTrue = _.every(
@@ -385,11 +412,10 @@ function Taboo(tableName){
           })
           .reduce(function(acc, n){return acc + 1;}, 0)
           .value();
-    
     if (!options.silent){
       this.triggerCallbacks('update');
     }
-    
+    return numberDeleted;
   };
   
   /* ## columnToObjects()
@@ -397,7 +423,8 @@ function Taboo(tableName){
    into a set of related nested objects.
    Returns an array of objects like: 
    `[{name:'original column item', 
-      related: {'related column name': ['first related', 'second related']}]`
+      related: {'first column name': 'data item',
+                'second column name': 'second data item'}]`
    @returns {Array}
    */
   this.columnToObjects = function(colName){
@@ -414,15 +441,15 @@ function Taboo(tableName){
         if (typeof joinCell !== 'undefined'){
           // get the other cells in the row
           var remainingCells = _.reject(row, function(cell){
+
             return cell == joinCell;
           });
           // start putting the related cells into the columnObj object
           remainingCells.forEach(function(rc){
             // get the columnObj related entry
             if (typeof columnObj.related[rc.header] === 'undefined'){
-              columnObj.related[rc.header] = [];
+              columnObj.related[rc.header] = rc.data;
             }
-            columnObj.related[rc.header].push(rc.data);
           });
         } else {
           // continue
@@ -435,17 +462,19 @@ function Taboo(tableName){
   /* ## print()
    @return {String} pretty printed version of the table
    */
-  this.print = function(printColumnSize, options){
+  this.print = function(userOptions){
     var defaultOptions = {
-      
-    };
-    if (_.isObject(options)){
-      options = _.extend(defaultOptions, options);
+      printColumnSize: 15
+    }, 
+        options = {};
+    if (_.isObject(userOptions)){
+      _.extend(options, defaultOptions, userOptions);
     } else {
       options = defaultOptions;
     }
     
-    var printColumnSize = printColumnSize || 15;
+    var printColumnSize = options.printColumnSize;
+    // this is the accumulator for return string
     var printString = '\n';
     var columnLengths = [];
     // early exit conditions
