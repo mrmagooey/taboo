@@ -101,6 +101,13 @@ describe("Taboo", function() {
     table.addColumn('hello');
     expect(table.getColumnHeaders().length).toBe(2);
   });
+  
+  it("should ignore duplicate headers if option passed", function(){
+    table.addColumn('hello', {ignoreDuplicates:true});
+    table.addColumn('hello', {ignoreDuplicates:true});
+    console.log(table.print());
+    expect(table.getColumnHeaders().length).toBe(1);
+  });
 
   it('should be able to clone new copies of the table', function(){
     table.addRows(dogs);

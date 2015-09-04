@@ -97,7 +97,7 @@ function Taboo(tableName){
     } else {
       options = defaultOptions;
     }
-    this.addColumns([header]);
+    this.addColumns([header], options);
     if (!options.silent){
       this.triggerCallbacks('update');
     }
