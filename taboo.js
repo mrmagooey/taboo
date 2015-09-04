@@ -493,6 +493,11 @@ function Taboo(tableName){
         joinResult = new Taboo(),
         keyMatchFound,
         incrementRegex = /(.*-)(\d)/gm;
+    
+    var tablesArray = this._fixInterTableHeaderCollisions(left, right, [rightKey]);
+    left = tablesArray[0];
+    right = tablesArray[1];
+    
     left._getRowsAsCellObjects().forEach(function(leftRow, index){
       keyMatchFound = false;
       var leftKeyValue = _.find(leftRow, function(cell){return cell.header === leftKey;});
@@ -500,25 +505,9 @@ function Taboo(tableName){
         var rightKeyValue = _.find(rightRow, function(cell){return cell.header === rightKey;});
         // matching left and right keys
         if (_.isEqual(rightKeyValue, leftKeyValue)) {
-          // drop one of the matching key cells, otherwise we will add two cells
-          // with the same header, which the table structure doesn't really support
+          // drop one of the matching key cells
           var modifiedRightRow = _.reject(rightRow, function(v){
             return _.isEqual(v, leftKeyValue);
-          });
-          // check for similarly named columns and rename if there are collisions
-          modifiedRightRow = _.map(modifiedRightRow, function(v){
-            if (leftHeaders.indexOf(v.header) >= 0){
-              var matches = incrementRegex.exec(v.header);
-              // increment the name by one
-              if (matches && matches.length === 3){
-                v.header = matches[1] + matches[2] + 1;
-              } else {
-                v.header = v.header + '-1';
-              }
-              return v;
-            } else {
-              return v;
-            }
           });
           // add the concatenated result to the new table
           joinResult._addRowCellObjects(leftRow.concat(modifiedRightRow));
@@ -679,12 +668,12 @@ function Taboo(tableName){
     });
     
     // 2. fix headers
-    // TODO this is overcomplicated
     var incrementRegex = /(.*-)(\d*)/;
     _.each(_this.getColumnHeaders(), function(header, headerIndex){
       var remainingHeaders = _this.getColumnHeaders();
       remainingHeaders.splice(headerIndex, 1);
       while(remainingHeaders.indexOf(header) >= 0) {
+        
         var matches = incrementRegex.exec(header);
         // we have already incremented this name by one, do so again
         if (matches && matches.length === 3){
@@ -696,8 +685,8 @@ function Taboo(tableName){
           _this._data[headerIndex].header = header = header + '-1';
         }
       }
-      
     });
+
   };
   
   /* ## _getRowsAsCellObjects()
