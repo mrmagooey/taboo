@@ -69,7 +69,7 @@ function Taboo(tableName){
       } else if (_.isObject(row)){
         // add any new columns
         var rowHeaders = _.keys(row);
-        _this.addColumns(rowHeaders, {silent:true});
+        _this.addColumns(rowHeaders, {silent:true, ignoreDuplicates: true});
         // add data
         _.pairs(row).forEach(function(pair, index){
           _this._addCell(pair[0], pair[1]);
@@ -82,6 +82,12 @@ function Taboo(tableName){
     }
   };
   
+  /* addColumn()
+   Singular of addColumns
+   
+   @param {string} - single header name 
+   @param {object} - optional object for function behaviour
+   */
   this.addColumn = function(header, options){
     var defaultOptions = {
       silent:false
@@ -91,15 +97,25 @@ function Taboo(tableName){
     } else {
       options = defaultOptions;
     }
-    this.addColumns(header);
+    this.addColumns([header]);
     if (!options.silent){
       this.triggerCallbacks('update');
     }
   };
   
+  /* addColumns()
+   Add columns to the table with the `headers`
+   
+   By default duplicate headers are added, but given an incrementing number to distinguish them
+   If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned off.
+   
+   @param {array} headers - an array of column names
+   @param {object} options - optional object containing 
+   */
   this.addColumns = function(headers, options){
     var defaultOptions = {
-      silent:false
+      silent:false,
+      ignoreDuplicates: false
     };
     if (_.isObject(options)){
       options = _.extend(defaultOptions, options);
@@ -107,9 +123,12 @@ function Taboo(tableName){
       options = defaultOptions;
     }
     var _this = this,
-        currentHeaders = this.getColumnHeaders(),
-        uniqueHeaders = _.unique(headers),
-        newHeaders = _.difference(headers, currentHeaders);
+        newHeaders;
+    if (options.ignoreDuplicates) {
+      newHeaders = _.difference(headers, this.getColumnHeaders());
+    } else {
+      newHeaders = headers;
+    }
     newHeaders.forEach(function(header, index){
       _this._data.push({header: header, data: []});
     });
@@ -710,7 +729,7 @@ function Taboo(tableName){
   this._addRowCellObjects = function(row){
     var _this = this;
     var headers = _.pluck(row, 'header');
-    this.addColumns(headers, {silent:true});
+    this.addColumns(headers, {silent:true, ignoreDuplicates: true});
     row.forEach(function(cell){
       _this._addCell(cell['header'], cell['data']);
     });
