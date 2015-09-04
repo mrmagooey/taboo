@@ -20,7 +20,8 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
-      'karma.conf.js'
+      'karma.conf.js',
+      '*.min.js'
     ],
 
     // preprocess matching files before serving them to the browser
@@ -33,7 +34,11 @@ module.exports = function(config) {
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['progress', 'coverage'],
-
+    
+    coverageReporter: {
+      type : 'text',
+    },
+    
     // web server port
     port: 9876,
 
