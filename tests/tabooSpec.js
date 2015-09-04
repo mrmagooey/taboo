@@ -116,6 +116,12 @@ describe("Taboo", function() {
   it("should be able to print the table", function(){
     // not a great test
     expect(typeof table.print()).toBe('string');
+    expect(table.print().length).toBe(0);
+    table.addRows(dogs);
+    expect(table.print()).toContain("name");
+    expect(table.print()).toContain("rex");
+    expect(table.print()).toContain("|");
+    
   });
   
 });
