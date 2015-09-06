@@ -1,5 +1,8 @@
 # Taboo
 
+<a href='https://coveralls.io/github/mrmagooey/taboo?branch=master'><img src='https://coveralls.io/repos/mrmagooey/taboo/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
+<img src="https://travis-ci.org/mrmagooey/taboo.svg?branch=master"/>
+
 Simple tabular data manipulation in Javascript.
 
 ## Installation
