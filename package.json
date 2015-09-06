@@ -16,10 +16,14 @@
         "karma-phantomjs-launcher": "~0.2.1",
         "phantomjs": "~1.9.18",
         "karma-coverage": "~0.5.1",
-        "uglify-js": "~2.4.24"
+        "uglify-js": "~2.4.24",
+        "istanbul": "~0.3.19",
+        "coveralls": "~2.11.4",
+        "jasmine-node": "~1.14.5"
     },
     "scripts": {
         "test": "node_modules/karma/bin/karma start karma.conf.js",
+        "test-on-travis": "istanbul cover jasmine-node --captureExceptions tests/ && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
         "watch": "node_modules/karma/bin/karma start karma.conf.js --singleRun=false",
         "build": "node_modules/uglify-js/bin/uglifyjs taboo.js -o taboo.min.js --screw-ie8",
         "build-compress": "node_modules/uglify-js/bin/uglifyjs taboo.js --screw-ie8 | gzip > taboo.min.js"

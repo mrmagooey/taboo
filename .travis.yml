@@ -3,4 +3,11 @@ node_js:
   - "stable"
 before_script:
   - npm install -g bower
+  - npm install -g istanbul
   - bower install
+script: 
+  - npm run-script test
+  - npm run-script test-on-travis
+env:
+  global:
+    - TRAVIS=true
