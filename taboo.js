@@ -149,7 +149,7 @@ function Taboo(tableName){
     if (_.isObject(userOptions)){
       _.extend(options, defaultOptions, userOptions);
     } else {
-       options = defaultOptions;
+      options = defaultOptions;
     }
 
     var _this = this,
@@ -586,7 +586,8 @@ function Taboo(tableName){
       })
       .each(function(colName, index){
         rightTable._data[index].header = colName;
-      });
+      })
+      .value();
     rightTable._clean();
     leftTable._clean();
     return [leftTable, rightTable];

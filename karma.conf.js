@@ -15,7 +15,7 @@ module.exports = function(config) {
     files: [
       './*.js',
       'tests/*.js',
-      'bower_components/underscore/underscore-min.js'
+      'bower_components/lodash/lodash.js'
     ],
 
     // list of files to exclude
