@@ -19,7 +19,8 @@
         "uglify-js": "~2.4.24"
     },
     "scripts": {
-        "test": "echo \"Use Ctrl-C to kill, otherwise will continously run and watch for changes\n\" && node_modules/karma/bin/karma start karma.conf.js",
+        "test": "node_modules/karma/bin/karma start karma.conf.js",
+        "watch": "node_modules/karma/bin/karma start karma.conf.js --singleRun=false",
         "build": "node_modules/uglify-js/bin/uglifyjs taboo.js -o taboo.min.js --screw-ie8",
         "build-compress": "node_modules/uglify-js/bin/uglifyjs taboo.js --screw-ie8 | gzip > taboo.min.js"
     },
