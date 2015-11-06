@@ -27,8 +27,13 @@ function Taboo(tableName){
   // stores any external callback functions
   this._callbacks = {};
   
+  /* ## addRow()
+   Convenience function wrapping addRows()
+   
+   @params {Object/Array} row - A singular row
+   @params {Object} options - An object containing options
+   */
   this.addRow = function(row, options){
-    
     this.addRows([row], options);
   };
   
