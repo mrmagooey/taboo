@@ -777,5 +777,9 @@ function Taboo(tableName){
     column["data"].push(cellValue);
   };
   
-}; // end of Table
+}; // end of Taboo
 
+if (typeof window === 'undefined'){
+  var _ = require('lodash');
+  module.exports = Taboo;
+}
