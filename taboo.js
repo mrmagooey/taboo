@@ -492,14 +492,20 @@ function Taboo(tableName){
       _.each(row, function(cell, cellIndex){
         var cellStr = String(cell.data),
             cellRepr;
+        if (typeof cellStr === "undefined"){
+          cellStr = 'undefined';
+        }
         // truncate cell.data if longer than cell.header
         if (cellStr.length > columnLengths[cellIndex]){
-          cellRepr = cellStr.slice(0, columnLengths[cellIndex] -3);
+          cellRepr = cellStr.slice(0, columnLengths[cellIndex] - 3);
           cellRepr = cellRepr + "...";
           // otherwise pad it with spaces
         } else if (cellStr.length < columnLengths[cellIndex]){
           var padding = new Array(columnLengths[cellIndex] - (cellStr.length - 1)).join(' ');
           cellRepr = cellStr + padding;
+          // or neither if we are the exact right size
+        } else {
+          cellRepr = cellStr;
         }
         printString += cellRepr + " | ";
       });
