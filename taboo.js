@@ -472,7 +472,6 @@ function Taboo(tableName){
     } else {
       options = defaultOptions;
     }
-    
     var printColumnSize = options.printColumnSize;
     // this is the accumulator for return string
     var printString = '\n';
@@ -482,9 +481,10 @@ function Taboo(tableName){
       return "";
     }
     this._data.forEach(function(column){
-      columnLengths.push(Math.max(column.header.length, printColumnSize));
-      printString += column.header 
-        + new Array(Math.max(column.header.length, printColumnSize) - (column.header.length - 1)).join(' ')
+      var header = String(column.header);
+      columnLengths.push(Math.max(header.length, printColumnSize));
+      printString += header 
+        + new Array(Math.max(header.length, printColumnSize) - (header.length - 1)).join(' ')
         + ' | ';
     });
     printString += '\n';
