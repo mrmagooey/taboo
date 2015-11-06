@@ -7,7 +7,9 @@
         "doc": "doc",
         "test": "tests"
     },
-    "dependencies": {},
+    "dependencies": {
+        "lodash":"~3.10.1"
+    },
     "devDependencies": {
         "jasmine-core": "~2.3.4",
         "karma": "~0.13.9",
