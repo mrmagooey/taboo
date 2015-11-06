@@ -43,21 +43,21 @@ Get the rows containing brown animals
     > table1.getRowsWhere({'color':'brown'}, {objects:false})
 
     [
-    [
-    "duck",
-    "quack",
-    "brown"
-    ],
-    [
-    "horse",
-    "neigh",
-    "brown"
-    ],
-    [
-    "dog",
-    "woof",
-    "brown"
-    ]
+     [
+      "duck",
+      "quack",
+      "brown"
+     ],
+     [
+      "horse",
+      "neigh",
+      "brown"
+     ],
+     [
+      "dog",
+      "woof",
+      "brown"
+     ]
     ] 
     
 Make a second table, using arrays rather than objects
