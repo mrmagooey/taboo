@@ -138,11 +138,10 @@ function Taboo(){
     }
   };
   
-  
   /* ## updateWhere()
-   @param {update} An object containing a single pair of column name and value
-   @param {whereList} A list of [{header, data}] combinations that need to match for the row in order for the update to happen
-   @param {options} 
+   @param {Object} update An object containing a single pair of column name and value
+   @param {Array} whereList A list of [{header, data}] combinations that need to match for the row in order for the update to happen
+   @param {Object} options Options object
    @return the index of the udated
    */
   this.updateWhere = function(update, whereList, userOptions){
@@ -196,6 +195,7 @@ function Taboo(){
   
   /* ## clear()
    Removes all data from taboo table
+   @params {Object} options 
    */
   this.clear = function(userOptions){
     var defaultOptions = {
@@ -215,7 +215,7 @@ function Taboo(){
   
   /* ## getColumnHeaders()
    @returns {Array} All column names
-   */    
+   */
   this.getColumnHeaders = function(){
     return _.map(this._data, function(column){
       return column.header;
@@ -224,7 +224,7 @@ function Taboo(){
   
   /* ## getColumn()
    @param {String} colName The name of the column to be returned
-   @Return {array} all cells within the column
+   @Return {Array} all cells within the column
    */
   this.getColumn = function(colName){
     // 
@@ -274,7 +274,7 @@ function Taboo(){
    objects: returns the rows as objects (default)
    array: returns the rows as arrays
    
-   @param  userOptions
+   @param {Object} userOptions
    @returns Return an array (rows) of arrays (cell objects)
    rows = [row, row, row]
    row = [{header:'name', data:'abc'}, {...}, {...}]
@@ -312,8 +312,8 @@ function Taboo(){
   };
 
   /* ## getRowsWhere()
-   @params {whereParams} list of {"header name":"data"} objects
-   @params {options} object of options
+   @params {Array} whereParams list of {"header name":"data"} objects
+   @params {Object} options object of options
    @returns {Array} All rows in the table satisfying the whereList
    */
   this.getRowsWhere = function(whereParams, userOptions){
@@ -355,8 +355,7 @@ function Taboo(){
   };
 
   /* ## deleteAtIndex()
-   @params {whereParams} object containing header name and value pairs
-   @returns the number of rows deleted 
+   @params {Object} whereParams Object containing header name and value pairs
    */
   this.deleteRowAtIndex = function(index, userOptions){
     var defaultOptions = {
@@ -379,8 +378,8 @@ function Taboo(){
   };
   
   /* ## deleteWhere()
-   @params {whereParams} object containing header name and value pairs
-   @returns the number of rows deleted 
+   @params {Object} whereParams Object containing header name and value pairs
+   @returns {Integer} The number of rows deleted 
    */
   this.deleteRowsWhere = function(whereParams, userOptions){
     var defaultOptions = {
@@ -435,6 +434,7 @@ function Taboo(){
    `[{name:'original column item', 
       related: {'first column name': 'data item',
                 'second column name': 'second data item'}]`
+   @param {String} colName - Name of column to provide related items around
    @returns {Array}
    */
   this.columnToObjects = function(colName){
@@ -470,9 +470,7 @@ function Taboo(){
   };
   
   /* ## numberOfRows()
-   Get the number of rows
-   returns -1 if no rows
-   
+   @return {Integer} Get the number of rows, returns -1 if no rows
    */
   this.numberOfRows = function(){
     if (this._data.length === 0){
@@ -481,8 +479,8 @@ function Taboo(){
     return this._data[0]['data'].length;
   };
   
-  
   /* ## print()
+   Note this doesn't call console.log(), it just returns a string.
    @return {String} pretty printed version of the table
    */
   this.print = function(userOptions){
@@ -540,9 +538,9 @@ function Taboo(){
 
   /* ## leftJoin()
    @param {String} leftKey The key in this table to be joined on
-   @param {Table} rightTable 
+   @param {Taboo} rightTable 
    @param {String} rightKey The key in the right table to be joined on
-   @return {Table} The new table
+   @return {Taboo} The new table
    */
   this.leftJoin = function(leftKey, rightTable, rightKey){
     var left = this,
@@ -584,9 +582,9 @@ function Taboo(){
   
   /* ## innerJoin()
    @param {String} leftKey The key in this table to be joined on
-   @param {Table} rightTable 
+   @param {Taboo} rightTable 
    @param {String} rightKey The key in the right table to be joined on
-   @return {Table} New joined table
+   @return {Taboo} New joined table
    */
   this.innerJoin = function(leftKey, rightTable, rightKey){
     var left = this,
@@ -621,7 +619,7 @@ function Taboo(){
   };
 
   /* ## clone()
-   @return a clone of this table
+   @return {Taboo} A clone of this table
    */
   this.clone = function(){
     var data = JSON.parse(JSON.stringify(this._data)),
