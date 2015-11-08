@@ -27,6 +27,7 @@
         "test": "node_modules/karma/bin/karma start karma.conf.js",
         "test-on-travis": "node_modules/karma/bin/karma start karma.conf.js --coverageReporter.type=lcov --coverageReporter.dir=coverage type=html && cat coverage/*/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
         "watch": "node_modules/karma/bin/karma start karma.conf.js --singleRun=false",
+        "test-performance":"node test-performance.js",
         "build": "node_modules/uglify-js/bin/uglifyjs taboo.js -o taboo.min.js --screw-ie8",
         "build-compress": "node_modules/uglify-js/bin/uglifyjs taboo.js --screw-ie8 | gzip > taboo.min.js"
     },
