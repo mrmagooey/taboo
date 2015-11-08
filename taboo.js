@@ -252,6 +252,12 @@ function Taboo(tableName){
     } else {
       options = defaultOptions;
     }
+    
+    // check if index out of range
+    if (index > this._data[0]['data'].length){
+      throw "getRowAtIndex(): Index out of range";
+    }
+    
     var cellObjects = _.map(this._data, function(column, i){
       return {header:column['header'], data:column['data'][index]} ;
     });
