@@ -238,7 +238,7 @@ function Taboo(tableName){
     return col;
   };
   
-  /* ## getRow()
+  /* ## getRowAtIndex()
    @param {Integer} index The row index to be returned
    @returns {Array} 
    */
@@ -582,47 +582,6 @@ function Taboo(tableName){
     return joinResult;
   };
 
-  /* ## _fixInterTableHeaderCollisions()
-   Ensure that for two tables there are no identical column names.
-   Will rename columns on the right table by appending integers to the end of the column names.
-   Third argument is for providing exceptions that won't be renamed.
-   Assumes that there are no name collisions within each table.
-   
-   @param {taboo} leftTable 
-   @param {taboo} rightTable 
-   @param {array} columnName exceptions
-   @return {array} [leftTable, rightTable]
-   */
-  this._fixInterTableHeaderCollisions = function(leftTable, rightTable, exceptions){
-    var incrementRegex = /(.*-)(\d*)/,
-        leftColumnNames = leftTable.getColumnHeaders(),
-        rightColumnNames = rightTable.getColumnHeaders();
-    _.chain(rightColumnNames)
-      .map(function(colName) {
-        if (_.contains(exceptions, colName)) {
-          return colName;
-        }
-        while (leftColumnNames.indexOf(colName) >= 0) {
-          var matches = incrementRegex.exec(colName);
-          // we have already incremented this name by one, do so again
-          if (matches && matches.length === 3){
-            colName = matches[1] + (Number(matches[2]) + 1);
-          } else {
-            // increment the name by one
-            colName = colName + '-1';
-          }
-        }
-        return colName;
-      })
-      .each(function(colName, index){
-        rightTable._data[index].header = colName;
-      })
-      .value();
-    rightTable._clean();
-    leftTable._clean();
-    return [leftTable, rightTable];
-    
-  };
   
   /* ## innerJoin()
    @param {String} leftKey The key in this table to be joined on
@@ -677,7 +636,7 @@ function Taboo(tableName){
    */
   this.callbackEventNames = ['update'];
   
-  /* ## registerCallback
+  /* ## registerCallback()
    @param eventName The name of the event that will trigger the supplied callback
    @param callback A function that will be called with the context of the taboo object
    */
@@ -691,7 +650,7 @@ function Taboo(tableName){
     }     
   };
   
-  /* ## triggerCallbacks
+  /* ## triggerCallbacks()
    Manually call a callback by triggering events
    @param eventName - the name of the event to be triggered
    @param details - object containing any details you want to be passed to the callbacks
@@ -794,6 +753,48 @@ function Taboo(tableName){
       return column.header === colName;
     });
     column["data"].push(cellValue);
+  };
+  
+  /* ## _fixInterTableHeaderCollisions()
+   Ensure that for two tables there are no identical column names.
+   Will rename columns on the right table by appending integers to the end of the column names.
+   Third argument is for providing exceptions that won't be renamed.
+   Assumes that there are no name collisions within each table.
+   
+   @param {taboo} leftTable 
+   @param {taboo} rightTable 
+   @param {array} columnName exceptions
+   @return {array} [leftTable, rightTable]
+   */
+  this._fixInterTableHeaderCollisions = function(leftTable, rightTable, exceptions){
+    var incrementRegex = /(.*-)(\d*)/,
+        leftColumnNames = leftTable.getColumnHeaders(),
+        rightColumnNames = rightTable.getColumnHeaders();
+    _.chain(rightColumnNames)
+      .map(function(colName) {
+        if (_.contains(exceptions, colName)) {
+          return colName;
+        }
+        while (leftColumnNames.indexOf(colName) >= 0) {
+          var matches = incrementRegex.exec(colName);
+          // we have already incremented this name by one, do so again
+          if (matches && matches.length === 3){
+            colName = matches[1] + (Number(matches[2]) + 1);
+          } else {
+            // increment the name by one
+            colName = colName + '-1';
+          }
+        }
+        return colName;
+      })
+      .each(function(colName, index){
+        rightTable._data[index].header = colName;
+      })
+      .value();
+    rightTable._clean();
+    leftTable._clean();
+    return [leftTable, rightTable];
+    
   };
   
 }; // end of Taboo

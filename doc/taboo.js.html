@@ -22,6 +22,9 @@
         <a href="#table%20constructor">Table Constructor</a>
       </div>
       <div class="heading h2">
+        <a href="#addrow()">addRow()</a>
+      </div>
+      <div class="heading h2">
         <a href="#addrows()">addRows()</a>
       </div>
       <div class="heading h2">
@@ -55,13 +58,13 @@
         <a href="#columntoobjects()">columnToObjects()</a>
       </div>
       <div class="heading h2">
+        <a href="#numberofrows()">numberOfRows()</a>
+      </div>
+      <div class="heading h2">
         <a href="#print()">print()</a>
       </div>
       <div class="heading h2">
         <a href="#leftjoin()">leftJoin()</a>
-      </div>
-      <div class="heading h2">
-        <a href="#_fixintertableheadercollisions()">_fixInterTableHeaderCollisions()</a>
       </div>
       <div class="heading h2">
         <a href="#innerjoin()">innerJoin()</a>
@@ -89,6 +92,9 @@
       </div>
       <div class="heading h2">
         <a href="#_addcell()">_addCell()</a>
+      </div>
+      <div class="heading h2">
+        <a href="#_fixintertableheadercollisions()">_fixInterTableHeaderCollisions()</a>
       </div>
     </div>
   </div>
@@ -169,8 +175,42 @@
   <span class="c1">// stores any external callback functions</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">_callbacks</span> <span class="o">=</span> <span class="p">{};</span>
   
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="addrow()">
+  <h2>
+    <a href="#addrow()" name="addrow()" class="pilcrow">&#182;</a>
+    addRow()
+  </h2>
+</div>
+
+
+<p>Convenience function wrapping addRows()</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_type">Object</span>
+      <span class="dox_type">Array</span>
+      <span>row - A singular row</span>
+    </div>
+    <div class="dox_tag_title">params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_type">Object</span>
+      <span>options - An object containing options</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
   <span class="k">this</span><span class="p">.</span><span class="nx">addRow</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="nx">options</span><span class="p">){</span>
-    
     <span class="k">this</span><span class="p">.</span><span class="nx">addRows</span><span class="p">([</span><span class="nx">row</span><span class="p">],</span> <span class="nx">options</span><span class="p">);</span>
   <span class="p">};</span>
   
@@ -262,7 +302,7 @@ with items beyond the current number of columns being discarded.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
 </div>
 <div class="dox">
   <div class="summary"><p>addColumn()
@@ -297,7 +337,7 @@ Singular of addColumns</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
 </div>
 <div class="dox">
   <div class="summary"><p>addColumns()
@@ -605,6 +645,12 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
       <span class="nx">options</span> <span class="o">=</span> <span class="nx">defaultOptions</span><span class="p">;</span>
     <span class="p">}</span>
+    
+    <span class="c1">// check if index out of range</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">].</span><span class="nx">length</span><span class="p">){</span>
+      <span class="k">throw</span> <span class="s2">&quot;getRowAtIndex(): Index out of range&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    
     <span class="kd">var</span> <span class="nx">cellObjects</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">column</span><span class="p">,</span> <span class="nx">i</span><span class="p">){</span>
       <span class="k">return</span> <span class="p">{</span><span class="nx">header</span><span class="o">:</span><span class="nx">column</span><span class="p">[</span><span class="s1">&#39;header&#39;</span><span class="p">],</span> <span class="nx">data</span><span class="o">:</span><span class="nx">column</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="nx">index</span><span class="p">]}</span> <span class="p">;</span>
     <span class="p">});</span>
@@ -966,6 +1012,37 @@ related: {'first column name': 'data item',
       <tr>
         <td class="docs"><div class="dox">
   <div class="summary">
+<div class="pilwrap" id="numberofrows()">
+  <h2>
+    <a href="#numberofrows()" name="numberofrows()" class="pilcrow">&#182;</a>
+    numberOfRows()
+  </h2>
+</div>
+
+
+<p>Get the number of rows
+returns -1 if no rows</p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="k">this</span><span class="p">.</span><span class="nx">numberOfRows</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">){</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">].</span><span class="nx">length</span><span class="p">;</span>
+  <span class="p">};</span>
+  
+  
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
 <div class="pilwrap" id="print()">
   <h2>
     <a href="#print()" name="print()" class="pilcrow">&#182;</a>
@@ -997,7 +1074,6 @@ related: {'first column name': 'data item',
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
       <span class="nx">options</span> <span class="o">=</span> <span class="nx">defaultOptions</span><span class="p">;</span>
     <span class="p">}</span>
-    
     <span class="kd">var</span> <span class="nx">printColumnSize</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">printColumnSize</span><span class="p">;</span>
     <span class="c1">// this is the accumulator for return string</span>
     <span class="kd">var</span> <span class="nx">printString</span> <span class="o">=</span> <span class="s1">&#39;\n&#39;</span><span class="p">;</span>
@@ -1007,9 +1083,10 @@ related: {'first column name': 'data item',
       <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">column</span><span class="p">){</span>
-      <span class="nx">columnLengths</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">column</span><span class="p">.</span><span class="nx">header</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="nx">printColumnSize</span><span class="p">));</span>
-      <span class="nx">printString</span> <span class="o">+=</span> <span class="nx">column</span><span class="p">.</span><span class="nx">header</span> 
-        <span class="o">+</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">column</span><span class="p">.</span><span class="nx">header</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="nx">printColumnSize</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nx">column</span><span class="p">.</span><span class="nx">header</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+      <span class="kd">var</span> <span class="nx">header</span> <span class="o">=</span> <span class="nb">String</span><span class="p">(</span><span class="nx">column</span><span class="p">.</span><span class="nx">header</span><span class="p">);</span>
+      <span class="nx">columnLengths</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">header</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="nx">printColumnSize</span><span class="p">));</span>
+      <span class="nx">printString</span> <span class="o">+=</span> <span class="nx">header</span> 
+        <span class="o">+</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">header</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="nx">printColumnSize</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nx">header</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
         <span class="o">+</span> <span class="s1">&#39; | &#39;</span><span class="p">;</span>
     <span class="p">});</span>
     <span class="nx">printString</span> <span class="o">+=</span> <span class="s1">&#39;\n&#39;</span><span class="p">;</span>
@@ -1017,14 +1094,20 @@ related: {'first column name': 'data item',
       <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">,</span> <span class="nx">cellIndex</span><span class="p">){</span>
         <span class="kd">var</span> <span class="nx">cellStr</span> <span class="o">=</span> <span class="nb">String</span><span class="p">(</span><span class="nx">cell</span><span class="p">.</span><span class="nx">data</span><span class="p">),</span>
             <span class="nx">cellRepr</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">cellStr</span> <span class="o">===</span> <span class="s2">&quot;undefined&quot;</span><span class="p">){</span>
+          <span class="nx">cellStr</span> <span class="o">=</span> <span class="s1">&#39;undefined&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
         <span class="c1">// truncate cell.data if longer than cell.header</span>
         <span class="k">if</span> <span class="p">(</span><span class="nx">cellStr</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]){</span>
-          <span class="nx">cellRepr</span> <span class="o">=</span> <span class="nx">cellStr</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]</span> <span class="o">-</span><span class="mi">3</span><span class="p">);</span>
+          <span class="nx">cellRepr</span> <span class="o">=</span> <span class="nx">cellStr</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span><span class="p">);</span>
           <span class="nx">cellRepr</span> <span class="o">=</span> <span class="nx">cellRepr</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span><span class="p">;</span>
           <span class="c1">// otherwise pad it with spaces</span>
         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">cellStr</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]){</span>
           <span class="kd">var</span> <span class="nx">padding</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="nx">cellStr</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
           <span class="nx">cellRepr</span> <span class="o">=</span> <span class="nx">cellStr</span> <span class="o">+</span> <span class="nx">padding</span><span class="p">;</span>
+          <span class="c1">// or neither if we are the exact right size</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">cellRepr</span> <span class="o">=</span> <span class="nx">cellStr</span><span class="p">;</span>
         <span class="p">}</span>
         <span class="nx">printString</span> <span class="o">+=</span> <span class="nx">cellRepr</span> <span class="o">+</span> <span class="s2">&quot; | &quot;</span><span class="p">;</span>
       <span class="p">});</span>
@@ -1114,83 +1197,6 @@ related: {'first column name': 'data item',
     <span class="k">return</span> <span class="nx">joinResult</span><span class="p">;</span>
   <span class="p">};</span>
 
-
-</pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs"><div class="dox">
-  <div class="summary">
-<div class="pilwrap" id="_fixintertableheadercollisions()">
-  <h2>
-    <a href="#_fixintertableheadercollisions()" name="_fixintertableheadercollisions()" class="pilcrow">&#182;</a>
-    _fixInterTableHeaderCollisions()
-  </h2>
-</div>
-
-
-<p>Ensure that for two tables there are no identical column names.
-Will rename columns on the right table by appending integers to the end of the column names.
-Third argument is for providing exceptions that won't be renamed.
-Assumes that there are no name collisions within each table.</p>
-  </div>
-  <div class="body">
-  </div>
-  <div class="details">
-    <div class="dox_tag_title">Params</div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name">leftTable</span>
-      <span class="dox_type">taboo</span>
-    </div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name">rightTable</span>
-      <span class="dox_type">taboo</span>
-    </div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name">columnName</span>
-      <span class="dox_type">array</span>
-      <span>exceptions</span>
-    </div>
-    <div class="dox_tag_title">Returns</div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name"></span>
-      <span class="dox_type">array</span>
-      <span>[leftTable, rightTable]</span>
-    </div>
-  </div>
-</div>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>
-  <span class="k">this</span><span class="p">.</span><span class="nx">_fixInterTableHeaderCollisions</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">leftTable</span><span class="p">,</span> <span class="nx">rightTable</span><span class="p">,</span> <span class="nx">exceptions</span><span class="p">){</span>
-    <span class="kd">var</span> <span class="nx">incrementRegex</span> <span class="o">=</span> <span class="sr">/(.*-)(\d*)/</span><span class="p">,</span>
-        <span class="nx">leftColumnNames</span> <span class="o">=</span> <span class="nx">leftTable</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">(),</span>
-        <span class="nx">rightColumnNames</span> <span class="o">=</span> <span class="nx">rightTable</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">();</span>
-    <span class="nx">_</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">rightColumnNames</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">colName</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">exceptions</span><span class="p">,</span> <span class="nx">colName</span><span class="p">))</span> <span class="p">{</span>
-          <span class="k">return</span> <span class="nx">colName</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="k">while</span> <span class="p">(</span><span class="nx">leftColumnNames</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">colName</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-          <span class="kd">var</span> <span class="nx">matches</span> <span class="o">=</span> <span class="nx">incrementRegex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">colName</span><span class="p">);</span>
-          <span class="c1">// we have already incremented this name by one, do so again</span>
-          <span class="k">if</span> <span class="p">(</span><span class="nx">matches</span> <span class="o">&amp;&amp;</span> <span class="nx">matches</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">3</span><span class="p">){</span>
-            <span class="nx">colName</span> <span class="o">=</span> <span class="nx">matches</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">matches</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="c1">// increment the name by one</span>
-            <span class="nx">colName</span> <span class="o">=</span> <span class="nx">colName</span> <span class="o">+</span> <span class="s1">&#39;-1&#39;</span><span class="p">;</span>
-          <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="nx">colName</span><span class="p">;</span>
-      <span class="p">})</span>
-      <span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">colName</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
-        <span class="nx">rightTable</span><span class="p">.</span><span class="nx">_data</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">header</span> <span class="o">=</span> <span class="nx">colName</span><span class="p">;</span>
-      <span class="p">})</span>
-      <span class="p">.</span><span class="nx">value</span><span class="p">();</span>
-    <span class="nx">rightTable</span><span class="p">.</span><span class="nx">_clean</span><span class="p">();</span>
-    <span class="nx">leftTable</span><span class="p">.</span><span class="nx">_clean</span><span class="p">();</span>
-    <span class="k">return</span> <span class="p">[</span><span class="nx">leftTable</span><span class="p">,</span> <span class="nx">rightTable</span><span class="p">];</span>
-    
-  <span class="p">};</span>
   
 
 </pre></div>
@@ -1591,10 +1597,89 @@ as by itself it leaves the table in an inconsistent state.</p>
     <span class="nx">column</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">cellValue</span><span class="p">);</span>
   <span class="p">};</span>
   
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="_fixintertableheadercollisions()">
+  <h2>
+    <a href="#_fixintertableheadercollisions()" name="_fixintertableheadercollisions()" class="pilcrow">&#182;</a>
+    _fixInterTableHeaderCollisions()
+  </h2>
+</div>
+
+
+<p>Ensure that for two tables there are no identical column names.
+Will rename columns on the right table by appending integers to the end of the column names.
+Third argument is for providing exceptions that won't be renamed.
+Assumes that there are no name collisions within each table.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">leftTable</span>
+      <span class="dox_type">taboo</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">rightTable</span>
+      <span class="dox_type">taboo</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">columnName</span>
+      <span class="dox_type">array</span>
+      <span>exceptions</span>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span class="dox_type">array</span>
+      <span>[leftTable, rightTable]</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="k">this</span><span class="p">.</span><span class="nx">_fixInterTableHeaderCollisions</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">leftTable</span><span class="p">,</span> <span class="nx">rightTable</span><span class="p">,</span> <span class="nx">exceptions</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">incrementRegex</span> <span class="o">=</span> <span class="sr">/(.*-)(\d*)/</span><span class="p">,</span>
+        <span class="nx">leftColumnNames</span> <span class="o">=</span> <span class="nx">leftTable</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">(),</span>
+        <span class="nx">rightColumnNames</span> <span class="o">=</span> <span class="nx">rightTable</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">();</span>
+    <span class="nx">_</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">rightColumnNames</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">colName</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">exceptions</span><span class="p">,</span> <span class="nx">colName</span><span class="p">))</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nx">colName</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nx">leftColumnNames</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">colName</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">matches</span> <span class="o">=</span> <span class="nx">incrementRegex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">colName</span><span class="p">);</span>
+          <span class="c1">// we have already incremented this name by one, do so again</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">matches</span> <span class="o">&amp;&amp;</span> <span class="nx">matches</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">3</span><span class="p">){</span>
+            <span class="nx">colName</span> <span class="o">=</span> <span class="nx">matches</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="nb">Number</span><span class="p">(</span><span class="nx">matches</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// increment the name by one</span>
+            <span class="nx">colName</span> <span class="o">=</span> <span class="nx">colName</span> <span class="o">+</span> <span class="s1">&#39;-1&#39;</span><span class="p">;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">colName</span><span class="p">;</span>
+      <span class="p">})</span>
+      <span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">colName</span><span class="p">,</span> <span class="nx">index</span><span class="p">){</span>
+        <span class="nx">rightTable</span><span class="p">.</span><span class="nx">_data</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">header</span> <span class="o">=</span> <span class="nx">colName</span><span class="p">;</span>
+      <span class="p">})</span>
+      <span class="p">.</span><span class="nx">value</span><span class="p">();</span>
+    <span class="nx">rightTable</span><span class="p">.</span><span class="nx">_clean</span><span class="p">();</span>
+    <span class="nx">leftTable</span><span class="p">.</span><span class="nx">_clean</span><span class="p">();</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nx">leftTable</span><span class="p">,</span> <span class="nx">rightTable</span><span class="p">];</span>
+    
+  <span class="p">};</span>
+  
 <span class="p">};</span> <span class="c1">// end of Taboo</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nb">window</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">){</span>
-  <span class="nx">exports</span><span class="p">.</span><span class="nx">Taboo</span> <span class="o">=</span> <span class="nx">Taboo</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;lodash&#39;</span><span class="p">);</span>
+  <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Taboo</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
         </td>
