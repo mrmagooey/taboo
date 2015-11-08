@@ -2,3 +2,4 @@
 coverage/
 node_modules
 /taboo.min.js.gz
+temp-docs/
