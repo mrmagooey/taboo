@@ -470,6 +470,19 @@ function Taboo(tableName){
     return colObjects;   
   };
   
+  /* ## numberOfRows()
+   Get the number of rows
+   returns -1 if no rows
+   
+   */
+  this.numberOfRows = function(){
+    if (this._data.length === 0){
+      return -1;
+    }
+    return this._data[0]['data'].length;
+  };
+  
+  
   /* ## print()
    @return {String} pretty printed version of the table
    */
