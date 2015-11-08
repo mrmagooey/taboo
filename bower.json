@@ -5,7 +5,7 @@
   "homepage": "https://github.com/mrmagooey/taboo",
   "description": "tabular data",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "ignore": [
     "**/.*",
     "node_modules",
