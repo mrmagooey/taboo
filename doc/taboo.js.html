@@ -19,7 +19,7 @@
     <div id="tree"></div>
     <div id="headings">
       <div class="heading h2">
-        <a href="#table%20constructor">Table Constructor</a>
+        <a href="#taboo%20constructor">Taboo Constructor</a>
       </div>
       <div class="heading h2">
         <a href="#addrow()">addRow()</a>
@@ -40,7 +40,7 @@
         <a href="#getcolumn()">getColumn()</a>
       </div>
       <div class="heading h2">
-        <a href="#getrow()">getRow()</a>
+        <a href="#getrowatindex()">getRowAtIndex()</a>
       </div>
       <div class="heading h2">
         <a href="#getrows()">getRows()</a>
@@ -76,10 +76,10 @@
         <a href="#callbackeventnames">callbackEventNames</a>
       </div>
       <div class="heading h2">
-        <a href="#registercallback">registerCallback</a>
+        <a href="#registercallback()">registerCallback()</a>
       </div>
       <div class="heading h2">
-        <a href="#triggercallbacks">triggerCallbacks</a>
+        <a href="#triggercallbacks()">triggerCallbacks()</a>
       </div>
       <div class="heading h2">
         <a href="#_clean()">_clean()</a>
@@ -132,31 +132,23 @@
       <tr>
         <td class="docs"><div class="dox">
   <div class="summary">
-<div class="pilwrap" id="table%20constructor">
+<div class="pilwrap" id="taboo%20constructor">
   <h2>
-    <a href="#table%20constructor" name="table%20constructor" class="pilcrow">&#182;</a>
-    Table Constructor
+    <a href="#taboo%20constructor" name="taboo%20constructor" class="pilcrow">&#182;</a>
+    Taboo Constructor
   </h2>
 </div>
 
 
-<p>Creates a new Table object</p>
+<p>Creates a new Taboo table</p>
   </div>
   <div class="body">
-  </div>
-  <div class="details">
-    <div class="dox_tag_title">Params</div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name">tableName</span>
-      <span class="dox_type">String</span>
-      <span>The name of this table</span>
-    </div>
   </div>
 </div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
 
-<span class="kd">function</span> <span class="nx">Taboo</span><span class="p">(</span><span class="nx">tableName</span><span class="p">){</span>
+<span class="kd">function</span> <span class="nx">Taboo</span><span class="p">(){</span>
   <span class="c1">// where the tables data is stored</span>
   <span class="c1">// stored as an array of column objects</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">_data</span> <span class="o">=</span> <span class="p">[];</span>
@@ -170,7 +162,7 @@
 
   <span class="c1">// ## this.metadata</span>
   <span class="c1">// For putting any user metadata into</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="nx">tableName</span><span class="o">:</span><span class="nx">tableName</span><span class="p">};</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">metadata</span> <span class="o">=</span> <span class="p">{};</span>
   
   <span class="c1">// stores any external callback functions</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">_callbacks</span> <span class="o">=</span> <span class="p">{};</span>
@@ -608,10 +600,10 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
       <tr>
         <td class="docs"><div class="dox">
   <div class="summary">
-<div class="pilwrap" id="getrow()">
+<div class="pilwrap" id="getrowatindex()">
   <h2>
-    <a href="#getrow()" name="getrow()" class="pilcrow">&#182;</a>
-    getRow()
+    <a href="#getrowatindex()" name="getrowatindex()" class="pilcrow">&#182;</a>
+    getRowAtIndex()
   </h2>
 </div>
 
@@ -1338,10 +1330,10 @@ returns -1 if no rows</p>
       <tr>
         <td class="docs"><div class="dox">
   <div class="summary">
-<div class="pilwrap" id="registercallback">
+<div class="pilwrap" id="registercallback()">
   <h2>
-    <a href="#registercallback" name="registercallback" class="pilcrow">&#182;</a>
-    registerCallback
+    <a href="#registercallback()" name="registercallback()" class="pilcrow">&#182;</a>
+    registerCallback()
   </h2>
 </div>
 
@@ -1379,10 +1371,10 @@ returns -1 if no rows</p>
       <tr>
         <td class="docs"><div class="dox">
   <div class="summary">
-<div class="pilwrap" id="triggercallbacks">
+<div class="pilwrap" id="triggercallbacks()">
   <h2>
-    <a href="#triggercallbacks" name="triggercallbacks" class="pilcrow">&#182;</a>
-    triggerCallbacks
+    <a href="#triggercallbacks()" name="triggercallbacks()" class="pilcrow">&#182;</a>
+    triggerCallbacks()
   </h2>
 </div>
 

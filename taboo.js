@@ -3,12 +3,11 @@
  */
 
 /*
- ## Table Constructor
- Creates a new Table object
- @param {String} tableName The name of this table
+ ## Taboo Constructor
+ Creates a new Taboo table
  */
 
-function Taboo(tableName){
+function Taboo(){
   // where the tables data is stored
   // stored as an array of column objects
   this._data = [];
@@ -22,7 +21,7 @@ function Taboo(tableName){
 
   // ## this.metadata
   // For putting any user metadata into
-  this.metadata = {tableName:tableName};
+  this.metadata = {};
   
   // stores any external callback functions
   this._callbacks = {};
