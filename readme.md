@@ -5,6 +5,10 @@
 
 Simple tabular data manipulation in Javascript.
 
+Gzipped it comes in at less than 3kb.
+
+Docs at http://mrmagooey.github.io/taboo/
+
 ## Installation
 
 Bower:
@@ -15,7 +19,13 @@ NPM:
 
     npm install taboo
 
-Requires lodash.js to be available.
+## Dependencies
+
+Lodash.js
+
+## Performance
+
+It's probably two orders of magnitude slower than a real database, but this seems to be fine for tables with less than a 1000 rows. If this is a problem, consider using [sql.js] (https://github.com/kripken/sql.js) if you need better performance or features.
 
 ## Get Started
 
