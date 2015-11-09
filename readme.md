@@ -7,6 +7,14 @@ Simple tabular data manipulation in Javascript.
 
 ## Installation
 
+Bower:
+
+    bower install taboo
+    
+NPM:
+
+    npm install taboo
+
 Requires lodash.js to be available.
 
 ## Get Started

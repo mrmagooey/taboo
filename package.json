@@ -1,6 +1,6 @@
 {
     "name": "taboo",
-    "version": "0.1.0",
+    "version": "0.1.2",
     "description": "tabular data",
     "main": "taboo.js",
     "directories": {
