@@ -254,7 +254,8 @@ function Taboo(){
     
     // check if index out of range
     if (index > this._data[0]['data'].length){
-      throw "getRowAtIndex(): Index out of range";
+      console.error("getRowAtIndex(): Index out of range");
+      return [];
     }
     
     var cellObjects = _.map(this._data, function(column, i){
