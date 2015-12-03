@@ -543,6 +543,12 @@ function Taboo(){
   };
 
   /* ## leftJoin()
+   Treats the method parent as the left table.
+   Returns a new taboo instance for the join result.
+   If the left key does not exist in the table, a blank taboo instance will be returned.
+   If the right key does not exist in the table, a clone of the left taboo table will 
+   be returned.
+   
    @param {String} leftKey The key in this table to be joined on
    @param {Taboo} rightTable 
    @param {String} rightKey The key in the right table to be joined on
@@ -551,10 +557,18 @@ function Taboo(){
   this.leftJoin = function(leftKey, rightTable, rightKey){
     var left = this,
         leftHeaders = left.getColumnHeaders(),
+        rightHeaders = rightTable.getColumnHeaders(),
         right = rightTable,
         joinResult = new Taboo(),
         keyMatchFound,
         incrementRegex = /(.*-)(\d)/gm;
+    
+    if (!_.contains(leftHeaders, leftKey)){
+      return joinResult;
+    }
+    if (!_.contains(rightHeaders, rightKey)){
+      return this.clone();
+    }
     
     var tablesArray = this._fixInterTableHeaderCollisions(left, right, [rightKey]);
     left = tablesArray[0];
@@ -566,10 +580,10 @@ function Taboo(){
       right._getRowsAsCellObjects().forEach(function(rightRow, index, array){
         var rightKeyValue = _.find(rightRow, function(cell){return cell.header === rightKey;});
         // matching left and right keys
-        if (_.isEqual(rightKeyValue, leftKeyValue)) {
+        if (_.isEqual(rightKeyValue.data, leftKeyValue.data)) {
           // drop one of the matching key cells
           var modifiedRightRow = _.reject(rightRow, function(v){
-            return _.isEqual(v, leftKeyValue);
+            return _.isEqual(v.data, leftKeyValue.data);
           });
           // add the concatenated result to the new table
           joinResult._addRowCellObjects(leftRow.concat(modifiedRightRow));
@@ -587,6 +601,9 @@ function Taboo(){
 
   
   /* ## innerJoin()
+   
+   If either key column is not present then a blank taboo is returned.
+   
    @param {String} leftKey The key in this table to be joined on
    @param {Taboo} rightTable 
    @param {String} rightKey The key in the right table to be joined on
@@ -595,9 +612,15 @@ function Taboo(){
   this.innerJoin = function(leftKey, rightTable, rightKey){
     var left = this,
         leftHeaders = left.getColumnHeaders(),
+        rightHeaders = rightTable.getColumnHeaders(),
         right = rightTable.clone(),
         joinResult = new Taboo(),
         keyMatchFound;
+    
+    // keys are not in tables, early return
+    if (!_.contains(leftHeaders, leftKey) || !_.contains(rightHeaders, rightKey)) {
+      return joinResult;
+    }
     
     var tablesArray = this._fixInterTableHeaderCollisions(left, right, [rightKey]);
     left = tablesArray[0];
@@ -608,11 +631,11 @@ function Taboo(){
       var leftKeyValue = _.find(leftRow, function(cell){return cell.header === leftKey;});
       right._getRowsAsCellObjects().forEach(function(rightRow, index, array){
         var rightKeyValue = _.find(rightRow, function(cell){return cell.header === rightKey;});
-        // matching left and right keys
-        if (_.isEqual(rightKeyValue, leftKeyValue)) {
+        // matching left and right key data
+        if (_.isEqual(rightKeyValue.data, leftKeyValue.data)) {
           // drop matching cell on the right table
           var modifiedRightRow = _.reject(rightRow, function(v) {
-            return _.isEqual(v, leftKeyValue);
+            return _.isEqual(v.data, leftKeyValue.data);
           });
           // add the concatenated result to the new table
           var newRow = leftRow.concat(modifiedRightRow);
