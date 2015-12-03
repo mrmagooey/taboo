@@ -270,10 +270,10 @@ function Taboo(){
   };
 
   /* ## getRows()
-   Options is an object containing key valued options including:
+   Returns all the rows of the table as either an array of arrays,
+   or array of objects, depending on the what is passed in the options.
    
-   objects: returns the rows as objects (default)
-   array: returns the rows as arrays
+   Options: objects {True} - returns the rows as objects, false returns as array
    
    @param {Object} userOptions
    @returns Return an array (rows) of arrays (cell objects)
