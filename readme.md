@@ -25,9 +25,7 @@ NPM:
 
     npm install taboo
 
-Manually:
-
-    Requires Lodash.js to be available.
+Requires Lodash.js to be available.
 
 ## Get Started
 
@@ -85,6 +83,7 @@ Get the rows containing brown animals
 Make a second table, using arrays rather than objects
 
     > var table2 = new Taboo();
+    // need to tell it what the columns are before adding arrays
     > table2.addColumns(['animal', 'in animal farm?']);
     > table2.addRows([
     ['cow', true], 
