@@ -802,6 +802,7 @@ function Taboo(){
   
 }; // end of Taboo
 
+/* istanbul ignore if  */
 if (typeof window === 'undefined'){
   var _ = require('lodash');
   module.exports = Taboo;
