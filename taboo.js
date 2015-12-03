@@ -522,9 +522,6 @@ function Taboo(){
       _.each(row, function(cell, cellIndex){
         var cellStr = String(cell.data),
             cellRepr;
-        if (typeof cellStr === "undefined"){
-          cellStr = 'undefined';
-        }
         // truncate cell.data if longer than cell.header
         if (cellStr.length > columnLengths[cellIndex]){
           cellRepr = cellStr.slice(0, columnLengths[cellIndex] - 3);
