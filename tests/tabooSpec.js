@@ -27,18 +27,22 @@ describe("Taboo", function() {
   
   it("should be able to add row objects", function(){
     table.addRows(dogs);
-    expect(table.getRows().length).toEqual(3);
+    expect(table.numberOfRows()).toEqual(3);
   });
   
   it("should be able to add rows arrays ", function(){
     table.addColumns(['name'], ['color']);
     table.addRows(_.values(dogs));
-    expect(table.getRows().length).toEqual(3);
+    expect(table.numberOfRows()).toEqual(3);
   });
   
   it("should be able to get rows as either arrays or objects", function(){
     table.addRows(dogs);
+    // default (object)
+    expect(_.isObject(table.getRows()[0])).toBe(true);
+    // explicitly object
     expect(_.isObject(table.getRows({objects:true})[0])).toBe(true);
+    // explicilty array
     expect(_.isArray(table.getRows({objects:false})[0])).toBe(true);
   });
   
@@ -52,15 +56,17 @@ describe("Taboo", function() {
       .toEqual([{header:'name', data:'snuffles'}, {header:'color', data:'black'}]);
     expect(table.getRowAtIndex(1, {objects:false}))
       .toEqual(['snuffles', 'black']);
+    // out of range
+    expect(table.getRowAtIndex(1000)).toEqual([]);
   });
   
 
   it("should be able to add new columns", function(){
     table.addRows(dogs);
-    expect(table.getRows().length).toEqual(3);
+    expect(table.numberOfRows()).toEqual(3);
     table.addRows([{newColumnName:'blah'}]);
     expect(table.getColumnHeaders().length).toEqual(3);
-    expect(table.getRows().length).toEqual(4);
+    expect(table.numberOfRows()).toEqual(4);
   });
   
   it("should be able to get columnHeaders", function(){
@@ -90,7 +96,7 @@ describe("Taboo", function() {
     table.deleteRowsWhere({'name':'snuffles', "color": "black"});
     expect(table.getRowsWhere({name:'snuffles'}).length).toEqual(0);
     table.deleteRowsWhere({'name':'rex'}, {});
-    expect(table.getRows().length).toEqual(1);
+    expect(table.numberOfRows()).toEqual(1);
     expect(table.deleteRowsWhere({'name':'brian'})).toEqual(1);
     
   });
@@ -105,7 +111,7 @@ describe("Taboo", function() {
   it("should be able to insert undefineds", function(){
     table.addColumns(["col1", "col2"]);
     table.addRows([[undefined, undefined]]);
-    expect(table.getRows().length).toEqual(1);
+    expect(table.numberOfRows()).toEqual(1);
   });
   
   it("table changes should trigger callbacks", function(){
@@ -152,8 +158,11 @@ describe("Taboo", function() {
     expect(table.print()).toContain("name");
     expect(table.print()).toContain("rex");
     expect(table.print()).toContain("|");
-    table.addRow(["this is a really long piece of text"]);
+    table.addRow(["this is a really long piece of text, wow"]);
     expect(table.print()).toContain("this");
+    // undefined is turned into a string
+    table.addRow([undefined, undefined]);
+    expect(table.print()).toContain('undefined');
   });
   
   it("should be able to print small column sizes", function(){
@@ -168,9 +177,9 @@ describe("Taboo", function() {
   
   it("should be able to clear a table of data", function(){
     table.addRows(people);
-    expect(table.getRows().length).toBe(3);
+    expect(table.numberOfRows()).toBe(3);
     table.clear();
-    expect(table.getRows().length).toBe(0);
+    expect(table.numberOfRows()).toBe(0);
     table.clear({});
   });
   
@@ -187,15 +196,23 @@ describe("Tables", function(){
   });
   
   it("should be able to left join", function(){
+    // same column name
     var newTable = dogsTable.leftJoin('color', catsTable, 'color');
     expect(newTable.getColumnHeaders().length).toEqual(3);
-    expect(newTable.getRows().length).toEqual(3);
+    expect(newTable.numberOfRows()).toEqual(3);
+    // different column name
+    dogsTable = new Taboo();
+    dogsTable.addColumns(['something', 'coloring']);
+    dogsTable.addRows(_.map(dogs, function(obj){return [obj.name, obj.color];}));
+    newTable = dogsTable.leftJoin('coloring', catsTable, 'color');
+    expect(newTable.numberOfRows()).toEqual(3);
+    expect(newTable.numberOfColumns()).toEqual(3);
   });
   
   
   it("should be able to inner join", function(){
     var newTable = dogsTable.innerJoin('color', catsTable, 'color');
-    expect(newTable.getRows().length).toEqual(2);
+    expect(newTable.numberOfRows()).toEqual(2);
   });
   
   
@@ -213,6 +230,71 @@ describe("Tables", function(){
     expect(newTable.getColumnHeaders()).toContain('name-1');
     expect(newTable.getColumnHeaders()).toContain('name-2');
     expect(newTable.getColumnHeaders()).toContain('name-3');
+  });
+
+  it('left join can deal with no matching column names', function(){
+    var table1 = new Taboo(),
+        table2 = new Taboo(),
+        leftTable;
+    
+    table1.addColumn('a');
+    table1.addColumn('b');
+    table1.addRows([['hello', 'world'],['slipped', 'dropped']]);
+    table2.addColumn('c');
+    table2.addColumn('d');
+    table2.addRows([['in', 'syl'],['those', 'voices']]);
+    
+    // only the left key is valid
+    leftTable = table1.leftJoin('a', table2, 'nope');
+    expect(leftTable.numberOfRows()).toBe(2);
+    expect(leftTable.numberOfRows()).toBe(2);
+    
+    // only the right key is valid
+    leftTable = table1.leftJoin('nope', table2, 'c');
+    expect(leftTable.numberOfRows()).toBe(0);
+    expect(leftTable.numberOfRows()).toBe(0);
+    
+    // neither key is valid
+    leftTable = table1.leftJoin('nope', table2, 'nope');
+    expect(leftTable.numberOfRows()).toBe(0);
+    expect(leftTable.numberOfRows()).toBe(0);
+    
+    // both keys are valid (sanity test)
+    leftTable = table1.leftJoin('a', table2, 'c');
+    expect(leftTable.numberOfRows()).toBe(2);
+    
+  });
+  
+  it('inner join can deal with no matching column names', function(){
+    var table1 = new Taboo(),
+        table2 = new Taboo(),
+        innerTable;
+    
+    table1.addColumn('a');
+    table1.addColumn('b');
+    table1.addRows([['hello', 'world'],['slipped', 'dropped']]);
+    table2.addColumn('c');
+    table2.addColumn('d');
+    table2.addRows([['hello', 'world'],['those', 'voices']]);
+    
+    // only the left key is valid
+    innerTable = table1.innerJoin('a', table2, 'nope');
+    expect(innerTable.numberOfRows()).toBe(0);
+    expect(innerTable.numberOfRows()).toBe(0);
+    
+    // only the right key is valid
+    innerTable = table1.innerJoin('nope', table2, 'c');
+    expect(innerTable.numberOfRows()).toBe(0);
+    expect(innerTable.numberOfRows()).toBe(0);
+    
+    // neither key is valid
+    innerTable = table1.innerJoin('nope', table2, 'nope');
+    expect(innerTable.numberOfRows()).toBe(0);
+    expect(innerTable.numberOfRows()).toBe(0);
+    
+    // both keys are valid (sanity test)
+    innerTable = table1.innerJoin('a', table2, 'c');
+    expect(innerTable.numberOfRows()).toBe(1);
   });
   
 });
