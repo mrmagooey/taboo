@@ -482,9 +482,10 @@ function Taboo(){
    */
   this.numberOfRows = function(){
     if (this._data.length === 0){
-      return -1;
+      return 0;
+    } else {
+      return this._data[0]['data'].length;
     }
-    return this._data[0]['data'].length;
   };
   
   /* ## print()
