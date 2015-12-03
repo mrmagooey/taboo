@@ -470,6 +470,13 @@ function Taboo(){
     return colObjects;   
   };
   
+  /* ## numberOfColumns()
+   @return {Integer} Get the number of rows, returns -1 if no rows
+   */
+  this.numberOfColumns = function(){
+    return this._data.length;
+  };
+  
   /* ## numberOfRows()
    @return {Integer} Get the number of rows, returns -1 if no rows
    */
