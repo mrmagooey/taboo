@@ -3,7 +3,13 @@
 <a href='https://coveralls.io/github/mrmagooey/taboo?branch=master'><img src='https://coveralls.io/repos/mrmagooey/taboo/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
 <img src="https://travis-ci.org/mrmagooey/taboo.svg?branch=master"/>
 
-Simple tabular data manipulation in Javascript.
+Simple tabular data manipulation in Javascript, providing:
+
+ - Column insert and delete
+ - Row insert and delete
+ - Update and delete rows `where` constraints satisfied
+ - Left and inner join
+ - Pretty print
 
 Gzipped it comes in at less than 3kb.
 
@@ -19,13 +25,9 @@ NPM:
 
     npm install taboo
 
-## Dependencies
+Manually:
 
-Lodash.js
-
-## Performance
-
-It's probably two orders of magnitude slower than a real database, but this seems to be fine for tables with less than a 1000 rows. If this is a problem, consider using [sql.js] (https://github.com/kripken/sql.js) if you need better performance or features.
+    Requires Lodash.js to be available.
 
 ## Get Started
 
@@ -42,6 +44,7 @@ Put some stuff in said table
     {animal:"horse", sound:"neigh", color:"brown"},
     {animal:"dog", sound:"woof", color:"brown"},
     ]); 
+    
 Pretty print the table
 
     > table1.print()
@@ -51,6 +54,7 @@ Pretty print the table
     duck            | quack           | brown           | 
     horse           | neigh           | brown           | 
     dog             | woof            | brown           | 
+    
 Get a list of all animals
 
     > table1.getColumn('animal')
@@ -106,3 +110,8 @@ Join the two tables
     duck            | quack           | undefined       | 
     horse           | neigh           | undefined       | 
     dog             | woof            | false           | 
+
+## Performance
+
+It's probably two orders of magnitude slower than a real database, but this seems to be fine for tables with less than a 1000 rows. If this is a problem, consider using [sql.js] (https://github.com/kripken/sql.js) if you need better performance or features.
+
