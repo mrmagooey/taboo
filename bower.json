@@ -1,7 +1,7 @@
 {
   "name": "taboo",
   "main": "taboo.js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "homepage": "https://github.com/mrmagooey/taboo",
   "description": "tabular data",
   "license": "MIT",
