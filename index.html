@@ -58,6 +58,9 @@
         <a href="#columntoobjects()">columnToObjects()</a>
       </div>
       <div class="heading h2">
+        <a href="#numberofcolumns()">numberOfColumns()</a>
+      </div>
+      <div class="heading h2">
         <a href="#numberofrows()">numberOfRows()</a>
       </div>
       <div class="heading h2">
@@ -647,7 +650,8 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
     
     <span class="c1">// check if index out of range</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">].</span><span class="nx">length</span><span class="p">){</span>
-      <span class="k">throw</span> <span class="s2">&quot;getRowAtIndex(): Index out of range&quot;</span><span class="p">;</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&quot;getRowAtIndex(): Index out of range&quot;</span><span class="p">);</span>
+      <span class="k">return</span> <span class="p">[];</span>
     <span class="p">}</span>
     
     <span class="kd">var</span> <span class="nx">cellObjects</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">column</span><span class="p">,</span> <span class="nx">i</span><span class="p">){</span>
@@ -676,10 +680,10 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
 </div>
 
 
-<p>Options is an object containing key valued options including:</p>
+<p>Returns all the rows of the table as either an array of arrays,
+or array of objects, depending on the what is passed in the options.</p>
   </div>
-  <div class="body"><p>objects: returns the rows as objects (default)
-array: returns the rows as arrays</p>
+  <div class="body"><p>Options: objects {True} - returns the rows as objects, false returns as array</p>
   </div>
   <div class="details">
     <div class="dox_tag_title">Params</div>
@@ -1015,6 +1019,38 @@ related: {'first column name': 'data item',
       <tr>
         <td class="docs"><div class="dox">
   <div class="summary">
+<div class="pilwrap" id="numberofcolumns()">
+  <h2>
+    <a href="#numberofcolumns()" name="numberofcolumns()" class="pilcrow">&#182;</a>
+    numberOfColumns()
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span class="dox_type">Integer</span>
+      <span>Get the number of rows, returns -1 if no rows</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="k">this</span><span class="p">.</span><span class="nx">numberOfColumns</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+  <span class="p">};</span>
+  
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
 <div class="pilwrap" id="numberofrows()">
   <h2>
     <a href="#numberofrows()" name="numberofrows()" class="pilcrow">&#182;</a>
@@ -1038,9 +1074,10 @@ related: {'first column name': 'data item',
         <td class="code highlight"><div class="highlight"><pre>
   <span class="k">this</span><span class="p">.</span><span class="nx">numberOfRows</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
     <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">){</span>
-      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+      <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">].</span><span class="nx">length</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">].</span><span class="nx">length</span><span class="p">;</span>
   <span class="p">};</span>
   
 
@@ -1103,9 +1140,6 @@ related: {'first column name': 'data item',
       <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">,</span> <span class="nx">cellIndex</span><span class="p">){</span>
         <span class="kd">var</span> <span class="nx">cellStr</span> <span class="o">=</span> <span class="nb">String</span><span class="p">(</span><span class="nx">cell</span><span class="p">.</span><span class="nx">data</span><span class="p">),</span>
             <span class="nx">cellRepr</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">cellStr</span> <span class="o">===</span> <span class="s2">&quot;undefined&quot;</span><span class="p">){</span>
-          <span class="nx">cellStr</span> <span class="o">=</span> <span class="s1">&#39;undefined&#39;</span><span class="p">;</span>
-        <span class="p">}</span>
         <span class="c1">// truncate cell.data if longer than cell.header</span>
         <span class="k">if</span> <span class="p">(</span><span class="nx">cellStr</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]){</span>
           <span class="nx">cellRepr</span> <span class="o">=</span> <span class="nx">cellStr</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span><span class="p">);</span>
@@ -1140,6 +1174,12 @@ related: {'first column name': 'data item',
   </h2>
 </div>
 
+
+<p>Treats the method parent as the left table.
+Returns a new taboo instance for the join result.
+If the left key does not exist in the table, a blank taboo instance will be returned.
+If the right key does not exist in the table, a clone of the left taboo table will 
+be returned.</p>
   </div>
   <div class="body">
   </div>
@@ -1172,10 +1212,18 @@ related: {'first column name': 'data item',
   <span class="k">this</span><span class="p">.</span><span class="nx">leftJoin</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">leftKey</span><span class="p">,</span> <span class="nx">rightTable</span><span class="p">,</span> <span class="nx">rightKey</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">left</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
         <span class="nx">leftHeaders</span> <span class="o">=</span> <span class="nx">left</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">(),</span>
+        <span class="nx">rightHeaders</span> <span class="o">=</span> <span class="nx">rightTable</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">(),</span>
         <span class="nx">right</span> <span class="o">=</span> <span class="nx">rightTable</span><span class="p">,</span>
         <span class="nx">joinResult</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Taboo</span><span class="p">(),</span>
         <span class="nx">keyMatchFound</span><span class="p">,</span>
         <span class="nx">incrementRegex</span> <span class="o">=</span> <span class="sr">/(.*-)(\d)/gm</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">leftHeaders</span><span class="p">,</span> <span class="nx">leftKey</span><span class="p">)){</span>
+      <span class="k">return</span> <span class="nx">joinResult</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">rightHeaders</span><span class="p">,</span> <span class="nx">rightKey</span><span class="p">)){</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">clone</span><span class="p">();</span>
+    <span class="p">}</span>
     
     <span class="kd">var</span> <span class="nx">tablesArray</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_fixInterTableHeaderCollisions</span><span class="p">(</span><span class="nx">left</span><span class="p">,</span> <span class="nx">right</span><span class="p">,</span> <span class="p">[</span><span class="nx">rightKey</span><span class="p">]);</span>
     <span class="nx">left</span> <span class="o">=</span> <span class="nx">tablesArray</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
@@ -1187,10 +1235,10 @@ related: {'first column name': 'data item',
       <span class="nx">right</span><span class="p">.</span><span class="nx">_getRowsAsCellObjects</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
         <span class="kd">var</span> <span class="nx">rightKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">rightKey</span><span class="p">;});</span>
         <span class="c1">// matching left and right keys</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">rightKeyValue</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">rightKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">))</span> <span class="p">{</span>
           <span class="c1">// drop one of the matching key cells</span>
           <span class="kd">var</span> <span class="nx">modifiedRightRow</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">){</span>
-            <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">);</span>
+            <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
           <span class="p">});</span>
           <span class="c1">// add the concatenated result to the new table</span>
           <span class="nx">joinResult</span><span class="p">.</span><span class="nx">_addRowCellObjects</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">modifiedRightRow</span><span class="p">));</span>
@@ -1222,7 +1270,7 @@ related: {'first column name': 'data item',
 </div>
 
   </div>
-  <div class="body">
+  <div class="body"><p>If either key column is not present then a blank taboo is returned.</p>
   </div>
   <div class="details">
     <div class="dox_tag_title">Params</div>
@@ -1253,9 +1301,15 @@ related: {'first column name': 'data item',
   <span class="k">this</span><span class="p">.</span><span class="nx">innerJoin</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">leftKey</span><span class="p">,</span> <span class="nx">rightTable</span><span class="p">,</span> <span class="nx">rightKey</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">left</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
         <span class="nx">leftHeaders</span> <span class="o">=</span> <span class="nx">left</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">(),</span>
+        <span class="nx">rightHeaders</span> <span class="o">=</span> <span class="nx">rightTable</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">(),</span>
         <span class="nx">right</span> <span class="o">=</span> <span class="nx">rightTable</span><span class="p">.</span><span class="nx">clone</span><span class="p">(),</span>
         <span class="nx">joinResult</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Taboo</span><span class="p">(),</span>
         <span class="nx">keyMatchFound</span><span class="p">;</span>
+    
+    <span class="c1">// keys are not in tables, early return</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">leftHeaders</span><span class="p">,</span> <span class="nx">leftKey</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">rightHeaders</span><span class="p">,</span> <span class="nx">rightKey</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">joinResult</span><span class="p">;</span>
+    <span class="p">}</span>
     
     <span class="kd">var</span> <span class="nx">tablesArray</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_fixInterTableHeaderCollisions</span><span class="p">(</span><span class="nx">left</span><span class="p">,</span> <span class="nx">right</span><span class="p">,</span> <span class="p">[</span><span class="nx">rightKey</span><span class="p">]);</span>
     <span class="nx">left</span> <span class="o">=</span> <span class="nx">tablesArray</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
@@ -1266,11 +1320,11 @@ related: {'first column name': 'data item',
       <span class="kd">var</span> <span class="nx">leftKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">leftKey</span><span class="p">;});</span>
       <span class="nx">right</span><span class="p">.</span><span class="nx">_getRowsAsCellObjects</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
         <span class="kd">var</span> <span class="nx">rightKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">rightKey</span><span class="p">;});</span>
-        <span class="c1">// matching left and right keys</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">rightKeyValue</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">))</span> <span class="p">{</span>
+        <span class="c1">// matching left and right key data</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">rightKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">))</span> <span class="p">{</span>
           <span class="c1">// drop matching cell on the right table</span>
           <span class="kd">var</span> <span class="nx">modifiedRightRow</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">);</span>
+            <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
           <span class="p">});</span>
           <span class="c1">// add the concatenated result to the new table</span>
           <span class="kd">var</span> <span class="nx">newRow</span> <span class="o">=</span> <span class="nx">leftRow</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">modifiedRightRow</span><span class="p">);</span>
@@ -1687,6 +1741,7 @@ Assumes that there are no name collisions within each table.</p>
   
 <span class="p">};</span> <span class="c1">// end of Taboo</span>
 
+<span class="cm">/* istanbul ignore if  */</span>
 <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nb">window</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">){</span>
   <span class="kd">var</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;lodash&#39;</span><span class="p">);</span>
   <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Taboo</span><span class="p">;</span>
