@@ -28,6 +28,12 @@
         <a href="#addrows()">addRows()</a>
       </div>
       <div class="heading h2">
+        <a href="#addcolumn()">addColumn()</a>
+      </div>
+      <div class="heading h2">
+        <a href="#addcolumns()">addColumns()</a>
+      </div>
+      <div class="heading h2">
         <a href="#updatewhere()">updateWhere()</a>
       </div>
       <div class="heading h2">
@@ -192,14 +198,13 @@
   <div class="details">
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
-      <span class="dox_type">Object</span>
       <span class="dox_type">Array</span>
-      <span>row - A singular row</span>
+      <span>row A singular row</span>
     </div>
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
       <span class="dox_type">Object</span>
-      <span>options - An object containing options</span>
+      <span>options An object containing options</span>
     </div>
   </div>
 </div>
@@ -243,7 +248,8 @@ with items beyond the current number of columns being discarded.</p>
     </div>
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
-      <span>options object of options</span>
+      <span class="dox_type">Object</span>
+      <span>options Object of options</span>
     </div>
   </div>
 </div>
@@ -295,27 +301,31 @@ with items beyond the current number of columns being discarded.</p>
         </td>
       </tr>
       <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="addcolumn()">
+  <h2>
+    <a href="#addcolumn()" name="addcolumn()" class="pilcrow">&#182;</a>
+    addColumn()
+  </h2>
 </div>
-<div class="dox">
-  <div class="summary"><p>addColumn()
-Singular of addColumns</p>
+
+
+<p>Singular of addColumns</p>
   </div>
   <div class="body">
   </div>
   <div class="details">
     <div class="dox_tag_title">Params</div>
     <div class="dox_tag_detail">
-      <span class="dox_tag_name">-</span>
-      <span class="dox_type">string</span>
-      <span>single header name </span>
+      <span class="dox_tag_name">header</span>
+      <span class="dox_type">String</span>
+      <span>Single header name </span>
     </div>
     <div class="dox_tag_detail">
-      <span class="dox_tag_name">-</span>
-      <span class="dox_type">object</span>
-      <span>optional object for function behaviour</span>
+      <span class="dox_tag_name">options</span>
+      <span class="dox_type">Object</span>
+      <span>Optional object for function behaviour</span>
     </div>
   </div>
 </div>
@@ -330,13 +340,17 @@ Singular of addColumns</p>
         </td>
       </tr>
       <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="addcolumns()">
+  <h2>
+    <a href="#addcolumns()" name="addcolumns()" class="pilcrow">&#182;</a>
+    addColumns()
+  </h2>
 </div>
-<div class="dox">
-  <div class="summary"><p>addColumns()
-Add columns to the table with the <code>headers</code></p>
+
+
+<p>Add columns to the table with the <code>headers</code></p>
   </div>
   <div class="body"><p>By default duplicate headers are added, but given an incrementing number to distinguish them
 If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned off.</p>
@@ -346,16 +360,12 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
     <div class="dox_tag_detail">
       <span class="dox_tag_name">headers</span>
       <span class="dox_type">array</span>
-      <span><ul>
-<li>an array of column names</li>
-</ul></span>
+      <span>an array of column names</span>
     </div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">options</span>
       <span class="dox_type">object</span>
-      <span><ul>
-<li>optional object containing </li>
-</ul></span>
+      <span>optional object for function behaviour</span>
     </div>
   </div>
 </div>
@@ -425,7 +435,7 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name"></span>
-      <span>the index of the udated</span>
+      <span>the index of the updated rows</span>
     </div>
   </div>
 </div>
@@ -755,12 +765,12 @@ row = [{header:'name', data:'abc'}, {...}, {...}]</span>
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
       <span class="dox_type">Array</span>
-      <span>whereParams list of {"header name":"data"} objects</span>
+      <span>whereParams List of {"header name":"data"} objects</span>
     </div>
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
       <span class="dox_type">Object</span>
-      <span>options object of options</span>
+      <span>options Object of options</span>
     </div>
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
@@ -965,9 +975,7 @@ related: {'first column name': 'data item',
     <div class="dox_tag_detail">
       <span class="dox_tag_name">colName</span>
       <span class="dox_type">String</span>
-      <span><ul>
-<li>Name of column to provide related items around</li>
-</ul></span>
+      <span>Name of column to provide related items around</span>
     </div>
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
@@ -1193,6 +1201,7 @@ be returned.</p>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">rightTable</span>
       <span class="dox_type">Taboo</span>
+      <span>The right table to be joined</span>
     </div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">rightKey</span>
@@ -1282,6 +1291,7 @@ be returned.</p>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">rightTable</span>
       <span class="dox_type">Taboo</span>
+      <span>The right table to be joined</span>
     </div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">rightKey</span>
@@ -1459,15 +1469,11 @@ be returned.</p>
     <div class="dox_tag_title">Params</div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">eventName</span>
-      <span><ul>
-<li>the name of the event to be triggered</li>
-</ul></span>
+      <span>The name of the event to be triggered</span>
     </div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">details</span>
-      <span><ul>
-<li>object containing any details you want to be passed to the callbacks</li>
-</ul></span>
+      <span>Object containing any details you want to be passed to the callbacks</span>
     </div>
   </div>
 </div>
