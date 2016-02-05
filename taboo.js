@@ -29,8 +29,8 @@ function Taboo(){
   /* ## addRow()
    Convenience function wrapping addRows()
    
-   @params {Object/Array} row - A singular row
-   @params {Object} options - An object containing options
+   @params {Array} row A singular row
+   @params {Object} options An object containing options
    */
   this.addRow = function(row, options){
     this.addRows([row], options);
@@ -49,7 +49,7 @@ function Taboo(){
    `[["foo", "bar", "baz"], ["asdf", "asdf1", "asdf2"]]`
    
    @params {Array} rows Takes an array of either objects or arrays.          
-   @params options object of options
+   @params {Object} options Object of options
    */    
   this.addRows = function(rows, userOptions){
     var defaultOptions = {
@@ -92,24 +92,24 @@ function Taboo(){
     }
   };
   
-  /* addColumn()
+  /* ## addColumn()
    Singular of addColumns
    
-   @param {string} - single header name 
-   @param {object} - optional object for function behaviour
+   @param {String} header Single header name 
+   @param {Object} options Optional object for function behaviour
    */
   this.addColumn = function(header, options){
     this.addColumns([header], options);
   };
   
-  /* addColumns()
+  /* ## addColumns()
    Add columns to the table with the `headers`
    
    By default duplicate headers are added, but given an incrementing number to distinguish them
    If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned off.
    
-   @param {array} headers - an array of column names
-   @param {object} options - optional object containing 
+   @param {array} headers an array of column names
+   @param {object} options optional object for function behaviour
    */
   this.addColumns = function(headers, userOptions){
     var defaultOptions = {
@@ -142,7 +142,7 @@ function Taboo(){
    @param {Object} update An object containing a single pair of column name and value
    @param {Array} whereList A list of [{header, data}] combinations that need to match for the row in order for the update to happen
    @param {Object} options Options object
-   @return the index of the udated
+   @return the index of the updated rows
    */
   this.updateWhere = function(update, whereList, userOptions){
     var defaultOptions = {
@@ -313,8 +313,8 @@ function Taboo(){
   };
 
   /* ## getRowsWhere()
-   @params {Array} whereParams list of {"header name":"data"} objects
-   @params {Object} options object of options
+   @params {Array} whereParams List of {"header name":"data"} objects
+   @params {Object} options Object of options
    @returns {Array} All rows in the table satisfying the whereList
    */
   this.getRowsWhere = function(whereParams, userOptions){
@@ -435,7 +435,7 @@ function Taboo(){
    `[{name:'original column item', 
       related: {'first column name': 'data item',
                 'second column name': 'second data item'}]`
-   @param {String} colName - Name of column to provide related items around
+   @param {String} colName Name of column to provide related items around
    @returns {Array}
    */
   this.columnToObjects = function(colName){
@@ -550,7 +550,7 @@ function Taboo(){
    be returned.
    
    @param {String} leftKey The key in this table to be joined on
-   @param {Taboo} rightTable 
+   @param {Taboo} rightTable The right table to be joined
    @param {String} rightKey The key in the right table to be joined on
    @return {Taboo} The new table
    */
@@ -605,7 +605,7 @@ function Taboo(){
    If either key column is not present then a blank taboo is returned.
    
    @param {String} leftKey The key in this table to be joined on
-   @param {Taboo} rightTable 
+   @param {Taboo} rightTable The right table to be joined
    @param {String} rightKey The key in the right table to be joined on
    @return {Taboo} New joined table
    */
@@ -678,8 +678,8 @@ function Taboo(){
   
   /* ## triggerCallbacks()
    Manually call a callback by triggering events
-   @param eventName - the name of the event to be triggered
-   @param details - object containing any details you want to be passed to the callbacks
+   @param eventName The name of the event to be triggered
+   @param details Object containing any details you want to be passed to the callbacks
    */
   this.triggerCallbacks = function(eventName, details){
     var _this = this;
