@@ -28,6 +28,12 @@
         <a href="#addrows()">addRows()</a>
       </div>
       <div class="heading h2">
+        <a href="#addcolumn()">addColumn()</a>
+      </div>
+      <div class="heading h2">
+        <a href="#addcolumns()">addColumns()</a>
+      </div>
+      <div class="heading h2">
         <a href="#updatewhere()">updateWhere()</a>
       </div>
       <div class="heading h2">
@@ -56,6 +62,9 @@
       </div>
       <div class="heading h2">
         <a href="#columntoobjects()">columnToObjects()</a>
+      </div>
+      <div class="heading h2">
+        <a href="#numberofcolumns()">numberOfColumns()</a>
       </div>
       <div class="heading h2">
         <a href="#numberofrows()">numberOfRows()</a>
@@ -189,14 +198,13 @@
   <div class="details">
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
-      <span class="dox_type">Object</span>
       <span class="dox_type">Array</span>
-      <span>row - A singular row</span>
+      <span>row A singular row</span>
     </div>
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
       <span class="dox_type">Object</span>
-      <span>options - An object containing options</span>
+      <span>options An object containing options</span>
     </div>
   </div>
 </div>
@@ -240,7 +248,8 @@ with items beyond the current number of columns being discarded.</p>
     </div>
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
-      <span>options object of options</span>
+      <span class="dox_type">Object</span>
+      <span>options Object of options</span>
     </div>
   </div>
 </div>
@@ -292,27 +301,31 @@ with items beyond the current number of columns being discarded.</p>
         </td>
       </tr>
       <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="addcolumn()">
+  <h2>
+    <a href="#addcolumn()" name="addcolumn()" class="pilcrow">&#182;</a>
+    addColumn()
+  </h2>
 </div>
-<div class="dox">
-  <div class="summary"><p>addColumn()
-Singular of addColumns</p>
+
+
+<p>Singular of addColumns</p>
   </div>
   <div class="body">
   </div>
   <div class="details">
     <div class="dox_tag_title">Params</div>
     <div class="dox_tag_detail">
-      <span class="dox_tag_name">-</span>
-      <span class="dox_type">string</span>
-      <span>single header name </span>
+      <span class="dox_tag_name">header</span>
+      <span class="dox_type">String</span>
+      <span>Single header name </span>
     </div>
     <div class="dox_tag_detail">
-      <span class="dox_tag_name">-</span>
-      <span class="dox_type">object</span>
-      <span>optional object for function behaviour</span>
+      <span class="dox_tag_name">options</span>
+      <span class="dox_type">Object</span>
+      <span>Optional object for function behaviour</span>
     </div>
   </div>
 </div>
@@ -327,13 +340,17 @@ Singular of addColumns</p>
         </td>
       </tr>
       <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="addcolumns()">
+  <h2>
+    <a href="#addcolumns()" name="addcolumns()" class="pilcrow">&#182;</a>
+    addColumns()
+  </h2>
 </div>
-<div class="dox">
-  <div class="summary"><p>addColumns()
-Add columns to the table with the <code>headers</code></p>
+
+
+<p>Add columns to the table with the <code>headers</code></p>
   </div>
   <div class="body"><p>By default duplicate headers are added, but given an incrementing number to distinguish them
 If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned off.</p>
@@ -343,16 +360,12 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
     <div class="dox_tag_detail">
       <span class="dox_tag_name">headers</span>
       <span class="dox_type">array</span>
-      <span><ul>
-<li>an array of column names</li>
-</ul></span>
+      <span>an array of column names</span>
     </div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">options</span>
       <span class="dox_type">object</span>
-      <span><ul>
-<li>optional object containing </li>
-</ul></span>
+      <span>optional object for function behaviour</span>
     </div>
   </div>
 </div>
@@ -385,7 +398,6 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
     <span class="p">}</span>
   <span class="p">};</span>
   
-  
 
 </pre></div>
         </td>
@@ -406,23 +418,24 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
   <div class="details">
     <div class="dox_tag_title">Params</div>
     <div class="dox_tag_detail">
-      <span class="dox_tag_name">An</span>
-      <span class="dox_type">update</span>
-      <span>object containing a single pair of column name and value</span>
+      <span class="dox_tag_name">update</span>
+      <span class="dox_type">Object</span>
+      <span>An object containing a single pair of column name and value</span>
     </div>
     <div class="dox_tag_detail">
-      <span class="dox_tag_name">A</span>
-      <span class="dox_type">whereList</span>
-      <span>list of [{header, data}] combinations that need to match for the row in order for the update to happen</span>
+      <span class="dox_tag_name">whereList</span>
+      <span class="dox_type">Array</span>
+      <span>A list of [{header, data}] combinations that need to match for the row in order for the update to happen</span>
     </div>
     <div class="dox_tag_detail">
-      <span class="dox_tag_name"></span>
-      <span class="dox_type">options</span>
+      <span class="dox_tag_name">options</span>
+      <span class="dox_type">Object</span>
+      <span>Options object</span>
     </div>
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name"></span>
-      <span>the index of the udated</span>
+      <span>the index of the updated rows</span>
     </div>
   </div>
 </div>
@@ -495,6 +508,13 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
 <p>Removes all data from taboo table</p>
   </div>
   <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_type">Object</span>
+      <span>options </span>
+    </div>
   </div>
 </div>
         </td>
@@ -575,7 +595,7 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
     </div>
     <div class="dox_tag_title">Return</div>
     <div class="dox_tag_detail">
-      <span class="dox_type">array</span>
+      <span class="dox_type">Array</span>
       <span>all cells within the column</span>
     </div>
   </div>
@@ -640,7 +660,8 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
     
     <span class="c1">// check if index out of range</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">].</span><span class="nx">length</span><span class="p">){</span>
-      <span class="k">throw</span> <span class="s2">&quot;getRowAtIndex(): Index out of range&quot;</span><span class="p">;</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">&quot;getRowAtIndex(): Index out of range&quot;</span><span class="p">);</span>
+      <span class="k">return</span> <span class="p">[];</span>
     <span class="p">}</span>
     
     <span class="kd">var</span> <span class="nx">cellObjects</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">column</span><span class="p">,</span> <span class="nx">i</span><span class="p">){</span>
@@ -669,16 +690,16 @@ If {ignoreDuplicates:true} is passed this incrementing behaviour can be turned o
 </div>
 
 
-<p>Options is an object containing key valued options including:</p>
+<p>Returns all the rows of the table as either an array of arrays,
+or array of objects, depending on the what is passed in the options.</p>
   </div>
-  <div class="body"><p>objects: returns the rows as objects (default)
-array: returns the rows as arrays</p>
+  <div class="body"><p>Options: objects {True} - returns the rows as objects, false returns as array</p>
   </div>
   <div class="details">
     <div class="dox_tag_title">Params</div>
     <div class="dox_tag_detail">
-      <span class="dox_tag_name"></span>
-      <span>userOptions</span>
+      <span class="dox_tag_name">userOptions</span>
+      <span class="dox_type">Object</span>
     </div>
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
@@ -743,13 +764,13 @@ row = [{header:'name', data:'abc'}, {...}, {...}]</span>
   <div class="details">
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
-      <span class="dox_type">whereParams</span>
-      <span>list of {"header name":"data"} objects</span>
+      <span class="dox_type">Array</span>
+      <span>whereParams List of {"header name":"data"} objects</span>
     </div>
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
-      <span class="dox_type">options</span>
-      <span>object of options</span>
+      <span class="dox_type">Object</span>
+      <span>options Object of options</span>
     </div>
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
@@ -819,13 +840,8 @@ row = [{header:'name', data:'abc'}, {...}, {...}]</span>
   <div class="details">
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
-      <span class="dox_type">whereParams</span>
-      <span>object containing header name and value pairs</span>
-    </div>
-    <div class="dox_tag_title">Returns</div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name"></span>
-      <span>the number of rows deleted </span>
+      <span class="dox_type">Object</span>
+      <span>whereParams Object containing header name and value pairs</span>
     </div>
   </div>
 </div>
@@ -871,13 +887,14 @@ row = [{header:'name', data:'abc'}, {...}, {...}]</span>
   <div class="details">
     <div class="dox_tag_title">params</div>
     <div class="dox_tag_detail">
-      <span class="dox_type">whereParams</span>
-      <span>object containing header name and value pairs</span>
+      <span class="dox_type">Object</span>
+      <span>whereParams Object containing header name and value pairs</span>
     </div>
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name"></span>
-      <span>the number of rows deleted </span>
+      <span class="dox_type">Integer</span>
+      <span>The number of rows deleted </span>
     </div>
   </div>
 </div>
@@ -954,6 +971,12 @@ related: {'first column name': 'data item',
   <div class="body">
   </div>
   <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">colName</span>
+      <span class="dox_type">String</span>
+      <span>Name of column to provide related items around</span>
+    </div>
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name"></span>
@@ -1004,6 +1027,38 @@ related: {'first column name': 'data item',
       <tr>
         <td class="docs"><div class="dox">
   <div class="summary">
+<div class="pilwrap" id="numberofcolumns()">
+  <h2>
+    <a href="#numberofcolumns()" name="numberofcolumns()" class="pilcrow">&#182;</a>
+    numberOfColumns()
+  </h2>
+</div>
+
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span class="dox_type">Integer</span>
+      <span>Get the number of rows, returns -1 if no rows</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="k">this</span><span class="p">.</span><span class="nx">numberOfColumns</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+  <span class="p">};</span>
+  
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
 <div class="pilwrap" id="numberofrows()">
   <h2>
     <a href="#numberofrows()" name="numberofrows()" class="pilcrow">&#182;</a>
@@ -1011,22 +1066,27 @@ related: {'first column name': 'data item',
   </h2>
 </div>
 
-
-<p>Get the number of rows
-returns -1 if no rows</p>
   </div>
   <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span class="dox_type">Integer</span>
+      <span>Get the number of rows, returns -1 if no rows</span>
+    </div>
   </div>
 </div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>
   <span class="k">this</span><span class="p">.</span><span class="nx">numberOfRows</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
     <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">){</span>
-      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+      <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">].</span><span class="nx">length</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">].</span><span class="nx">length</span><span class="p">;</span>
   <span class="p">};</span>
-  
   
 
 </pre></div>
@@ -1042,6 +1102,8 @@ returns -1 if no rows</p>
   </h2>
 </div>
 
+
+<p>Note this doesn't call console.log(), it just returns a string.</p>
   </div>
   <div class="body">
   </div>
@@ -1086,9 +1148,6 @@ returns -1 if no rows</p>
       <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">,</span> <span class="nx">cellIndex</span><span class="p">){</span>
         <span class="kd">var</span> <span class="nx">cellStr</span> <span class="o">=</span> <span class="nb">String</span><span class="p">(</span><span class="nx">cell</span><span class="p">.</span><span class="nx">data</span><span class="p">),</span>
             <span class="nx">cellRepr</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">cellStr</span> <span class="o">===</span> <span class="s2">&quot;undefined&quot;</span><span class="p">){</span>
-          <span class="nx">cellStr</span> <span class="o">=</span> <span class="s1">&#39;undefined&#39;</span><span class="p">;</span>
-        <span class="p">}</span>
         <span class="c1">// truncate cell.data if longer than cell.header</span>
         <span class="k">if</span> <span class="p">(</span><span class="nx">cellStr</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]){</span>
           <span class="nx">cellRepr</span> <span class="o">=</span> <span class="nx">cellStr</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">columnLengths</span><span class="p">[</span><span class="nx">cellIndex</span><span class="p">]</span> <span class="o">-</span> <span class="mi">3</span><span class="p">);</span>
@@ -1123,6 +1182,12 @@ returns -1 if no rows</p>
   </h2>
 </div>
 
+
+<p>Treats the method parent as the left table.
+Returns a new taboo instance for the join result.
+If the left key does not exist in the table, a blank taboo instance will be returned.
+If the right key does not exist in the table, a clone of the left taboo table will 
+be returned.</p>
   </div>
   <div class="body">
   </div>
@@ -1135,7 +1200,8 @@ returns -1 if no rows</p>
     </div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">rightTable</span>
-      <span class="dox_type">Table</span>
+      <span class="dox_type">Taboo</span>
+      <span>The right table to be joined</span>
     </div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">rightKey</span>
@@ -1145,7 +1211,7 @@ returns -1 if no rows</p>
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name"></span>
-      <span class="dox_type">Table</span>
+      <span class="dox_type">Taboo</span>
       <span>The new table</span>
     </div>
   </div>
@@ -1155,10 +1221,18 @@ returns -1 if no rows</p>
   <span class="k">this</span><span class="p">.</span><span class="nx">leftJoin</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">leftKey</span><span class="p">,</span> <span class="nx">rightTable</span><span class="p">,</span> <span class="nx">rightKey</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">left</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
         <span class="nx">leftHeaders</span> <span class="o">=</span> <span class="nx">left</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">(),</span>
+        <span class="nx">rightHeaders</span> <span class="o">=</span> <span class="nx">rightTable</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">(),</span>
         <span class="nx">right</span> <span class="o">=</span> <span class="nx">rightTable</span><span class="p">,</span>
         <span class="nx">joinResult</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Taboo</span><span class="p">(),</span>
         <span class="nx">keyMatchFound</span><span class="p">,</span>
         <span class="nx">incrementRegex</span> <span class="o">=</span> <span class="sr">/(.*-)(\d)/gm</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">leftHeaders</span><span class="p">,</span> <span class="nx">leftKey</span><span class="p">)){</span>
+      <span class="k">return</span> <span class="nx">joinResult</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">rightHeaders</span><span class="p">,</span> <span class="nx">rightKey</span><span class="p">)){</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">clone</span><span class="p">();</span>
+    <span class="p">}</span>
     
     <span class="kd">var</span> <span class="nx">tablesArray</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_fixInterTableHeaderCollisions</span><span class="p">(</span><span class="nx">left</span><span class="p">,</span> <span class="nx">right</span><span class="p">,</span> <span class="p">[</span><span class="nx">rightKey</span><span class="p">]);</span>
     <span class="nx">left</span> <span class="o">=</span> <span class="nx">tablesArray</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
@@ -1170,10 +1244,10 @@ returns -1 if no rows</p>
       <span class="nx">right</span><span class="p">.</span><span class="nx">_getRowsAsCellObjects</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
         <span class="kd">var</span> <span class="nx">rightKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">rightKey</span><span class="p">;});</span>
         <span class="c1">// matching left and right keys</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">rightKeyValue</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">rightKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">))</span> <span class="p">{</span>
           <span class="c1">// drop one of the matching key cells</span>
           <span class="kd">var</span> <span class="nx">modifiedRightRow</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">){</span>
-            <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">);</span>
+            <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
           <span class="p">});</span>
           <span class="c1">// add the concatenated result to the new table</span>
           <span class="nx">joinResult</span><span class="p">.</span><span class="nx">_addRowCellObjects</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">modifiedRightRow</span><span class="p">));</span>
@@ -1205,7 +1279,7 @@ returns -1 if no rows</p>
 </div>
 
   </div>
-  <div class="body">
+  <div class="body"><p>If either key column is not present then a blank taboo is returned.</p>
   </div>
   <div class="details">
     <div class="dox_tag_title">Params</div>
@@ -1216,7 +1290,8 @@ returns -1 if no rows</p>
     </div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">rightTable</span>
-      <span class="dox_type">Table</span>
+      <span class="dox_type">Taboo</span>
+      <span>The right table to be joined</span>
     </div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">rightKey</span>
@@ -1226,7 +1301,7 @@ returns -1 if no rows</p>
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name"></span>
-      <span class="dox_type">Table</span>
+      <span class="dox_type">Taboo</span>
       <span>New joined table</span>
     </div>
   </div>
@@ -1236,9 +1311,15 @@ returns -1 if no rows</p>
   <span class="k">this</span><span class="p">.</span><span class="nx">innerJoin</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">leftKey</span><span class="p">,</span> <span class="nx">rightTable</span><span class="p">,</span> <span class="nx">rightKey</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">left</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
         <span class="nx">leftHeaders</span> <span class="o">=</span> <span class="nx">left</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">(),</span>
+        <span class="nx">rightHeaders</span> <span class="o">=</span> <span class="nx">rightTable</span><span class="p">.</span><span class="nx">getColumnHeaders</span><span class="p">(),</span>
         <span class="nx">right</span> <span class="o">=</span> <span class="nx">rightTable</span><span class="p">.</span><span class="nx">clone</span><span class="p">(),</span>
         <span class="nx">joinResult</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Taboo</span><span class="p">(),</span>
         <span class="nx">keyMatchFound</span><span class="p">;</span>
+    
+    <span class="c1">// keys are not in tables, early return</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">leftHeaders</span><span class="p">,</span> <span class="nx">leftKey</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">rightHeaders</span><span class="p">,</span> <span class="nx">rightKey</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">joinResult</span><span class="p">;</span>
+    <span class="p">}</span>
     
     <span class="kd">var</span> <span class="nx">tablesArray</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_fixInterTableHeaderCollisions</span><span class="p">(</span><span class="nx">left</span><span class="p">,</span> <span class="nx">right</span><span class="p">,</span> <span class="p">[</span><span class="nx">rightKey</span><span class="p">]);</span>
     <span class="nx">left</span> <span class="o">=</span> <span class="nx">tablesArray</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
@@ -1249,11 +1330,11 @@ returns -1 if no rows</p>
       <span class="kd">var</span> <span class="nx">leftKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">leftRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">leftKey</span><span class="p">;});</span>
       <span class="nx">right</span><span class="p">.</span><span class="nx">_getRowsAsCellObjects</span><span class="p">().</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
         <span class="kd">var</span> <span class="nx">rightKeyValue</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">cell</span><span class="p">){</span><span class="k">return</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">header</span> <span class="o">===</span> <span class="nx">rightKey</span><span class="p">;});</span>
-        <span class="c1">// matching left and right keys</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">rightKeyValue</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">))</span> <span class="p">{</span>
+        <span class="c1">// matching left and right key data</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">rightKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">))</span> <span class="p">{</span>
           <span class="c1">// drop matching cell on the right table</span>
           <span class="kd">var</span> <span class="nx">modifiedRightRow</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">rightRow</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">);</span>
+            <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isEqual</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="nx">leftKeyValue</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
           <span class="p">});</span>
           <span class="c1">// add the concatenated result to the new table</span>
           <span class="kd">var</span> <span class="nx">newRow</span> <span class="o">=</span> <span class="nx">leftRow</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">modifiedRightRow</span><span class="p">);</span>
@@ -1286,7 +1367,8 @@ returns -1 if no rows</p>
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name"></span>
-      <span>a clone of this table</span>
+      <span class="dox_type">Taboo</span>
+      <span>A clone of this table</span>
     </div>
   </div>
 </div>
@@ -1387,15 +1469,11 @@ returns -1 if no rows</p>
     <div class="dox_tag_title">Params</div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">eventName</span>
-      <span><ul>
-<li>the name of the event to be triggered</li>
-</ul></span>
+      <span>The name of the event to be triggered</span>
     </div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name">details</span>
-      <span><ul>
-<li>object containing any details you want to be passed to the callbacks</li>
-</ul></span>
+      <span>Object containing any details you want to be passed to the callbacks</span>
     </div>
   </div>
 </div>
@@ -1669,6 +1747,7 @@ Assumes that there are no name collisions within each table.</p>
   
 <span class="p">};</span> <span class="c1">// end of Taboo</span>
 
+<span class="cm">/* istanbul ignore if  */</span>
 <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nb">window</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">){</span>
   <span class="kd">var</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;lodash&#39;</span><span class="p">);</span>
   <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Taboo</span><span class="p">;</span>
