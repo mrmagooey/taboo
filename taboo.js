@@ -657,6 +657,23 @@ function Taboo(){
     return t;
   };
   
+  /* ## setData()
+   @param {Taboo Data structure} data - 
+   @return undefined
+   */
+  this.setData = function(data){
+    // check that data is in correct format
+    this._data = data;
+    this._clean();
+  };
+  
+  /* ## getData()
+   @return Taboo data structure
+   */
+  this.getData = function(){
+    return this._data;
+  };
+  
   /* ## callbackEventNames
    Array of possible callback event names
    */
