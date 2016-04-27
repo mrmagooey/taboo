@@ -13,7 +13,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './taboo.js',
+      './taboo.min.js',
       'tests/*.js',
       'bower_components/lodash/lodash.js'
     ],
@@ -21,7 +21,6 @@ module.exports = function(config) {
     // list of files to exclude
     exclude: [
       'karma.conf.js',
-      '*.min.js'
     ],
 
     // preprocess matching files before serving them to the browser
