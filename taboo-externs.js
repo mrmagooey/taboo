@@ -19,5 +19,7 @@ Taboo.print = function(userOptions){};
 Taboo.leftJoin = function(leftKey, rightTable, rightKey){};
 Taboo.innerJoin = function(leftKey, rightTable, rightKey){};
 Taboo.clone = function(){};
+Taboo.setData = function(data){};
+Taboo.getData = function(){};
 Taboo.registerCallback = function(eventName, callback){};
 Taboo.triggerCallbacks = function(eventName, details){};
