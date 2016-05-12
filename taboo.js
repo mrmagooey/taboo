@@ -574,10 +574,10 @@ function Taboo(){
     left = tablesArray[0];
     right = tablesArray[1];
     
-    left._getRowsAsCellObjects().forEach(function(leftRow, index){
+    left._getRowsAsCellObjects().forEach(function(leftRow, leftIndex){
       keyMatchFound = false;
       var leftKeyValue = _.find(leftRow, function(cell){return cell.header === leftKey;});
-      right._getRowsAsCellObjects().forEach(function(rightRow, index, array){
+      right._getRowsAsCellObjects().forEach(function(rightRow, rightIndex, array){
         var rightKeyValue = _.find(rightRow, function(cell){return cell.header === rightKey;});
         // matching left and right keys
         if (_.isEqual(rightKeyValue.data, leftKeyValue.data)) {
@@ -588,13 +588,13 @@ function Taboo(){
           // add the concatenated result to the new table
           joinResult._addRowCellObjects(leftRow.concat(modifiedRightRow));
           keyMatchFound = true;
-        } 
+        }
         // Since this is a left join, we stil want the left table row to be included
         // in the final join table if no key matches are found
-        if (index === array.length - 1 && keyMatchFound == false){
-          joinResult._addRowCellObjects(leftRow);
-        }
       });
+      if (keyMatchFound === false){
+        joinResult._addRowCellObjects(leftRow);
+      }
     });
     return joinResult;
   };

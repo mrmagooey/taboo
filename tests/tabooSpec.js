@@ -50,7 +50,6 @@ describe("Taboo", function() {
     table.addRows(dogs);
     expect(table.getRowAtIndex(1, {objects:true}))
       .toEqual([{header:'name', data:'snuffles'}, {header:'color', data:'black'}]);
-    
     // default options
     expect(table.getRowAtIndex(1))
       .toEqual([{header:'name', data:'snuffles'}, {header:'color', data:'black'}]);
@@ -182,6 +181,11 @@ describe("Taboo", function() {
     expect(table.numberOfRows()).toBe(0);
     table.clear({});
   });
+
+  it("should be able to directly get and set table data", function(){
+    table.addRows(dogs);
+    table.setData(table.getData());
+  });
   
 });
 
@@ -207,6 +211,16 @@ describe("Tables", function(){
     newTable = dogsTable.leftJoin('coloring', catsTable, 'color');
     expect(newTable.numberOfRows()).toEqual(3);
     expect(newTable.numberOfColumns()).toEqual(3);
+  });
+
+  it("should be able to left join with incomplete tables", function(){
+    var tab1 = new Taboo(),
+        tab2 = new Taboo();
+    tab1.addRows([{a: "b", c: "d"}]);
+    tab2.addColumns(["a", "c"]);
+    var tab3 = tab1.leftJoin("a", tab2, "a");
+    expect(tab3.numberOfRows()).toEqual(1);
+    
   });
   
   

@@ -4,3 +4,4 @@ node_modules
 /taboo.min.js.gz
 temp-docs/
 /npm-debug.log
+.DS_Store
